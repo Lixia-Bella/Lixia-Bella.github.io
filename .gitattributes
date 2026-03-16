@@ -1,0 +1,30 @@
+# 自动检测文本文件并规范化换行符为 LF
+* text=auto eol=lf
+
+# 明确指定文本文件
+*.txt text
+*.md text
+*.json text
+*.js text
+*.ts text
+*.jsx text
+*.tsx text
+*.html text
+*.css text
+*.scss text
+*.less text
+*.xml text
+*.yml text
+*.yaml text
+*.sh text
+
+# 保持这些文件的原有换行符（不转换）
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.xlsx binary
+*.docx binary

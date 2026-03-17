@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>知识问答挑战 - 阳光小站</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 响应式导航栏 -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-sun"></i>
+            <span>阳光小站</span>
+        </div>
+        <button class="nav-toggle" id="navToggle" aria-label="切换导航菜单">
+            <span class="hamburger"></span>
+        </button>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> 首页</a></li>
+            <li><a href="quiz.html" class="nav-link active"><i class="fas fa-gamepad"></i> 知识问答</a></li>
+            <li><a href="rewards.html" class="nav-link"><i class="fas fa-gift"></i> 奖励池</a></li>
+            <li><a href="profile.html" class="nav-link"><i class="fas fa-user"></i> 个人简介</a></li>
+            <li><a href="https://lixia-bella.github.io/" target="_blank" class="nav-link"><i class="fas fa-blog"></i> 我的博客</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content quiz-page">
+        <!-- 积分状态栏 -->
+        <div class="quiz-status-bar">
+            <div class="status-item">
+                <i class="fas fa-coins"></i>
+                <span>我的积分：<strong id="totalPoints">0</strong></span>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-fire"></i>
+                <span>连胜：<strong id="winStreak">0</strong></span>
+            </div>
+            <div class="status-item status-link" onclick="window.location.href='rewards.html'">
+                <i class="fas fa-gift"></i>
+                <span>兑换奖品</span>
+            </div>
+        </div>
+
+        <!-- 关卡选择界面 -->
+        <section class="quiz-levels-section" id="levelsSection">
+            <header class="page-header">
+                <h1><i class="fas fa-brain"></i> 知识问答挑战</h1>
+                <p class="author-info">选择关卡开始挑战，通关赢积分！</p>
+            </header>
+
+            <div class="levels-grid" id="levelsGrid">
+                <!-- 关卡卡片由 JS 动态生成 -->
+            </div>
+        </section>
+
+        <!-- 答题界面 -->
+        <section class="quiz-game-section" id="gameSection" style="display: none;">
+            <div class="game-header">
+                <div class="game-info">
+                    <span class="level-badge" id="currentLevelBadge">关卡 1</span>
+                    <span class="question-counter" id="questionCounter">1 / 5</span>
+                </div>
+                <div class="game-timer">
+                    <i class="fas fa-clock"></i>
+                    <span id="timerDisplay">30</span>
+                </div>
+                <button class="btn-quit" id="btnQuit" title="退出答题">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- 进度条 -->
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+
+            <!-- 题目区域 -->
+            <div class="question-card" id="questionCard">
+                <div class="question-category" id="questionCategory">
+                    <i class="fas fa-tag"></i> <span>Node.js</span>
+                </div>
+                <h3 class="question-text" id="questionText">题目加载中...</h3>
+                <div class="options-list" id="optionsList">
+                    <!-- 选项由 JS 动态生成 -->
+                </div>
+            </div>
+
+            <!-- 答题反馈 -->
+            <div class="answer-feedback" id="answerFeedback" style="display: none;">
+                <div class="feedback-icon" id="feedbackIcon"></div>
+                <p class="feedback-text" id="feedbackText"></p>
+                <p class="feedback-explain" id="feedbackExplain"></p>
+                <button class="btn-next" id="btnNext">下一题 <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </section>
+
+        <!-- 结算界面 -->
+        <section class="quiz-result-section" id="resultSection" style="display: none;">
+            <div class="result-card">
+                <div class="result-icon" id="resultIcon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h2 class="result-title" id="resultTitle">挑战完成！</h2>
+                <div class="result-stats">
+                    <div class="result-stat">
+                        <span class="stat-label">正确率</span>
+                        <span class="stat-value" id="resultAccuracy">0%</span>
+                    </div>
+                    <div class="result-stat">
+                        <span class="stat-label">用时</span>
+                        <span class="stat-value" id="resultTime">0s</span>
+                    </div>
+                    <div class="result-stat">
+                        <span class="stat-label">获得积分</span>
+                        <span class="stat-value points" id="resultPoints">+0</span>
+                    </div>
+                </div>
+                <div class="result-detail" id="resultDetail"></div>
+                <div class="result-actions">
+                    <button class="btn-retry" id="btnRetry">
+                        <i class="fas fa-redo"></i> 再来一次
+                    </button>
+                    <button class="btn-back-levels" id="btnBackLevels">
+                        <i class="fas fa-th-large"></i> 返回关卡
+                    </button>
+                    <a href="rewards.html" class="btn-go-rewards">
+                        <i class="fas fa-gift"></i> 兑换奖品
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 阳光小站 | Made with <i class="fas fa-heart" style="color: #ff6b6b;"></i> by Lixia</p>
+    </footer>
+
+    <script src="scripts/main.js"></script>
+    <script src="scripts/quiz.js"></script>
+</body>
+</html>

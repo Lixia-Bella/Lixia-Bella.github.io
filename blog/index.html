@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人介绍 - 阳光小站</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 响应式导航栏 -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-sun"></i>
+            <span>阳光小站</span>
+        </div>
+        
+        <!-- 移动端汉堡菜单按钮 -->
+        <button class="nav-toggle" id="navToggle" aria-label="切换导航菜单">
+            <span class="hamburger"></span>
+        </button>
+        
+        <!-- 导航链接 -->
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="index.html" class="nav-link active"><i class="fas fa-home"></i> 首页</a></li>
+            <li><a href="quiz.html" class="nav-link"><i class="fas fa-gamepad"></i> 知识问答</a></li>
+            <li><a href="rewards.html" class="nav-link"><i class="fas fa-gift"></i> 奖励池</a></li>
+            <li><a href="profile.html" class="nav-link"><i class="fas fa-user"></i> 个人简介</a></li>
+            <li><a href="https://lixia-bella.github.io/" target="_blank" class="nav-link"><i class="fas fa-blog"></i> 我的博客</a></li>
+        </ul>
+    </nav>
+
+    <!-- 主要内容区域 -->
+    <main class="main-content">
+        <!-- 头像区域 -->
+        <section class="avatar-section">
+            <a href="profile.html" class="avatar-link" title="点击查看个人详情">
+                <img src="images/image1.png" alt="我的头像" class="avatar" id="avatar">
+                <div class="avatar-overlay">
+                    <span>点击了解更多</span>
+                </div>
+            </a>
+        </section>
+
+        <!-- 页面标题和作者信息 -->
+        <header class="page-header">
+            <h1>你好，欢迎来到我的阳光小站！</h1>
+            <p class="author-info">
+                <i class="fas fa-user-circle"></i> 作者：Lixia
+                <span class="divider">|</span>
+                <i class="fas fa-calendar-alt"></i> 更新时间：2026年3月
+            </p>
+        </header>
+
+        <!-- 自我介绍 -->
+        <section class="intro-section">
+            <h2><i class="fas fa-heart"></i> 关于我</h2>
+            <div class="intro-card">
+                <p>
+                    大家好！我是一个热爱生活、充满阳光的开发者。喜欢用代码创造美好，用文字记录生活。
+                    我相信技术可以改变世界，而积极的心态可以让每一天都充满可能！
+                </p>
+                <p>
+                    在学习编程的路上，我始终坚持"学以致用"的理念，不断探索新技术，
+                    同时也乐于分享自己的学习心得和经验。希望能在技术的海洋中继续航行，
+                    认识更多志同道合的朋友！
+                </p>
+            </div>
+        </section>
+
+        <!-- 爱好列表 -->
+        <section class="hobbies-section">
+            <h2><i class="fas fa-star"></i> 我的爱好</h2>
+            <div class="hobbies-grid">
+                <div class="hobby-card">
+                    <i class="fas fa-code"></i>
+                    <h3>编程开发</h3>
+                    <p>热爱编程，享受解决问题带来的成就感</p>
+                </div>
+                <div class="hobby-card">
+                    <i class="fas fa-book"></i>
+                    <h3>阅读学习</h3>
+                    <p>喜欢阅读各类书籍，不断充实自己</p>
+                </div>
+                <div class="hobby-card">
+                    <i class="fas fa-camera"></i>
+                    <h3>摄影记录</h3>
+                    <p>用镜头捕捉生活中的美好瞬间</p>
+                </div>
+                <div class="hobby-card">
+                    <i class="fas fa-music"></i>
+                    <h3>音乐欣赏</h3>
+                    <p>享受音乐带来的轻松与愉悦</p>
+                </div>
+                <div class="hobby-card">
+                    <i class="fas fa-hiking"></i>
+                    <h3>户外运动</h3>
+                    <p>喜欢户外活动，拥抱大自然</p>
+                </div>
+                <div class="hobby-card">
+                    <i class="fas fa-gamepad"></i>
+                    <h3>游戏娱乐</h3>
+                    <p>偶尔放松一下，享受游戏乐趣</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 知识问答游戏入口 -->
+        <section class="quiz-entry-section">
+            <h2><i class="fas fa-brain"></i> 知识问答挑战</h2>
+            <div class="quiz-entry-card">
+                <div class="quiz-entry-info">
+                    <div class="quiz-entry-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3>边玩边学，挑战编程知识！</h3>
+                    <p>涵盖 Node.js、HTML/CSS、Web 开发、后端服务、大模型、算法、C/C++ 等多领域知识。
+                       通关赢积分，积分兑好礼！</p>
+                    <div class="quiz-entry-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-layer-group"></i>
+                            <span>10 大关卡</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-question-circle"></i>
+                            <span>海量题库</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-gift"></i>
+                            <span>丰厚奖品</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="quiz-entry-actions">
+                    <a href="quiz.html" class="btn-quiz-start">
+                        <i class="fas fa-play-circle"></i> 开始挑战
+                    </a>
+                    <a href="rewards.html" class="btn-quiz-rewards">
+                        <i class="fas fa-gift"></i> 查看奖励池
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 外部链接 -->
+        <section class="links-section">
+            <h2><i class="fas fa-link"></i> 更多精彩</h2>
+            <div class="link-card">
+                <a href="https://lixia-bella.github.io/" target="_blank" class="external-link">
+                    <i class="fas fa-external-link-alt"></i>
+                    <span>访问我的博客</span>
+                    <small>lixia-bella.github.io</small>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <p>&copy; 2026 阳光小站 | Made with <i class="fas fa-heart" style="color: #ff6b6b;"></i> by Lixia</p>
+    </footer>
+
+    <script src="scripts/main.js"></script>
+</body>
+</html>

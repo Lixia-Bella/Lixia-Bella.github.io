@@ -3,6 +3,10 @@
 > 一个由 AI 编程驱动的全栈博客项目实训 —— 在 3 个月内，每天 1.5-2 小时，通过 AI 辅助完成一个完整的 Blog 项目。
 >
 > 代码示例可在 [https://lixia-bella.github.io/](https://lixia-bella.github.io/) 这里查看网页结果。使用 github Pages 发布到网页。
+>
+> IDE：Cursor
+>
+> 模型：glm-5（阿里百炼，时不时就连不上），Opus 4.6（目前来说一直挺顺畅的）
 
 ## 项目简介
 

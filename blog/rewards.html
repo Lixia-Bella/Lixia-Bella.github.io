@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>奖励池 - 阳光小站</title>
+		<link rel="stylesheet" href="styles/style.css" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+		/>
+	</head>
+	<body>
+		<!-- 响应式导航栏 -->
+		<nav class="navbar">
+			<div class="nav-brand">
+				<i class="fas fa-sun"></i>
+				<span>阳光小站</span>
+			</div>
+			<button class="nav-toggle" id="navToggle" aria-label="切换导航菜单">
+				<span class="hamburger"></span>
+			</button>
+			<ul class="nav-menu" id="navMenu">
+				<li>
+					<a href="index.html" class="nav-link"
+						><i class="fas fa-home"></i> 首页</a
+					>
+				</li>
+				<li>
+					<a href="quiz.html" class="nav-link"
+						><i class="fas fa-gamepad"></i> 知识问答</a
+					>
+				</li>
+				<li>
+					<a href="rewards.html" class="nav-link active"
+						><i class="fas fa-gift"></i> 奖励池</a
+					>
+				</li>
+				<li>
+					<a href="profile.html" class="nav-link"
+						><i class="fas fa-user"></i> 个人简介</a
+					>
+				</li>
+				<li>
+					<a
+						href="https://lixia-bella.github.io/"
+						target="_blank"
+						class="nav-link"
+						><i class="fas fa-blog"></i> 我的博客</a
+					>
+				</li>
+			</ul>
+		</nav>
+
+		<main class="main-content rewards-page">
+			<!-- 积分状态栏 -->
+			<div class="quiz-status-bar">
+				<div class="status-item">
+					<i class="fas fa-coins"></i>
+					<span>我的积分：<strong id="totalPoints">0</strong></span>
+				</div>
+				<div class="status-item">
+					<i class="fas fa-exchange-alt"></i>
+					<span
+						>已兑换：<strong id="exchangedCount">0</strong> 次</span
+					>
+				</div>
+				<div
+					class="status-item status-link"
+					onclick="window.location.href = 'quiz.html'"
+				>
+					<i class="fas fa-gamepad"></i>
+					<span>去答题</span>
+				</div>
+			</div>
+
+			<header class="page-header">
+				<h1><i class="fas fa-gift"></i> 奖励池</h1>
+				<p class="author-info">
+					<i class="fas fa-clock"></i> 本周兑换周期：<strong
+						id="weekRange"
+					></strong>
+					<span class="divider">|</span>
+					<i class="fas fa-sync-alt"></i> 每周刷新奖品
+				</p>
+			</header>
+
+			<!-- 兑换规则说明 -->
+			<section class="rewards-rules-section">
+				<h2><i class="fas fa-info-circle"></i> 兑换规则</h2>
+				<div class="rules-grid">
+					<div class="rule-card">
+						<div class="rule-icon">
+							<i class="fas fa-coins"></i>
+						</div>
+						<h4>积分获取</h4>
+						<p>通过知识问答闯关获得积分，答对越多积分越高</p>
+					</div>
+					<div class="rule-card">
+						<div class="rule-icon">
+							<i class="fas fa-calendar-week"></i>
+						</div>
+						<h4>兑换周期</h4>
+						<p>每周一刷新奖品，兑换周期为一周</p>
+					</div>
+					<div class="rule-card">
+						<div class="rule-icon">
+							<i class="fas fa-cubes"></i>
+						</div>
+						<h4>奖品数量</h4>
+						<p>每周 10 种奖品，每种限量 3 个，先到先得</p>
+					</div>
+					<div class="rule-card">
+						<div class="rule-icon">
+							<i class="fas fa-check-circle"></i>
+						</div>
+						<h4>兑换条件</h4>
+						<p>积分达到奖品所需积分即可兑换</p>
+					</div>
+				</div>
+			</section>
+
+			<!-- 奖品列表 -->
+			<section class="rewards-list-section">
+				<h2><i class="fas fa-store"></i> 本周奖品</h2>
+				<div class="rewards-grid" id="rewardsGrid">
+					<!-- 奖品卡片由 JS 动态生成 -->
+				</div>
+			</section>
+
+			<!-- 兑换记录 -->
+			<section class="exchange-history-section">
+				<h2><i class="fas fa-history"></i> 兑换记录</h2>
+				<div class="history-list" id="historyList">
+					<div class="empty-history" id="emptyHistory">
+						<i class="fas fa-inbox"></i>
+						<p>暂无兑换记录，快去答题赚积分吧！</p>
+						<a href="quiz.html" class="btn-go-quiz"
+							><i class="fas fa-gamepad"></i> 开始答题</a
+						>
+					</div>
+				</div>
+			</section>
+		</main>
+
+		<footer class="footer">
+			<p>
+				&copy; 2026 阳光小站 | Made with
+				<i class="fas fa-heart" style="color: #ff6b6b"></i> by Lixia
+			</p>
+		</footer>
+
+		<!-- 兑换确认弹窗 -->
+		<div class="modal-overlay" id="exchangeModal" style="display: none">
+			<div class="modal-card">
+				<div class="modal-header">
+					<h3><i class="fas fa-exchange-alt"></i> 确认兑换</h3>
+					<button class="modal-close" id="modalClose">
+						<i class="fas fa-times"></i>
+					</button>
+				</div>
+				<div class="modal-body" id="modalBody">
+					<!-- 动态内容 -->
+				</div>
+				<div class="modal-footer">
+					<button class="btn-modal-cancel" id="modalCancel">
+						取消
+					</button>
+					<button class="btn-modal-confirm" id="modalConfirm">
+						确认兑换
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<script src="scripts/main.js"></script>
+		<script src="scripts/quiz.js"></script>
+	</body>
+</html>

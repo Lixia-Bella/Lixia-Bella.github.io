@@ -6,18 +6,20 @@
 
 - [项目概述](#项目概述)
 - [Git 配置](#git-配置)
-  - [.gitignore](#gitignore)
-  - [.gitattributes](#gitattributes)
+    - [.gitignore](#gitignore)
+    - [.gitattributes](#gitattributes)
 - [编辑器配置](#编辑器配置)
-  - [.editorconfig](#editorconfig)
-  - [VS Code 配置](#vs-code-配置)
+    - [.editorconfig](#editorconfig)
+    - [VS Code 配置](#vs-code-配置)
 - [配置说明](#配置说明)
 - [学习资源](#学习资源)
-  - [MDN 文档](#mdn-文档)
+    - [MDN 文档](#mdn-文档)
 - [学习计划](#学习计划)
-  - [第一周：前端核心（HTML/CSS/ES6+）+ AI 工具入门](#第一周前端核心htmlcsses6-ai-工具入门)
-  - [Safe Web Fonts（安全网页字体）](#safe-web-fonts安全网页字体)
-  - [CSS 选择器](#css-选择器)
+    - [第一周：前端核心（HTML/CSS/ES6+）+ AI 工具入门](#第一周前端核心htmlcsses6-ai-工具入门)
+    - [周一学习计划](#周一学习计划)
+    - [周二学习计划](#周二学习计划)
+    - [Safe Web Fonts（安全网页字体）](#safe-web-fonts安全网页字体)
+    - [CSS 选择器](#css-选择器)
 
 ---
 
@@ -103,16 +105,14 @@ coverage/
 
 **说明：**
 
-
-| 分类           | 忽略内容                                            |
-| ------------ | ----------------------------------------------- |
+| 分类             | 忽略内容                                                    |
+| ---------------- | ----------------------------------------------------------- |
 | macOS 系统文件   | `.DS_Store` 等系统自动生成的隐藏文件                        |
-| Windows 系统文件 | `Thumbs.db` 等缩略图缓存文件                            |
+| Windows 系统文件 | `Thumbs.db` 等缩略图缓存文件                                |
 | IDE 配置文件     | `.idea/` (JetBrains IDE)、`.vscode/` 已移除以便团队共享配置 |
-| Node.js      | `node_modules/` 依赖目录、各种日志文件                     |
-| 环境变量文件       | `.env` 系列文件，包含敏感信息，不应提交                         |
-| 构建输出         | `dist/`、`build/` 等编译产物                          |
-
+| Node.js          | `node_modules/` 依赖目录、各种日志文件                      |
+| 环境变量文件     | `.env` 系列文件，包含敏感信息，不应提交                     |
+| 构建输出         | `dist/`、`build/` 等编译产物                                |
 
 > 注意：`.vscode/` 目录未被忽略，以便团队成员共享编辑器配置。
 
@@ -155,12 +155,10 @@ coverage/
 
 **换行符说明：**
 
-
-| 操作系统        | 换行符             | 说明                          |
+| 操作系统    | 换行符          | 说明                        |
 | ----------- | --------------- | --------------------------- |
-| macOS/Linux | `lf` (`\n`)     | Line Feed，推荐使用              |
+| macOS/Linux | `lf` (`\n`)     | Line Feed，推荐使用         |
 | Windows     | `crlf` (`\r\n`) | Carriage Return + Line Feed |
-
 
 通过 `.gitattributes` 配置，Git 会在提交时自动将所有文本文件的换行符统一为 `lf`，检出时根据操作系统自动转换。这样即使有 Windows 用户参与开发，也能保证仓库中换行符的一致性。
 
@@ -189,16 +187,14 @@ trim_trailing_whitespace = false
 
 **配置项说明：**
 
-
-| 配置项                        | 值       | 说明                |
-| -------------------------- | ------- | ----------------- |
-| `charset`                  | `utf-8` | 文件编码统一为 UTF-8     |
-| `indent_style`             | `space` | 使用空格缩进（而非 Tab）    |
-| `indent_size`              | `2`     | 缩进大小为 2 个空格       |
+| 配置项                     | 值      | 说明                       |
+| -------------------------- | ------- | -------------------------- |
+| `charset`                  | `utf-8` | 文件编码统一为 UTF-8       |
+| `indent_style`             | `space` | 使用空格缩进（而非 Tab）   |
+| `indent_size`              | `2`     | 缩进大小为 2 个空格        |
 | `end_of_line`              | `lf`    | 换行符使用 LF（Unix 风格） |
-| `insert_final_newline`     | `true`  | 文件末尾自动插入空行        |
-| `trim_trailing_whitespace` | `true`  | 自动删除行尾空白字符        |
-
+| `insert_final_newline`     | `true`  | 文件末尾自动插入空行       |
+| `trim_trailing_whitespace` | `true`  | 自动删除行尾空白字符       |
 
 > 特殊说明：Markdown 文件（`*.md`）保留行尾空格，因为 Markdown 语法中行尾两个空格表示换行。
 
@@ -210,58 +206,56 @@ VS Code 工作区设置，优先级高于用户全局设置。
 
 ```json
 {
-  "editor.fontSize": 14,
-  "editor.tabSize": 2,
-  "editor.insertSpaces": true,
-  "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
-  },
-  "editor.minimap.enabled": false,
-  "files.autoSave": "afterDelay",
-  "files.autoSaveDelay": 1000,
-  "files.trimTrailingWhitespace": true,
-  "files.insertFinalNewline": true,
-  "search.exclude": {
-    "**/node_modules": true,
-    "**/bower_components": true,
-    "**/.git": true,
-    "**/.DS_Store": true
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[html]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[css]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[markdown]": {
-    "editor.wordWrap": "on"
-  }
+	"editor.fontSize": 14,
+	"editor.tabSize": 2,
+	"editor.insertSpaces": true,
+	"editor.formatOnSave": true,
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": "explicit"
+	},
+	"editor.minimap.enabled": false,
+	"files.autoSave": "afterDelay",
+	"files.autoSaveDelay": 1000,
+	"files.trimTrailingWhitespace": true,
+	"files.insertFinalNewline": true,
+	"search.exclude": {
+		"**/node_modules": true,
+		"**/bower_components": true,
+		"**/.git": true,
+		"**/.DS_Store": true
+	},
+	"[javascript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[html]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[css]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[markdown]": {
+		"editor.wordWrap": "on"
+	}
 }
 ```
 
 **关键设置说明：**
 
-
-| 设置项                      | 值              | 说明         |
-| ------------------------ | -------------- | ---------- |
-| `editor.fontSize`        | `14`           | 编辑器字体大小    |
-| `editor.tabSize`         | `2`            | Tab 缩进大小   |
+| 设置项                   | 值             | 说明               |
+| ------------------------ | -------------- | ------------------ |
+| `editor.fontSize`        | `14`           | 编辑器字体大小     |
+| `editor.tabSize`         | `2`            | Tab 缩进大小       |
 | `editor.formatOnSave`    | `true`         | 保存时自动格式化   |
-| `files.autoSave`         | `"afterDelay"` | 延迟自动保存     |
-| `files.autoSaveDelay`    | `1000`         | 自动保存延迟 1 秒 |
-| `editor.minimap.enabled` | `false`        | 关闭右侧代码缩略图  |
-
+| `files.autoSave`         | `"afterDelay"` | 延迟自动保存       |
+| `files.autoSaveDelay`    | `1000`         | 自动保存延迟 1 秒  |
+| `editor.minimap.enabled` | `false`        | 关闭右侧代码缩略图 |
 
 #### extensions.json
 
@@ -269,25 +263,23 @@ VS Code 工作区设置，优先级高于用户全局设置。
 
 ```json
 {
-  "recommendations": [
-    "esbenp.prettier-vscode",
-    "dbaeumer.vscode-eslint",
-    "editorconfig.editorconfig",
-    "streetsidesoftware.code-spell-checker"
-  ]
+	"recommendations": [
+		"esbenp.prettier-vscode",
+		"dbaeumer.vscode-eslint",
+		"editorconfig.editorconfig",
+		"streetsidesoftware.code-spell-checker"
+	]
 }
 ```
 
 **扩展说明：**
 
-
-| 扩展 ID                                   | 名称                 | 功能                         |
-| --------------------------------------- | ------------------ | -------------------------- |
-| `esbenp.prettier-vscode`                | Prettier           | 代码格式化工具                    |
+| 扩展 ID                                 | 名称               | 功能                           |
+| --------------------------------------- | ------------------ | ------------------------------ |
+| `esbenp.prettier-vscode`                | Prettier           | 代码格式化工具                 |
 | `dbaeumer.vscode-eslint`                | ESLint             | JavaScript/TypeScript 代码检查 |
 | `editorconfig.editorconfig`             | EditorConfig       | 读取 .editorconfig 配置        |
 | `streetsidesoftware.code-spell-checker` | Code Spell Checker | 拼写检查                       |
-
 
 #### launch.json
 
@@ -295,8 +287,8 @@ VS Code 工作区设置，优先级高于用户全局设置。
 
 ```json
 {
-  "version": "0.2.0",
-  "configurations": []
+	"version": "0.2.0",
+	"configurations": []
 }
 ```
 
@@ -333,7 +325,7 @@ VS Code 中配置的优先级从高到低：
 
 ---
 
-*文档创建时间：2026年3月16日*
+_文档创建时间：2026年3月16日_
 
 ---
 
@@ -350,17 +342,15 @@ VS Code 中配置的优先级从高到低：
 
 #### MDN 涵盖的内容
 
-
-| 分类             | 主要内容                          |
-| -------------- | ----------------------------- |
-| **HTML**       | 标签参考、属性、语义化、表单等               |
-| **CSS**        | 选择器、属性、布局、动画、响应式设计等           |
-| **JavaScript** | 语法、API、DOM 操作、异步编程等           |
-| **Web API**    | Fetch、Storage、WebRTC、Canvas 等 |
-| **HTTP**       | 请求方法、状态码、Header、缓存等           |
-| **Web 性能**     | 优化策略、性能监控、最佳实践等               |
-| **Web 安全**     | HTTPS、CORS、CSP、XSS 防护等        |
-
+| 分类           | 主要内容                               |
+| -------------- | -------------------------------------- |
+| **HTML**       | 标签参考、属性、语义化、表单等         |
+| **CSS**        | 选择器、属性、布局、动画、响应式设计等 |
+| **JavaScript** | 语法、API、DOM 操作、异步编程等        |
+| **Web API**    | Fetch、Storage、WebRTC、Canvas 等      |
+| **HTTP**       | 请求方法、状态码、Header、缓存等       |
+| **Web 性能**   | 优化策略、性能监控、最佳实践等         |
+| **Web 安全**   | HTTPS、CORS、CSP、XSS 防护等           |
 
 #### MDN 的特点
 
@@ -395,13 +385,11 @@ VS Code 中配置的优先级从高到低：
 
 **核心概念：**
 
-
-| 概念             | 说明            |
-| -------------- | ------------- |
+| 概念           | 说明                       |
+| -------------- | -------------------------- |
 | **HTML**       | 网页的骨架，定义内容和结构 |
 | **CSS**        | 网页的皮肤，负责样式和布局 |
-| **JavaScript** | 网页的行为，实现交互功能  |
-
+| **JavaScript** | 网页的行为，实现交互功能   |
 
 **浏览器工作原理：**
 
@@ -421,32 +409,30 @@ VS Code 中配置的优先级从高到低：
 ```html
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>我的第一个网页</title>
-</head>
-<body>
-  <!-- 页面内容写在这里 -->
-  <h1>你好，世界！</h1>
-  <p>这是我的第一个网页。</p>
-</body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>我的第一个网页</title>
+	</head>
+	<body>
+		<!-- 页面内容写在这里 -->
+		<h1>你好，世界！</h1>
+		<p>这是我的第一个网页。</p>
+	</body>
 </html>
 ```
 
 **2. 常用 HTML 标签**
 
-
-| 标签              | 作用             | 示例                          |
-| --------------- | -------------- | --------------------------- |
-| `<h1>` ~ `<h6>` | 标题，h1 最大，h6 最小 | `<h1>一级标题</h1>`             |
-| `<p>`           | 段落             | `<p>这是一段文字</p>`             |
-| `<a>`           | 超链接            | `<a href="url">链接文字</a>`    |
-| `<img>`         | 图片             | `<img src="图片地址" alt="描述">` |
-| `<ul>` / `<ol>` | 无序/有序列表        | 配合 `<li>` 使用                |
-| `<div>`         | 块级容器           | 用于布局分组                      |
-| `<span>`        | 行内容器           | 用于文本样式                      |
-
+| 标签            | 作用                   | 示例                              |
+| --------------- | ---------------------- | --------------------------------- |
+| `<h1>` ~ `<h6>` | 标题，h1 最大，h6 最小 | `<h1>一级标题</h1>`               |
+| `<p>`           | 段落                   | `<p>这是一段文字</p>`             |
+| `<a>`           | 超链接                 | `<a href="url">链接文字</a>`      |
+| `<img>`         | 图片                   | `<img src="图片地址" alt="描述">` |
+| `<ul>` / `<ol>` | 无序/有序列表          | 配合 `<li>` 使用                  |
+| `<div>`         | 块级容器               | 用于布局分组                      |
+| `<span>`        | 行内容器               | 用于文本样式                      |
 
 **3. 语义化标签（HTML5 新增）**
 
@@ -483,14 +469,12 @@ VS Code 中配置的优先级从高到低：
 
 **Cursor 编辑器基础使用：**
 
-
-| 功能    | 快捷键                                | 说明             |
-| ----- | ---------------------------------- | -------------- |
-| AI 对话 | `Cmd + L` (Mac) / `Ctrl + L` (Win) | 打开 AI 对话面板     |
-| 代码生成  | -                                  | 描述需求，让 AI 生成代码 |
-| 代码解释  | -                                  | 选中代码，让 AI 解释功能 |
-| 代码优化  | -                                  | 让 AI 帮你优化或重构代码 |
-
+| 功能     | 快捷键                             | 说明                     |
+| -------- | ---------------------------------- | ------------------------ |
+| AI 对话  | `Cmd + L` (Mac) / `Ctrl + L` (Win) | 打开 AI 对话面板         |
+| 代码生成 | -                                  | 描述需求，让 AI 生成代码 |
+| 代码解释 | -                                  | 选中代码，让 AI 解释功能 |
+| 代码优化 | -                                  | 让 AI 帮你优化或重构代码 |
 
 **实践技巧：**
 
@@ -506,523 +490,305 @@ VS Code 中配置的优先级从高到低：
 
 ##### 学习资源汇总
 
-
-| 资源          | 链接                                                                                                                                                         |
-| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 资源          | 链接                                                                                                                                                       |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | MDN Web 入门  | [https://developer.mozilla.org/zh-CN/docs/Learn/Getting_started_with_the_web](https://developer.mozilla.org/zh-CN/docs/Learn/Getting_started_with_the_web) |
 | MDN HTML 入门 | [https://developer.mozilla.org/zh-CN/docs/Learn/HTML/Introduction_to_HTML](https://developer.mozilla.org/zh-CN/docs/Learn/HTML/Introduction_to_HTML)       |
-| HTML 元素参考   | [https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element)                                     |
-
-
----
-
-### Safe Web Fonts（安全网页字体）
-
-#### 什么是 Safe Web Fonts？
-
-**Safe Web Fonts**（安全网页字体）是指在绝大多数操作系统和浏览器中都预装的字体。使用这些字体可以确保网页在不同设备上都能正常显示，不会因为用户没有安装特定字体而出现显示问题。
-
-#### 为什么需要安全网页字体？
-
-当你在 CSS 中指定字体时，如果用户的设备没有安装该字体，浏览器会使用默认字体替代，这可能导致：
-
-- 页面显示效果与设计不符
-- 布局错乱
-- 用户体验下降
-
-#### 常见的安全网页字体
-
-##### 衬线字体（Serif）
-
-
-| 字体名称            | 适用系统                | CSS 使用示例                                 |
-| --------------- | ------------------- | ---------------------------------------- |
-| Georgia         | Windows、macOS、Linux | `font-family: Georgia, serif;`           |
-| Times New Roman | Windows、macOS       | `font-family: "Times New Roman", serif;` |
-
-
-##### 无衬线字体（Sans-serif）
-
-
-| 字体名称         | 适用系统                | CSS 使用示例                                     |
-| ------------ | ------------------- | -------------------------------------------- |
-| Arial        | Windows、macOS、Linux | `font-family: Arial, sans-serif;`            |
-| Helvetica    | macOS、iOS           | `font-family: Helvetica, Arial, sans-serif;` |
-| Verdana      | Windows、macOS、Linux | `font-family: Verdana, sans-serif;`          |
-| Tahoma       | Windows、macOS       | `font-family: Tahoma, sans-serif;`           |
-| Trebuchet MS | Windows、macOS       | `font-family: "Trebuchet MS", sans-serif;`   |
-
-
-##### 等宽字体（Monospace）
-
-
-| 字体名称        | 适用系统                | CSS 使用示例                                 |
-| ----------- | ------------------- | ---------------------------------------- |
-| Courier New | Windows、macOS、Linux | `font-family: "Courier New", monospace;` |
-| Consolas    | Windows             | `font-family: Consolas, monospace;`      |
-| Monaco      | macOS               | `font-family: Monaco, monospace;`        |
-
-
-#### 最佳实践
-
-##### 1. 使用字体栈（Font Stack）
-
-始终提供备选字体，以 `serif`、`sans-serif`、`monospace` 结尾：
-
-```css
-/* 无衬线字体栈 */
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-}
-
-/* 衬线字体栈 */
-h1 {
-  font-family: Georgia, "Times New Roman", Times, serif;
-}
-
-/* 等宽字体栈 */
-code {
-  font-family: Consolas, Monaco, "Courier New", monospace;
-}
-```
-
-##### 2. 系统字体栈
-
-使用系统原生字体可以获得最佳性能和原生体验：
-
-```css
-/* macOS / iOS 系统字体 */
-font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display";
-
-/* Windows 系统字体 */
-font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-
-/* 跨平台系统字体栈 */
-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-```
-
-##### 3. Web Fonts 替代方案
-
-如果需要使用非安全字体，可以使用 Web Fonts 服务：
-
-- **Google Fonts**：[https://fonts.google.com/](https://fonts.google.com/)
-- **Adobe Fonts**：[https://fonts.adobe.com/](https://fonts.adobe.com/)
-
-```html
-<!-- 引入 Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-```
-
-```css
-body {
-  font-family: "Roboto", Arial, sans-serif;
-}
-```
+| HTML 元素参考 | [https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element)                                     |
 
 ---
 
-### CSS 选择器
+#### 周二学习计划
 
-CSS 选择器用于选中 HTML 元素并应用样式。以下是 CSS 选择器的完整分类。
+##### 学习目标
 
-#### 基本选择器
+- 掌握 CSS3 动画与过渡（transition、animation、@keyframes）
+- 理解响应式设计原理与媒体查询断点
+- 学会使用 CSS3 实现常见交互效果
+- 通过实战练习巩固 CSS3 进阶知识
 
-##### 通配符选择器
+##### 学习内容与步骤
 
-选中所有元素。
+###### 第一步：CSS3 过渡（Transition）深入理解（约 25 分钟）
+
+**核心概念：**
+
+CSS `transition` 用于在属性值变化时添加平滑的过渡效果，而不是瞬间切换。
+
+**transition 四大属性：**
+
+| 属性                         | 说明                     | 示例                                  |
+| ---------------------------- | ------------------------ | ------------------------------------- |
+| `transition-property`        | 要过渡的 CSS 属性        | `all`、`transform`、`opacity`         |
+| `transition-duration`        | 过渡持续时间             | `0.3s`、`500ms`                       |
+| `transition-timing-function` | 过渡速度曲线             | `ease`、`linear`、`cubic-bezier(...)` |
+| `transition-delay`           | 过渡延迟时间             | `0s`、`0.1s`                          |
+
+**简写语法：**
 
 ```css
-* {
-  margin: 0;
-  padding: 0;
+/* transition: property duration timing-function delay; */
+.element {
+  transition: all 0.3s ease 0s;
+}
+
+/* 多属性分别设置不同过渡 */
+.element {
+  transition: transform 0.3s ease, opacity 0.5s ease 0.1s, background-color 0.2s linear;
 }
 ```
 
-##### 元素选择器（标签选择器）
+**常用速度曲线对比：**
 
-选中所有指定标签的元素。
+| 曲线名称                       | 效果说明                       | 适用场景         |
+| ------------------------------ | ------------------------------ | ---------------- |
+| `ease`                         | 先快后慢（默认值）             | 通用场景         |
+| `ease-in`                      | 先慢后快                       | 元素退出         |
+| `ease-out`                     | 先快后慢                       | 元素进入         |
+| `ease-in-out`                  | 两头慢中间快                   | 来回动画         |
+| `linear`                       | 匀速                           | 进度条、旋转     |
+| `cubic-bezier(0.4, 0, 0.2, 1)` | Material Design 标准曲线      | 现代 UI 交互     |
+
+**实践示例 - 按钮悬停效果：**
 
 ```css
-p {
-  color: #333;
+.btn {
+  padding: 12px 24px;
+  background: #F2A6B3;
+  color: white;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  /* 过渡：变换、阴影、背景色分别设置 */
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.3s ease,
+              background-color 0.2s ease;
 }
 
+.btn:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 24px rgba(242, 166, 179, 0.35);
+  background: #E8899A;
+}
+
+.btn:active {
+  transform: translateY(-1px) scale(0.98);
+  box-shadow: 0 4px 12px rgba(242, 166, 179, 0.25);
+}
+```
+
+**推荐阅读：**
+
+- [MDN - CSS transition](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_transitions/Using_CSS_transitions)
+- [cubic-bezier 可视化工具](https://cubic-bezier.com/)
+
+###### 第二步：CSS3 动画（Animation + @keyframes）（约 30 分钟）
+
+**核心概念：**
+
+与 `transition` 只能在两个状态间过渡不同，`animation` + `@keyframes` 可以定义多个关键帧，实现更复杂的动画效果。
+
+**@keyframes 定义动画：**
+
+```css
+/* 方式一：from/to（等同于 0%/100%） */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 方式二：百分比（多个关键帧） */
+@keyframes bounce {
+  0%   { transform: translateY(0); }
+  30%  { transform: translateY(-30px); }
+  50%  { transform: translateY(0); }
+  70%  { transform: translateY(-15px); }
+  100% { transform: translateY(0); }
+}
+
+/* 方式三：复杂动画 - 颜色渐变呼吸灯 */
+@keyframes breathe {
+  0%   { box-shadow: 0 0 10px rgba(242, 166, 179, 0.3); }
+  50%  { box-shadow: 0 0 25px rgba(195, 177, 225, 0.5); }
+  100% { box-shadow: 0 0 10px rgba(242, 166, 179, 0.3); }
+}
+```
+
+**animation 八大属性：**
+
+| 属性                        | 说明               | 常用值                                      |
+| --------------------------- | ------------------ | ------------------------------------------- |
+| `animation-name`            | 动画名称           | 对应 @keyframes 名称                        |
+| `animation-duration`        | 动画持续时间       | `0.5s`、`1s`、`2s`                          |
+| `animation-timing-function` | 速度曲线           | `ease`、`linear`、`cubic-bezier(...)`       |
+| `animation-delay`           | 延迟时间           | `0s`、`0.2s`                                |
+| `animation-iteration-count` | 播放次数           | `1`、`3`、`infinite`                        |
+| `animation-direction`       | 播放方向           | `normal`、`reverse`、`alternate`            |
+| `animation-fill-mode`       | 动画结束后的状态   | `none`、`forwards`、`backwards`、`both`     |
+| `animation-play-state`      | 播放/暂停          | `running`、`paused`                         |
+
+**简写语法：**
+
+```css
+/* animation: name duration timing-function delay iteration-count direction fill-mode; */
+.element {
+  animation: fadeIn 0.5s ease 0s 1 normal forwards;
+}
+
+/* 常用简写 */
+.card {
+  animation: slideUp 0.6s ease forwards;
+}
+
+/* 无限循环动画 */
+.spinner {
+  animation: rotate 1s linear infinite;
+}
+```
+
+**fill-mode 详解（重要）：**
+
+| 值          | 动画前   | 动画后   | 说明                           |
+| ----------- | -------- | -------- | ------------------------------ |
+| `none`      | 初始状态 | 初始状态 | 动画结束回到原始状态           |
+| `forwards`  | 初始状态 | 最后帧   | 动画结束保持最后一帧的状态     |
+| `backwards` | 第一帧   | 初始状态 | 延迟期间显示第一帧             |
+| `both`      | 第一帧   | 最后帧   | 同时应用 forwards 和 backwards |
+
+**推荐阅读：**
+
+- [MDN - CSS animation](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_animations/Using_CSS_animations)
+- [MDN - @keyframes](https://developer.mozilla.org/zh-CN/docs/Web/CSS/@keyframes)
+- [Animista - CSS 动画生成器](https://animista.net/)
+
+###### 第三步：响应式设计与媒体查询（约 20 分钟）
+
+**核心概念：**
+
+响应式设计让网页在不同设备（手机、平板、桌面）上都能良好显示。核心工具是 CSS 媒体查询（Media Queries）。
+
+**常用断点（Breakpoints）：**
+
+| 断点       | 目标设备           | 媒体查询                         |
+| ---------- | ------------------ | -------------------------------- |
+| `< 320px`  | 小屏手机           | `@media (max-width: 320px)`      |
+| `< 480px`  | 手机竖屏           | `@media (max-width: 480px)`      |
+| `< 768px`  | 平板竖屏           | `@media (max-width: 768px)`      |
+| `< 1024px` | 平板横屏/小笔记本  | `@media (max-width: 1024px)`     |
+| `< 1200px` | 笔记本             | `@media (max-width: 1200px)`     |
+| `≥ 1200px` | 桌面显示器         | 默认样式（桌面优先）             |
+
+**移动优先 vs 桌面优先：**
+
+```css
+/* 桌面优先（Desktop First）- 使用 max-width */
+.container { width: 1200px; }
+@media (max-width: 768px) {
+  .container { width: 100%; }
+}
+
+/* 移动优先（Mobile First）- 使用 min-width（推荐） */
+.container { width: 100%; }
+@media (min-width: 768px) {
+  .container { width: 750px; }
+}
+@media (min-width: 1200px) {
+  .container { width: 1170px; }
+}
+```
+
+**响应式单位对比：**
+
+| 单位   | 说明                       | 适用场景                 |
+| ------ | -------------------------- | ------------------------ |
+| `px`   | 固定像素                   | 边框、小间距             |
+| `%`    | 相对父元素                 | 宽度、布局               |
+| `em`   | 相对当前元素字体大小       | 内边距、外边距           |
+| `rem`  | 相对根元素（html）字体大小 | 字体大小、间距（推荐）   |
+| `vw`   | 视口宽度的 1%              | 全屏布局、响应式字体     |
+| `vh`   | 视口高度的 1%              | 全屏高度                 |
+| `clamp()` | 限制范围的响应式值      | 响应式字体大小           |
+
+**clamp() 函数（现代响应式利器）：**
+
+```css
+/* clamp(最小值, 首选值, 最大值) */
 h1 {
-  font-size: 24px;
+  /* 字体大小在 1.5rem 到 2.5rem 之间，随视口宽度变化 */
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
 }
-```
 
-##### 类选择器
-
-选中所有指定类名的元素，使用 `.` 开头。
-
-```css
 .container {
-  width: 100%;
-  max-width: 1200px;
-}
-
-.text-center {
-  text-align: center;
+  /* 宽度在 300px 到 1200px 之间 */
+  width: clamp(300px, 90vw, 1200px);
 }
 ```
 
-```html
-<div class="container">
-  <p class="text-center">居中的文本</p>
-</div>
-```
-
-##### ID 选择器
-
-选中指定 ID 的元素，使用 `#` 开头。ID 在页面中应唯一。
-
-```css
-#header {
-  background-color: #fff;
-  position: fixed;
-}
-
-#main-content {
-  padding: 20px;
-}
-```
-
-```html
-<header id="header">页面头部</header>
-<main id="main-content">主要内容</main>
-```
-
-##### 基本选择器对比
-
-
-| 选择器 | 语法       | 特点       | 使用场景   |
-| --- | -------- | -------- | ------ |
-| 通配符 | `*`      | 选中所有元素   | 重置样式   |
-| 元素  | `tag`    | 选中所有同名标签 | 基础样式   |
-| 类   | `.class` | 可复用，可多个  | 最常用    |
-| ID  | `#id`    | 唯一性，权重高  | 页面唯一元素 |
-
-
-#### 关系选择器
-
-##### 后代选择器（空格）
-
-选中某元素内部的所有指定后代元素（包括子元素、孙元素等）。
-
-```css
-/* 选中 article 内部的所有 p 元素 */
-article p {
-  line-height: 1.6;
-}
-
-/* 选中 nav 内部的所有 a 元素 */
-nav a {
-  text-decoration: none;
-}
-```
-
-##### 子代选择器（`>`）
-
-只选中某元素的直接子元素。
-
-```css
-/* 只选中 ul 的直接子元素 li，不包括嵌套的 li */
-ul > li {
-  list-style: none;
-}
-
-/* 只选中 nav 的直接子元素 a */
-nav > a {
-  padding: 10px;
-}
-```
-
-##### 相邻兄弟选择器（`+`）
-
-选中紧接在某元素之后的第一个兄弟元素。
-
-```css
-/* 选中紧跟在 h1 后面的第一个 p 元素 */
-h1 + p {
-  font-size: 18px;
-  color: #666;
-}
-```
-
-##### 通用兄弟选择器（`~`）
-
-选中某元素之后的所有指定兄弟元素。
-
-```css
-/* 选中 h2 后面的所有 p 兄弟元素 */
-h2 ~ p {
-  margin-top: 10px;
-}
-```
-
-##### 关系选择器对比
-
-
-| 选择器  | 语法      | 选中范围           |
-| ---- | ------- | -------------- |
-| 后代   | `A B`   | A 内部所有 B（包括嵌套） |
-| 子代   | `A > B` | A 的直接子元素 B     |
-| 相邻兄弟 | `A + B` | A 之后紧邻的第一个 B   |
-| 通用兄弟 | `A ~ B` | A 之后的所有兄弟 B    |
-
-
-#### 属性选择器
-
-根据元素的属性及属性值来选中元素。
-
-```css
-/* 选中所有有 title 属性的元素 */
-[title] {
-  cursor: help;
-}
-
-/* 选中 type="text" 的 input */
-input[type="text"] {
-  border: 1px solid #ccc;
-}
-
-/* 选中 href 以 "https" 开头的 a 元素 */
-a[href^="https"] {
-  color: green;
-}
-
-/* 选中 href 以 ".pdf" 结尾的 a 元素 */
-a[href$=".pdf"] {
-  background: url('pdf-icon.png') no-repeat;
-}
-
-/* 选中 class 包含 "btn" 的元素 */
-[class*="btn"] {
-  padding: 10px 20px;
-}
-
-/* 选中 lang 属性以 "zh" 开头的元素（完整单词或连字符） */
-[lang|="zh"] {
-  quotes: "「" "」";
-}
-```
-
-##### 属性选择器语法汇总
-
-
-| 语法                | 说明                     |
-| ----------------- | ---------------------- |
-| `[attr]`          | 有 attr 属性              |
-| `[attr="value"]`  | attr 属性值等于 value       |
-| `[attr^="value"]` | attr 属性值以 value 开头     |
-| `[attr$="value"]` | attr 属性值以 value 结尾     |
-| `[attr*="value"]` | attr 属性值包含 value       |
-| `[attr~="value"]` | attr 属性值包含 value（完整单词） |
-| `[attr            | ="value"]`             |
-
-
-#### 伪类选择器
-
-伪类用于选中元素的特定状态。
-
-##### 状态伪类
-
-```css
-/* 未访问的链接 */
-a:link {
-  color: blue;
-}
-
-/* 已访问的链接 */
-a:visited {
-  color: purple;
-}
-
-/* 鼠标悬停 */
-a:hover {
-  color: red;
-}
-
-/* 激活状态（鼠标按下） */
-a:active {
-  color: orange;
-}
-
-/* 获得焦点 */
-input:focus {
-  border-color: blue;
-  outline: none;
-}
-
-/* 禁用状态 */
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* 选中状态（复选框、单选框） */
-input:checked {
-  accent-color: blue;
-}
-```
-
-> **链接伪类顺序**：`link` → `visited` → `hover` → `active`（LVHA 顺序）
-
-##### 结构伪类
-
-```css
-/* 第一个子元素 */
-li:first-child {
-  font-weight: bold;
-}
-
-/* 最后一个子元素 */
-li:last-child {
-  border-bottom: none;
-}
-
-/* 第 n 个子元素 */
-tr:nth-child(odd) {
-  background: #f5f5f5;  /* 奇数行 */
-}
-
-tr:nth-child(even) {
-  background: #fff;     /* 偶数行 */
-}
-
-li:nth-child(3) {
-  color: red;           /* 第 3 个 */
-}
-
-/* 倒数第 n 个子元素 */
-li:nth-last-child(2) {
-  color: blue;
-}
-
-/* 唯一的子元素 */
-p:only-child {
-  margin: 0;
-}
-
-/* 第一个同类型元素 */
-p:first-of-type {
-  margin-top: 0;
-}
-
-/* 最后一个同类型元素 */
-p:last-of-type {
-  margin-bottom: 0;
-}
-
-/* 第 n 个同类型元素 */
-p:nth-of-type(2) {
-  text-indent: 2em;
-}
-
-/* 空元素 */
-div:empty {
-  display: none;
-}
-```
-
-##### 否定伪类
-
-```css
-/* 选中不是 .active 的 li */
-li:not(.active) {
-  opacity: 0.5;
-}
-
-/* 选中没有被禁用的 input */
-input:not(:disabled) {
-  background: white;
-}
-```
-
-#### 伪元素选择器
-
-伪元素用于选中元素的特定部分，或创建虚拟元素。
-
-```css
-/* 首行 */
-p::first-line {
-  font-weight: bold;
-}
-
-/* 首字母 */
-p::first-letter {
-  font-size: 2em;
-  float: left;
-}
-
-/* 在元素内容之前插入内容 */
-.required::before {
-  content: "*";
-  color: red;
-}
-
-/* 在元素内容之后插入内容 */
-.link::after {
-  content: " →";
-}
-
-/* 选中文本样式 */
-::selection {
-  background: #ffeb3b;
-  color: #000;
-}
-
-/* 占位符文本样式 */
-input::placeholder {
-  color: #999;
-  font-style: italic;
-}
-```
-
-#### 选择器权重（优先级）
-
-当多个选择器选中同一元素时，权重高的生效。
-
-
-| 选择器          | 权重        | 示例                                 |
-| ------------ | --------- | ---------------------------------- |
-| `!important` | 最高（不建议使用） | `color: red !important;`           |
-| 行内样式         | 1000      | `style="color: red;"`              |
-| ID 选择器       | 100       | `#header`                          |
-| 类、伪类、属性选择器   | 10        | `.active`、`:hover`、`[type="text"]` |
-| 元素、伪元素选择器    | 1         | `div`、`::before`                   |
-| 通配符          | 0         | `*`                                |
-
-
-**权重计算示例：**
-
-```css
-/* 权重: 1 */
-p {
-  color: black;
-}
-
-/* 权重: 10 */
-.text {
-  color: blue;
-}
-
-/* 权重: 100 */
-#intro {
-  color: green;
-}
-
-/* 权重: 1 + 10 = 11 */
-p.text {
-  color: red;
-}
-
-/* 权重: 100 + 10 = 110 */
-#intro.text {
-  color: orange;
-}
-```
-
-> **提示**：尽量使用低权重选择器，避免使用 `!important`，保持样式可维护性。
-
+**推荐阅读：**
+
+- [MDN - 响应式设计](https://developer.mozilla.org/zh-CN/docs/Learn/CSS/CSS_layout/Responsive_Design)
+- [MDN - 媒体查询](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_media_queries/Using_media_queries)
+
+###### 第四步：动手实践 - 增强现有项目（约 45 分钟）
+
+基于周一已完成的项目，完成以下实战任务：
+
+**任务一：为导航栏链接添加高级 hover 动画**
+
+要求：
+1. 导航链接悬停时添加下划线滑入动画（使用 `::after` 伪元素）
+2. 当前激活页面的导航链接有持续的高亮指示
+3. 移动端汉堡菜单展开时，每个菜单项依次滑入（使用 `animation-delay` 实现错落效果）
+
+**任务二：为页面卡片添加入场动画**
+
+要求：
+1. 页面加载时，各区块（头像、标题、介绍、爱好等）依次从下方淡入
+2. 使用 `@keyframes` 定义 `slideUp` 动画
+3. 通过 `animation-delay` 实现错落入场效果
+4. 使用 `Intersection Observer` 实现滚动触发动画（仅在元素进入视口时播放）
+
+**任务三：实现响应式断点优化**
+
+要求：
+1. 检查并优化现有页面在 320px、480px、768px 三个断点下的显示效果
+2. 导航栏在移动端展开时添加平滑的高度过渡动画
+3. 爱好卡片在不同屏幕尺寸下的列数自适应（手机 1 列、平板 2 列、桌面 3 列）
+4. 字体大小使用 `clamp()` 实现平滑缩放
+
+**任务四（加分项）：添加暗色模式切换**
+
+要求：
+1. 在导航栏添加一个日/月亮图标按钮
+2. 点击切换亮色/暗色主题
+3. 使用 CSS 变量（已有）+ `data-theme` 属性实现主题切换
+4. 主题偏好保存到 `localStorage`
+5. 切换时添加平滑过渡动画
+
+##### 今日作业
+
+- [ ] 阅读 MDN CSS transition 和 animation 文档
+- [ ] 完成任务一：导航栏 hover 动画增强
+- [ ] 完成任务二：页面卡片入场动画
+- [ ] 完成任务三：响应式断点优化
+- [ ] （可选）完成任务四：暗色模式切换
+- [ ] 在浏览器开发者工具中测试不同屏幕尺寸下的效果
+- [ ] 记录学习笔记，整理 CSS3 动画常用代码片段
+
+##### 学习资源汇总
+
+| 资源                   | 链接                                                                                                                                                                                   |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| MDN CSS transition     | [https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_transitions/Using_CSS_transitions](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_transitions/Using_CSS_transitions)       |
+| MDN CSS animation      | [https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_animations/Using_CSS_animations](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_animations/Using_CSS_animations)           |
+| MDN 响应式设计         | [https://developer.mozilla.org/zh-CN/docs/Learn/CSS/CSS_layout/Responsive_Design](https://developer.mozilla.org/zh-CN/docs/Learn/CSS/CSS_layout/Responsive_Design)                     |
+| MDN 媒体查询           | [https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_media_queries/Using_media_queries](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_media_queries/Using_media_queries)       |
+| cubic-bezier 可视化    | [https://cubic-bezier.com/](https://cubic-bezier.com/)                                                                                                                                 |
+| Animista 动画生成器    | [https://animista.net/](https://animista.net/)                                                                                                                                         |
+| CSS Tricks - 动画指南  | [https://css-tricks.com/almanac/properties/a/animation/](https://css-tricks.com/almanac/properties/a/animation/)                                                                       |

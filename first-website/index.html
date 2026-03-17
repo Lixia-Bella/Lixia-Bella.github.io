@@ -40,5 +40,15 @@
 		</ul>
 
 		<p>working together…</p>
+		<button>Change user</button>
+
+		<!-- 与 CSS 的 <link> 元素的功能类似，它将 JavaScript 引入以作用于 HTML（以及 CSS 和页面上的任何其他内容） -->
+		<!-- 备注：上面将 <script> 元素放在 HTML 文件的底部附近的原因是浏览器会按照代码在文件中的顺序进行读取。 -->
+		<!-- 如果 JavaScript 先加载，并期望操纵还未加载的 HTML，可能会出现问题。将
+		JavaScript 放在 HTML
+		页面的底部附近是一种解决方案。想要了解更多的替代方案，参见脚本加载策略。
+		https://developer.mozilla.org/zh-CN/docs/Learn_web_development/Core/Scripting/What_is_JavaScript#%E8%84%9A%E6%9C%AC%E5%8A%A0%E8%BD%BD%E7%AD%96%E7%95%A5
+		-->
+		<script src="scripts/main.js"></script>
 	</body>
 </html>

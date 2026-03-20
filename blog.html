@@ -55,7 +55,7 @@
 			}
 
 			.blog-card::before {
-				content: '';
+				content: "";
 				position: absolute;
 				top: 0;
 				left: 0;
@@ -82,8 +82,12 @@
 			}
 
 			@keyframes spin {
-				from { transform: rotate(0deg); }
-				to { transform: rotate(360deg); }
+				from {
+					transform: rotate(0deg);
+				}
+				to {
+					transform: rotate(360deg);
+				}
 			}
 
 			.blog-error {
@@ -135,7 +139,7 @@
 			}
 
 			.blog-article h3::before {
-				content: '▸ ';
+				content: "▸ ";
 				color: var(--mint-green);
 			}
 
@@ -148,7 +152,11 @@
 
 			.blog-article blockquote {
 				border-left: 4px solid var(--primary-pink-light);
-				background: linear-gradient(135deg, rgba(242,166,179,0.06), rgba(195,177,225,0.06));
+				background: linear-gradient(
+					135deg,
+					rgba(242, 166, 179, 0.06),
+					rgba(195, 177, 225, 0.06)
+				);
 				padding: 16px 20px;
 				margin: 20px 0;
 				border-radius: 0 var(--radius-small) var(--radius-small) 0;
@@ -162,12 +170,16 @@
 			}
 
 			.blog-article code {
-				background: linear-gradient(135deg, rgba(195,177,225,0.15), rgba(167,199,231,0.15));
+				background: linear-gradient(
+					135deg,
+					rgba(195, 177, 225, 0.15),
+					rgba(167, 199, 231, 0.15)
+				);
 				color: var(--lavender-dark);
 				padding: 2px 7px;
 				border-radius: 5px;
 				font-size: 0.9em;
-				font-family: 'Menlo', 'Consolas', 'Monaco', monospace;
+				font-family: "Menlo", "Consolas", "Monaco", monospace;
 			}
 
 			.blog-article pre {
@@ -372,7 +384,7 @@
 				</li>
 				<li>
 					<a
-						href="https://Bella-bella.github.io/"
+						href="https://Lixia-Bella.github.io/"
 						target="_blank"
 						class="nav-link"
 						><i class="fas fa-blog"></i> 我的博客</a
@@ -411,18 +423,18 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 		<script>
 			(function () {
-				var container = document.getElementById('blogContent');
+				var container = document.getElementById("blogContent");
 				var params = new URLSearchParams(window.location.search);
-				var file = params.get('file');
+				var file = params.get("file");
 
 				if (!file) {
-					showError('未指定文章路径');
+					showError("未指定文章路径");
 					return;
 				}
 
 				// 安全校验：只允许加载 blogs 目录下的 .md 文件名（不含路径分隔符）
 				if (!/^[\w\-]+$/.test(file)) {
-					showError('无效的文章名称');
+					showError("无效的文章名称");
 					return;
 				}
 
@@ -430,7 +442,8 @@
 				marked.setOptions({
 					highlight: function (code, lang) {
 						if (lang && hljs.getLanguage(lang)) {
-							return hljs.highlight(code, { language: lang }).value;
+							return hljs.highlight(code, { language: lang })
+								.value;
 						}
 						return hljs.highlightAuto(code).value;
 					},
@@ -439,36 +452,38 @@
 				});
 
 				// 通过动态 <script> 标签加载文章数据（兼容 file:// 协议）
-				var script = document.createElement('script');
-				script.src = 'blogs/' + file + '.js';
+				var script = document.createElement("script");
+				script.src = "blogs/" + file + ".js";
 				script.onload = function () {
 					var md = window.__BLOG_MD__;
 					if (!md) {
-						showError('文章数据为空');
+						showError("文章数据为空");
 						return;
 					}
 					var html = marked.parse(md);
-					container.className = 'blog-article';
+					container.className = "blog-article";
 					container.innerHTML = html;
 
-					var h1 = container.querySelector('h1');
+					var h1 = container.querySelector("h1");
 					if (h1) {
-						document.title = h1.textContent + ' - 阳光小站';
+						document.title = h1.textContent + " - 阳光小站";
 					}
 
 					// 清理全局变量
 					delete window.__BLOG_MD__;
 				};
 				script.onerror = function () {
-					showError('文章加载失败，请检查文件是否存在');
+					showError("文章加载失败，请检查文件是否存在");
 				};
 				document.body.appendChild(script);
 
 				function showError(msg) {
-					container.className = 'blog-error';
+					container.className = "blog-error";
 					container.innerHTML =
 						'<i class="fas fa-exclamation-circle"></i>' +
-						'<p>' + msg + '</p>' +
+						"<p>" +
+						msg +
+						"</p>" +
 						'<a href="index.html" class="btn-read-more">' +
 						'<i class="fas fa-home"></i> 返回首页</a>';
 				}

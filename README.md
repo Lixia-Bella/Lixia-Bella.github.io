@@ -2,7 +2,7 @@
 
 > 一个由 AI 编程驱动的全栈博客项目实训 —— 在 3 个月内，每天 1.5-2 小时，通过 AI 辅助完成一个完整的 Blog 项目。
 >
-> 代码示例可在 [https://Bella-bella.github.io/](https://Bella-bella.github.io/) 这里查看网页结果。使用 github Pages 发布到网页。
+> 代码示例可在 [https://Lixia-Bella.github.io/](https://Lixia-Bella.github.io/) 这里查看网页结果。使用 github Pages 发布到网页。
 >
 > IDE：Cursor
 >

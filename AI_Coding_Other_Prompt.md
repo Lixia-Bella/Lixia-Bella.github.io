@@ -36,7 +36,7 @@
 页面标题和作者信息
 一段自我介绍，头像（图片使用 images/image1.png），头像可以点击切换到 Profile 详情页面。
 一个爱好列表
-一个外部链接：我的博客地址 https://lixia-bella.github.io/
+一个外部链接：我的博客地址 https://Bella-bella.github.io/
 1 个响应式导航栏（PC + 移动端适配）
 ```
 

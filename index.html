@@ -11,11 +11,21 @@
 <body>
     <!-- 响应式导航栏 -->
     <nav class="navbar">
-        <div class="nav-brand">
-            <i class="fas fa-sun"></i>
-            <span>阳光小站</span>
+        <a href="profile.html" class="nav-brand-avatar" title="点击查看个人详情">
+            <img src="images/image1.png" alt="我的头像" class="nav-avatar">
+            <div class="nav-avatar-glow"></div>
+        </a>
+        <div class="nav-brand-info">
+            <span class="nav-brand-title">阳光小站</span>
+            <span class="nav-brand-desc">用代码创造美好，用文字记录生活</span>
         </div>
         
+        <!-- 主题切换按钮 -->
+        <button class="theme-toggle" id="themeToggle" aria-label="切换暗色模式">
+            <i class="fas fa-sun icon-sun"></i>
+            <i class="fas fa-moon icon-moon"></i>
+        </button>
+
         <!-- 移动端汉堡菜单按钮 -->
         <button class="nav-toggle" id="navToggle" aria-label="切换导航菜单">
             <span class="hamburger"></span>
@@ -33,39 +43,30 @@
 
     <!-- 主要内容区域 -->
     <main class="main-content">
-        <!-- 头像区域 -->
-        <section class="avatar-section">
-            <a href="profile.html" class="avatar-link" title="点击查看个人详情">
-                <img src="images/image1.png" alt="我的头像" class="avatar" id="avatar">
-                <div class="avatar-overlay">
-                    <span>点击了解更多</span>
-                </div>
-            </a>
-        </section>
-
-        <!-- 页面标题和作者信息 -->
-        <header class="page-header">
-            <h1>你好，欢迎来到我的阳光小站！</h1>
-            <p class="author-info">
-                <i class="fas fa-user-circle"></i> 作者：Lixia
-                <span class="divider">|</span>
-                <i class="fas fa-calendar-alt"></i> 更新时间：2026年3月
-            </p>
-        </header>
-
-        <!-- 自我介绍 -->
-        <section class="intro-section">
-            <h2><i class="fas fa-heart"></i> 关于我</h2>
-            <div class="intro-card">
-                <p>
-                    大家好！我是一个热爱生活、充满阳光的开发者。喜欢用代码创造美好，用文字记录生活。
-                    我相信技术可以改变世界，而积极的心态可以让每一天都充满可能！
-                </p>
-                <p>
-                    在学习编程的路上，我始终坚持"学以致用"的理念，不断探索新技术，
-                    同时也乐于分享自己的学习心得和经验。希望能在技术的海洋中继续航行，
-                    认识更多志同道合的朋友！
-                </p>
+        <!-- 每日文章 -->
+        <section class="article-section">
+            <h2><i class="fas fa-newspaper"></i> 每日文章</h2>
+            <div class="article-meta">
+                <span><i class="fas fa-calendar-alt"></i> 2026-03-19</span>
+                <span><i class="fas fa-user"></i> Lixia</span>
+                <span><i class="fas fa-folder"></i> 技术实践</span>
+            </div>
+            <h3 class="article-title">阳光小站 CSS 动画与响应式优化实战总结</h3>
+            <div class="article-multicol">
+                <h3>导航栏 Hover 动画</h3>
+                <p>为导航栏链接添加了基于 ::after 伪元素的下划线滑入动画。核心思路是将伪元素初始宽度设为 0、定位在链接中央，hover 时通过 width 和 left 的过渡实现从中间向两侧展开的效果。使用 cubic-bezier 缓动函数让动画更加自然流畅。</p>
+                <p>当前激活页面的导航链接始终显示下划线，采用奶油黄色配合发光效果，与普通 hover 的白色下划线形成视觉区分。移动端汉堡菜单展开时，通过 animation-delay 递增让每个菜单项从左侧依次错落滑入。</p>
+                <h3>页面入场动画</h3>
+                <p>定义了 slideUpFadeIn 关键帧动画，元素从下方 40px 处淡入到原始位置。配合 Intersection Observer API，实现了滚动触发动画——只有当元素进入视口时才播放，且只播放一次。通过 CSS 变量控制每个元素的延迟时间，产生错落入场的视觉效果。</p>
+                <h3>响应式断点优化</h3>
+                <p>将所有关键标题的固定 font-size 改为 clamp() 函数，字体在 320px 到 1024px 之间平滑过渡。明确控制爱好卡片网格在不同屏幕下的列数：桌面端 3 列、平板 2 列、手机 1 列。将移动端菜单的展开方式改为基于 max-height 的过渡动画。</p>
+                <h3>暗色模式切换</h3>
+                <p>采用 data-theme 属性加 CSS 变量覆盖的方案，在页面加载前通过 IIFE 立即恢复主题偏好避免闪烁。导航栏中的切换按钮内含太阳和月亮双图标，通过旋转动画实现平滑切换。同时支持 prefers-color-scheme 系统偏好检测。</p>
+            </div>
+            <div class="article-more">
+                <a href="blogs/20260319.md" target="_blank" class="btn-read-more">
+                    <i class="fas fa-book-open"></i> 阅读完整文章
+                </a>
             </div>
         </section>
 

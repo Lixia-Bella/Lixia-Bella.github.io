@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>文章阅读 - 阳光小站</title>
+		<link rel="stylesheet" href="styles/style.css" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+		/>
+		<style>
+			/* 博客文章页面专用样式 */
+			.blog-container {
+				max-width: 860px;
+				margin: 0 auto;
+				padding: 30px 20px 60px;
+			}
+
+			.blog-back-link {
+				display: inline-flex;
+				align-items: center;
+				gap: 8px;
+				color: var(--lavender-dark);
+				font-size: 0.95rem;
+				font-weight: 500;
+				text-decoration: none;
+				margin-bottom: 24px;
+				padding: 8px 16px;
+				border-radius: var(--radius-small);
+				transition: var(--transition-fast);
+			}
+
+			.blog-back-link:hover {
+				background: var(--lavender-light);
+				color: var(--text-heading);
+			}
+
+			.blog-card {
+				background: var(--bg-card);
+				border-radius: var(--radius-large);
+				border: 1px solid var(--border-lavender);
+				box-shadow: var(--shadow-card);
+				padding: 40px 48px;
+				position: relative;
+				overflow: hidden;
+			}
+
+			.blog-card::before {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				height: 4px;
+				background: var(--gradient-pink-lavender);
+			}
+
+			/* 加载状态 */
+			.blog-loading {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				padding: 80px 20px;
+				color: var(--text-secondary);
+				gap: 16px;
+			}
+
+			.blog-loading i {
+				font-size: 2rem;
+				color: var(--lavender);
+				animation: spin 1s linear infinite;
+			}
+
+			@keyframes spin {
+				from { transform: rotate(0deg); }
+				to { transform: rotate(360deg); }
+			}
+
+			.blog-error {
+				text-align: center;
+				padding: 60px 20px;
+				color: var(--text-secondary);
+			}
+
+			.blog-error i {
+				font-size: 3rem;
+				color: var(--primary-pink);
+				margin-bottom: 16px;
+				display: block;
+			}
+
+			.blog-error p {
+				margin-bottom: 20px;
+			}
+
+			/* Markdown 渲染后的文章排版 */
+			.blog-article h1 {
+				color: var(--text-heading);
+				font-size: clamp(1.4rem, 3vw + 0.5rem, 2rem);
+				font-weight: 700;
+				margin-bottom: 8px;
+				line-height: 1.4;
+				border-bottom: 3px solid var(--primary-pink-light);
+				padding-bottom: 16px;
+			}
+
+			.blog-article h2 {
+				color: var(--text-heading);
+				font-size: clamp(1.15rem, 2vw + 0.4rem, 1.5rem);
+				font-weight: 700;
+				margin-top: 36px;
+				margin-bottom: 16px;
+				padding-left: 14px;
+				border-left: 4px solid var(--lavender);
+				line-height: 1.4;
+			}
+
+			.blog-article h3 {
+				color: var(--text-heading);
+				font-size: clamp(1rem, 1.5vw + 0.3rem, 1.2rem);
+				font-weight: 600;
+				margin-top: 28px;
+				margin-bottom: 12px;
+				line-height: 1.4;
+			}
+
+			.blog-article h3::before {
+				content: '▸ ';
+				color: var(--mint-green);
+			}
+
+			.blog-article p {
+				color: var(--text-primary);
+				line-height: 1.85;
+				margin-bottom: 16px;
+				text-align: justify;
+			}
+
+			.blog-article blockquote {
+				border-left: 4px solid var(--primary-pink-light);
+				background: linear-gradient(135deg, rgba(242,166,179,0.06), rgba(195,177,225,0.06));
+				padding: 16px 20px;
+				margin: 20px 0;
+				border-radius: 0 var(--radius-small) var(--radius-small) 0;
+				color: var(--text-secondary);
+				font-style: italic;
+			}
+
+			.blog-article blockquote p {
+				margin-bottom: 0;
+				color: var(--text-secondary);
+			}
+
+			.blog-article code {
+				background: linear-gradient(135deg, rgba(195,177,225,0.15), rgba(167,199,231,0.15));
+				color: var(--lavender-dark);
+				padding: 2px 7px;
+				border-radius: 5px;
+				font-size: 0.9em;
+				font-family: 'Menlo', 'Consolas', 'Monaco', monospace;
+			}
+
+			.blog-article pre {
+				background: #f8f6fb;
+				border: 1px solid var(--border-lavender);
+				border-radius: var(--radius-medium);
+				padding: 20px;
+				overflow-x: auto;
+				margin: 20px 0;
+				position: relative;
+			}
+
+			.blog-article pre code {
+				background: none;
+				color: var(--text-primary);
+				padding: 0;
+				font-size: 0.88em;
+				line-height: 1.6;
+			}
+
+			.blog-article ul,
+			.blog-article ol {
+				margin: 12px 0 16px;
+				padding-left: 24px;
+				color: var(--text-primary);
+				line-height: 1.8;
+			}
+
+			.blog-article li {
+				margin-bottom: 6px;
+			}
+
+			.blog-article li::marker {
+				color: var(--lavender);
+			}
+
+			.blog-article hr {
+				border: none;
+				height: 2px;
+				background: var(--gradient-macaron);
+				margin: 32px 0;
+				border-radius: 1px;
+			}
+
+			.blog-article a {
+				color: var(--sky-blue-dark);
+				text-decoration: none;
+				border-bottom: 1px dashed var(--sky-blue-light);
+				transition: var(--transition-fast);
+			}
+
+			.blog-article a:hover {
+				color: var(--lavender-dark);
+				border-bottom-color: var(--lavender);
+			}
+
+			.blog-article img {
+				max-width: 100%;
+				border-radius: var(--radius-medium);
+				box-shadow: var(--shadow-soft);
+				margin: 16px 0;
+			}
+
+			.blog-article table {
+				width: 100%;
+				border-collapse: collapse;
+				margin: 20px 0;
+				border-radius: var(--radius-small);
+				overflow: hidden;
+			}
+
+			.blog-article th {
+				background: var(--gradient-pink-lavender);
+				color: var(--text-white);
+				padding: 12px 16px;
+				text-align: left;
+				font-weight: 600;
+			}
+
+			.blog-article td {
+				padding: 10px 16px;
+				border-bottom: 1px solid var(--border-light);
+			}
+
+			.blog-article tr:hover td {
+				background: rgba(195, 177, 225, 0.05);
+			}
+
+			/* 暗色模式适配 */
+			[data-theme="dark"] .blog-article pre {
+				background: #1e1e2e;
+				border-color: rgba(155, 136, 196, 0.3);
+			}
+
+			[data-theme="dark"] .blog-article code {
+				background: rgba(155, 136, 196, 0.2);
+				color: var(--lavender-dark);
+			}
+
+			[data-theme="dark"] .blog-article pre code {
+				background: none;
+				color: var(--text-primary);
+			}
+
+			[data-theme="dark"] .blog-article blockquote {
+				background: rgba(155, 136, 196, 0.08);
+				border-left-color: var(--primary-pink-dark);
+			}
+
+			[data-theme="dark"] .blog-back-link:hover {
+				background: rgba(155, 136, 196, 0.15);
+			}
+
+			/* 暗色模式下使用暗色代码高亮主题 */
+			[data-theme="dark"] .hljs {
+				background: #1e1e2e !important;
+				color: #cdd6f4 !important;
+			}
+
+			/* 响应式适配 */
+			@media (max-width: 768px) {
+				.blog-card {
+					padding: 28px 24px;
+					border-radius: var(--radius-medium);
+				}
+
+				.blog-container {
+					padding: 20px 12px 40px;
+				}
+			}
+
+			@media (max-width: 480px) {
+				.blog-card {
+					padding: 20px 16px;
+				}
+
+				.blog-article pre {
+					padding: 14px;
+					font-size: 0.82em;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<!-- 响应式导航栏 -->
+		<nav class="navbar">
+			<a
+				href="profile.html"
+				class="nav-brand-avatar"
+				title="点击查看个人详情"
+			>
+				<img
+					src="images/image1.png"
+					alt="我的头像"
+					class="nav-avatar"
+				/>
+				<div class="nav-avatar-glow"></div>
+			</a>
+			<div class="nav-brand-info">
+				<span class="nav-brand-title">阳光小站</span>
+				<span class="nav-brand-desc"
+					>用代码创造美好，用文字记录生活</span
+				>
+			</div>
+
+			<!-- 主题切换按钮 -->
+			<button
+				class="theme-toggle"
+				id="themeToggle"
+				aria-label="切换暗色模式"
+			>
+				<i class="fas fa-sun icon-sun"></i>
+				<i class="fas fa-moon icon-moon"></i>
+			</button>
+
+			<!-- 移动端汉堡菜单按钮 -->
+			<button class="nav-toggle" id="navToggle" aria-label="切换导航菜单">
+				<span class="hamburger"></span>
+			</button>
+
+			<!-- 导航链接 -->
+			<ul class="nav-menu" id="navMenu">
+				<li>
+					<a href="index.html" class="nav-link"
+						><i class="fas fa-home"></i> 首页</a
+					>
+				</li>
+				<li>
+					<a href="quiz.html" class="nav-link"
+						><i class="fas fa-gamepad"></i> 知识问答</a
+					>
+				</li>
+				<li>
+					<a href="rewards.html" class="nav-link"
+						><i class="fas fa-gift"></i> 奖励池</a
+					>
+				</li>
+				<li>
+					<a href="profile.html" class="nav-link"
+						><i class="fas fa-user"></i> 个人简介</a
+					>
+				</li>
+				<li>
+					<a
+						href="https://Bella-bella.github.io/"
+						target="_blank"
+						class="nav-link"
+						><i class="fas fa-blog"></i> 我的博客</a
+					>
+				</li>
+			</ul>
+		</nav>
+
+		<!-- 博客文章内容 -->
+		<main class="main-content">
+			<div class="blog-container">
+				<a href="index.html" class="blog-back-link">
+					<i class="fas fa-arrow-left"></i> 返回首页
+				</a>
+				<div class="blog-card">
+					<div id="blogContent" class="blog-loading">
+						<i class="fas fa-spinner"></i>
+						<span>正在加载文章...</span>
+					</div>
+				</div>
+			</div>
+		</main>
+
+		<!-- 页脚 -->
+		<footer class="footer">
+			<p>
+				&copy; 2026 阳光小站 | Made with
+				<i class="fas fa-heart" style="color: #ff6b6b"></i> by Bella
+			</p>
+		</footer>
+
+		<script src="scripts/main.js"></script>
+		<!-- marked.js 用于 Markdown 转 HTML -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+		<!-- highlight.js 用于代码高亮 -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+		<script>
+			(function () {
+				var container = document.getElementById('blogContent');
+				var params = new URLSearchParams(window.location.search);
+				var file = params.get('file');
+
+				if (!file) {
+					showError('未指定文章路径');
+					return;
+				}
+
+				// 安全校验：只允许加载 blogs 目录下的 .md 文件名（不含路径分隔符）
+				if (!/^[\w\-]+$/.test(file)) {
+					showError('无效的文章名称');
+					return;
+				}
+
+				// 配置 marked 渲染器
+				marked.setOptions({
+					highlight: function (code, lang) {
+						if (lang && hljs.getLanguage(lang)) {
+							return hljs.highlight(code, { language: lang }).value;
+						}
+						return hljs.highlightAuto(code).value;
+					},
+					breaks: false,
+					gfm: true,
+				});
+
+				// 通过动态 <script> 标签加载文章数据（兼容 file:// 协议）
+				var script = document.createElement('script');
+				script.src = 'blogs/' + file + '.js';
+				script.onload = function () {
+					var md = window.__BLOG_MD__;
+					if (!md) {
+						showError('文章数据为空');
+						return;
+					}
+					var html = marked.parse(md);
+					container.className = 'blog-article';
+					container.innerHTML = html;
+
+					var h1 = container.querySelector('h1');
+					if (h1) {
+						document.title = h1.textContent + ' - 阳光小站';
+					}
+
+					// 清理全局变量
+					delete window.__BLOG_MD__;
+				};
+				script.onerror = function () {
+					showError('文章加载失败，请检查文件是否存在');
+				};
+				document.body.appendChild(script);
+
+				function showError(msg) {
+					container.className = 'blog-error';
+					container.innerHTML =
+						'<i class="fas fa-exclamation-circle"></i>' +
+						'<p>' + msg + '</p>' +
+						'<a href="index.html" class="btn-read-more">' +
+						'<i class="fas fa-home"></i> 返回首页</a>';
+				}
+			})();
+		</script>
+	</body>
+</html>

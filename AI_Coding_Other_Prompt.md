@@ -190,3 +190,63 @@ JS 变更 (scripts/main.js)：
 320px：头像 36px，隐藏站名信息只留头像
 这样左侧头像清晰可辨，右侧导航链接精致不抢眼，整体比例更加协调统一。
 ```
+
+### Prompt 8
+
+@index.html:139-147 这里的阅读完整文章跳过去之后应该把 markdown 转成正常的网页格式，不然阅读体验感太差。
+
+```
+做了什么：
+
+创建了 blog.html — 一个专门的博客文章阅读页面，核心功能包括：
+
+通过 URL 参数 ?file=blogs/xxx.md 接收文章路径
+使用 marked.js（CDN）将 Markdown 实时渲染为格式化的 HTML
+使用 highlight.js 对代码块进行语法高亮
+安全校验：只允许加载 blogs/ 目录下的 .md 文件，防止路径遍历
+加载状态提示和错误处理
+文章排版样式 — 与站点马卡龙色系保持一致：
+
+h1 带粉色底部边框，h2 带紫色左侧边框，h3 带薄荷绿标记
+引用块、代码块、表格等都有精心设计的样式
+完整的暗色模式适配
+响应式布局（768px / 480px 断点）
+修改了 index.html — 将"阅读完整文章"链接从直接打开 .md 文件改为：
+
+href="blog.html?file=blogs/20260319.md"
+同时去掉了 target="_blank"，让文章在当前窗口打开（页面顶部有"返回首页"按钮方便返回）。
+
+现在点击"阅读完整文章"会跳转到一个排版精美的网页，而不是显示原始 Markdown 文本了。
+```
+
+### Prompt 9
+
+Failed to fetch：现在点击“阅读完整文章”后页面报错，报错信息：Failed to fetch。
+
+```
+这个问题是因为直接用浏览器打开本地 HTML 文件（file:// 协议）时，fetch API 无法加载本地文件，会被浏览器的安全策略阻止。
+
+我来修改 blog.html，改用 XMLHttpRequest 来兼容 file:// 协议，这样不需要启动本地服务器也能正常工作。
+原因是你是直接双击打开 HTML 文件（file:// 协议），而浏览器的安全策略禁止 fetch API 在 file:// 下加载本地文件。
+
+修改内容： 将 fetch() 替换为 XMLHttpRequest。XMLHttpRequest 在 file:// 协议下可以正常读取同目录的本地文件，同时也兼容 http:// 协议。关键处理是当 xhr.status === 0（file:// 下的特征）但 responseText 有内容时，也视为加载成功。
+
+现在再点击"阅读完整文章"应该能正常显示渲染后的文章了。
+
+还是报错了：
+这次彻底换了方案，不再依赖 fetch 或 XMLHttpRequest：
+
+修改思路：
+
+新建 blogs/20260319.js — 把 Markdown 内容包装成一个 JS 变量 window.__BLOG_MD__，浏览器加载 <script src="..."> 标签不受 file:// 同源策略限制
+
+修改 blog.html — 改为动态创建 <script> 标签加载对应的 .js 文件，加载完成后读取 window.__BLOG_MD__ 进行 Markdown 渲染
+
+修改 index.html — 链接改为 blog.html?file=20260319，只传文章名
+
+以后新增文章的流程：
+
+写好 blogs/xxx.md
+同时创建 blogs/xxx.js，把 Markdown 内容赋值给 window.__BLOG_MD__
+链接写成 blog.html?file=xxx
+```

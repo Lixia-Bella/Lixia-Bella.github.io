@@ -18,6 +18,7 @@
   - [第一周：前端核心（HTML/CSS/ES6+）+ AI 工具入门](#第一周前端核心htmlcsses6-ai-工具入门)
   - [周一学习计划](#周一学习计划)
   - [周二学习计划](#周二学习计划)
+  - [周三学习计划](#周三学习计划)
   - [Safe Web Fonts（安全网页字体）](#safe-web-fonts安全网页字体)
   - [CSS 选择器](#css-选择器)
 
@@ -862,5 +863,483 @@ h1 {
 | cubic-bezier 可视化   | [https://cubic-bezier.com/](https://cubic-bezier.com/)                                                                                                                           |
 | Animista 动画生成器     | [https://animista.net/](https://animista.net/)                                                                                                                                   |
 | CSS Tricks - 动画指南  | [https://css-tricks.com/almanac/properties/a/animation/](https://css-tricks.com/almanac/properties/a/animation/)                                                                 |
+
+
+---
+
+#### 周三学习计划
+
+##### 学习目标
+
+- 掌握 JavaScript ES6+ 核心语法（let/const、箭头函数、模板字符串、解构赋值）
+- 理解 ES6 模块化（import/export）的使用方式
+- 掌握数组高阶方法（map、filter、reduce、forEach）
+- 理解 Promise 与 async/await 异步编程基础
+- 通过实战练习将 JS 应用到现有项目中
+
+##### 学习内容与步骤
+
+###### 第一步：ES6+ 变量声明与基础语法（约 20 分钟）
+
+**var vs let vs const：**
+
+
+| 关键字     | 作用域  | 可重新赋值 | 可重复声明 | 提升行为           | 推荐场景     |
+| ------- | ---- | ----- | ----- | -------------- | -------- |
+| `var`   | 函数作用域 | ✅     | ✅     | 变量提升（值为 undefined） | ❌ 不推荐使用 |
+| `let`   | 块级作用域 | ✅     | ❌     | 暂时性死区（TDZ）     | 需要重新赋值时  |
+| `const` | 块级作用域 | ❌     | ❌     | 暂时性死区（TDZ）     | 默认首选     |
+
+
+**最佳实践：** 默认使用 `const`，只在需要重新赋值时使用 `let`，永远不用 `var`。
+
+```javascript
+// const - 常量声明（推荐默认使用）
+const API_URL = 'https://api.example.com';
+const user = { name: '小明', age: 25 };
+user.age = 26; // ✅ 可以修改对象属性
+// user = {};  // ❌ 不能重新赋值
+
+// let - 需要重新赋值时使用
+let count = 0;
+count += 1; // ✅
+
+// 块级作用域
+if (true) {
+  let x = 10;
+  const y = 20;
+}
+// console.log(x); // ❌ ReferenceError
+```
+
+**模板字符串（Template Literals）：**
+
+```javascript
+const name = '小明';
+const age = 25;
+
+// ES5 字符串拼接
+const msg1 = '你好，我是' + name + '，今年' + age + '岁。';
+
+// ES6 模板字符串（推荐）
+const msg2 = `你好，我是${name}，今年${age}岁。`;
+
+// 支持多行文本
+const html = `
+  <div class="card">
+    <h2>${name}</h2>
+    <p>年龄：${age}</p>
+  </div>
+`;
+
+// 支持表达式
+const price = 99.5;
+const quantity = 3;
+const total = `总价：¥${(price * quantity).toFixed(2)}`;
+```
+
+**推荐阅读：**
+
+- [MDN - let](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/let)
+- [MDN - const](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/const)
+- [MDN - 模板字符串](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Template_literals)
+
+###### 第二步：箭头函数与解构赋值（约 25 分钟）
+
+**箭头函数（Arrow Functions）：**
+
+```javascript
+// 传统函数
+function add(a, b) {
+  return a + b;
+}
+
+// 箭头函数
+const add = (a, b) => a + b;
+
+// 单参数可省略括号
+const double = x => x * 2;
+
+// 多行需要大括号和 return
+const greet = (name) => {
+  const message = `你好，${name}！`;
+  return message;
+};
+
+// 返回对象需要用括号包裹
+const createUser = (name, age) => ({ name, age });
+```
+
+**箭头函数 vs 普通函数的关键区别：**
+
+
+| 特性          | 普通函数                | 箭头函数           |
+| ----------- | ------------------- | -------------- |
+| `this` 绑定   | 动态绑定（调用时决定）         | 词法绑定（定义时决定）    |
+| `arguments` | 有                   | 无（使用剩余参数 `...`） |
+| 作为构造函数      | 可以（`new`）           | 不可以            |
+| 适用场景        | 对象方法、构造函数           | 回调函数、数组方法      |
+
+
+**解构赋值（Destructuring）：**
+
+```javascript
+// 数组解构
+const [first, second, ...rest] = [1, 2, 3, 4, 5];
+// first = 1, second = 2, rest = [3, 4, 5]
+
+// 跳过元素
+const [, , third] = [1, 2, 3];
+// third = 3
+
+// 默认值
+const [a = 0, b = 0] = [1];
+// a = 1, b = 0
+
+// 对象解构
+const { name, age, city = '北京' } = { name: '小明', age: 25 };
+// name = '小明', age = 25, city = '北京'
+
+// 重命名
+const { name: userName, age: userAge } = { name: '小明', age: 25 };
+// userName = '小明', userAge = 25
+
+// 嵌套解构
+const { address: { province, city } } = {
+  address: { province: '广东', city: '深圳' }
+};
+
+// 函数参数解构（非常实用）
+const printUser = ({ name, age, role = '用户' }) => {
+  console.log(`${name}，${age}岁，角色：${role}`);
+};
+printUser({ name: '小明', age: 25 });
+```
+
+**展开运算符（Spread Operator）：**
+
+```javascript
+// 数组展开
+const arr1 = [1, 2, 3];
+const arr2 = [...arr1, 4, 5]; // [1, 2, 3, 4, 5]
+
+// 对象展开（浅拷贝）
+const obj1 = { a: 1, b: 2 };
+const obj2 = { ...obj1, c: 3 }; // { a: 1, b: 2, c: 3 }
+
+// 合并对象（后面的属性覆盖前面的）
+const defaults = { theme: 'light', lang: 'zh' };
+const userSettings = { theme: 'dark' };
+const settings = { ...defaults, ...userSettings };
+// { theme: 'dark', lang: 'zh' }
+```
+
+**推荐阅读：**
+
+- [MDN - 箭头函数](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/Arrow_functions)
+- [MDN - 解构赋值](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
+- [MDN - 展开语法](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
+
+###### 第三步：数组高阶方法（约 25 分钟）
+
+**核心概念：** 高阶方法是接收函数作为参数的方法，它们不会修改原数组，而是返回新数组或新值。
+
+**常用数组方法对比：**
+
+
+| 方法          | 作用         | 返回值    | 是否改变原数组 |
+| ----------- | ---------- | ------ | ------- |
+| `forEach()` | 遍历数组       | `undefined` | 否       |
+| `map()`     | 映射/转换每个元素  | 新数组    | 否       |
+| `filter()`  | 过滤符合条件的元素  | 新数组    | 否       |
+| `reduce()`  | 将数组归约为单个值  | 累积值    | 否       |
+| `find()`    | 查找第一个符合条件的 | 元素或 undefined | 否       |
+| `some()`    | 是否有元素满足条件  | 布尔值    | 否       |
+| `every()`   | 是否所有元素满足条件 | 布尔值    | 否       |
+
+
+```javascript
+const products = [
+  { name: '键盘', price: 299, category: '外设' },
+  { name: '鼠标', price: 149, category: '外设' },
+  { name: '显示器', price: 2499, category: '显示' },
+  { name: '耳机', price: 599, category: '音频' },
+  { name: '摄像头', price: 399, category: '外设' },
+];
+
+// map - 提取所有商品名称
+const names = products.map(p => p.name);
+// ['键盘', '鼠标', '显示器', '耳机', '摄像头']
+
+// filter - 筛选价格低于 500 的商品
+const affordable = products.filter(p => p.price < 500);
+
+// reduce - 计算总价
+const totalPrice = products.reduce((sum, p) => sum + p.price, 0);
+// 3945
+
+// find - 查找第一个外设类商品
+const firstPeripheral = products.find(p => p.category === '外设');
+// { name: '键盘', price: 299, category: '外设' }
+
+// some - 是否有超过 2000 的商品
+const hasExpensive = products.some(p => p.price > 2000);
+// true
+
+// 链式调用（非常常见）
+const result = products
+  .filter(p => p.category === '外设')
+  .map(p => `${p.name}：¥${p.price}`)
+  .join('、');
+// '键盘：¥299、鼠标：¥149、摄像头：¥399'
+```
+
+**reduce 进阶用法：**
+
+```javascript
+// 按类别分组
+const grouped = products.reduce((acc, p) => {
+  if (!acc[p.category]) {
+    acc[p.category] = [];
+  }
+  acc[p.category].push(p);
+  return acc;
+}, {});
+// { 外设: [...], 显示: [...], 音频: [...] }
+
+// 统计各类别数量
+const counts = products.reduce((acc, p) => {
+  acc[p.category] = (acc[p.category] || 0) + 1;
+  return acc;
+}, {});
+// { 外设: 3, 显示: 1, 音频: 1 }
+```
+
+**推荐阅读：**
+
+- [MDN - Array.prototype.map()](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
+- [MDN - Array.prototype.filter()](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
+- [MDN - Array.prototype.reduce()](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce)
+
+###### 第四步：Promise 与 async/await（约 25 分钟）
+
+**回调地狱问题：**
+
+```javascript
+// ❌ 回调地狱 - 难以阅读和维护
+getData(function(a) {
+  getMoreData(a, function(b) {
+    getEvenMoreData(b, function(c) {
+      console.log(c);
+    });
+  });
+});
+```
+
+**Promise 基础：**
+
+```javascript
+// Promise 有三种状态：pending（等待）、fulfilled（成功）、rejected（失败）
+const fetchData = (url) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (url) {
+        resolve({ data: '请求成功', url });
+      } else {
+        reject(new Error('URL 不能为空'));
+      }
+    }, 1000);
+  });
+};
+
+// 使用 Promise
+fetchData('https://api.example.com')
+  .then(result => {
+    console.log(result.data);
+    return fetchData('https://api.example.com/next');
+  })
+  .then(result => {
+    console.log(result.data);
+  })
+  .catch(error => {
+    console.error('请求失败：', error.message);
+  })
+  .finally(() => {
+    console.log('请求完成（无论成功或失败）');
+  });
+```
+
+**Promise 静态方法：**
+
+
+| 方法                 | 说明                | 适用场景      |
+| ------------------ | ----------------- | --------- |
+| `Promise.all()`    | 所有 Promise 都成功才成功 | 并行请求，全部需要 |
+| `Promise.allSettled()` | 等待所有完成（不管成败）  | 批量操作，需要所有结果 |
+| `Promise.race()`   | 第一个完成的结果（成功或失败）   | 超时控制      |
+| `Promise.any()`    | 第一个成功的结果          | 多源竞速      |
+
+
+```javascript
+// Promise.all - 并行请求
+const [users, posts, comments] = await Promise.all([
+  fetch('/api/users').then(r => r.json()),
+  fetch('/api/posts').then(r => r.json()),
+  fetch('/api/comments').then(r => r.json()),
+]);
+```
+
+**async/await（推荐方式）：**
+
+```javascript
+// async 函数始终返回 Promise
+const loadUserData = async (userId) => {
+  try {
+    const response = await fetch(`/api/users/${userId}`);
+
+    if (!response.ok) {
+      throw new Error(`HTTP 错误：${response.status}`);
+    }
+
+    const user = await response.json();
+    const posts = await fetch(`/api/users/${userId}/posts`).then(r => r.json());
+
+    return { user, posts };
+  } catch (error) {
+    console.error('加载用户数据失败：', error.message);
+    throw error;
+  }
+};
+
+// 调用
+loadUserData(1)
+  .then(data => console.log(data))
+  .catch(err => console.error(err));
+```
+
+**推荐阅读：**
+
+- [MDN - Promise](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+- [MDN - async function](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/async_function)
+- [MDN - await](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/await)
+
+###### 第五步：ES6 模块化（约 15 分钟）
+
+**核心概念：** ES6 模块化通过 `import` 和 `export` 实现代码的拆分和复用，每个文件就是一个模块。
+
+```javascript
+// utils.js - 导出
+// 命名导出（Named Export）
+export const formatDate = (date) => {
+  return new Date(date).toLocaleDateString('zh-CN');
+};
+
+export const formatPrice = (price) => {
+  return `¥${price.toFixed(2)}`;
+};
+
+// 默认导出（Default Export）- 每个模块只能有一个
+const utils = { formatDate, formatPrice };
+export default utils;
+```
+
+```javascript
+// app.js - 导入
+// 导入命名导出
+import { formatDate, formatPrice } from './utils.js';
+
+// 导入默认导出
+import utils from './utils.js';
+
+// 导入全部命名导出
+import * as Utils from './utils.js';
+
+// 重命名导入
+import { formatDate as fmtDate } from './utils.js';
+```
+
+**在 HTML 中使用模块：**
+
+```html
+<!-- type="module" 启用 ES6 模块 -->
+<script type="module" src="app.js"></script>
+
+<!-- 内联模块 -->
+<script type="module">
+  import { formatDate } from './utils.js';
+  console.log(formatDate(Date.now()));
+</script>
+```
+
+**推荐阅读：**
+
+- [MDN - JavaScript 模块](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Modules)
+- [MDN - import](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/import)
+- [MDN - export](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/export)
+
+###### 第六步：动手实践 - 为现有项目添加 JS 交互（约 40 分钟）
+
+基于周一、周二已完成的项目，完成以下实战任务：
+
+**任务一：使用 ES6 重构现有 JS 代码**
+
+要求：
+
+1. 将现有项目中的 `var` 全部替换为 `const` / `let`
+2. 将普通函数改写为箭头函数（注意 `this` 绑定场景）
+3. 使用模板字符串替换字符串拼接
+4. 使用解构赋值简化代码
+
+**任务二：实现博客文章列表的动态渲染**
+
+要求：
+
+1. 创建一个博客文章数据数组（包含标题、日期、摘要、标签等字段）
+2. 使用 `map()` 方法动态生成文章卡片的 HTML
+3. 使用 `filter()` 实现按标签筛选文章
+4. 使用 `sort()` 实现按日期排序
+
+**任务三：实现异步数据加载**
+
+要求：
+
+1. 使用 `fetch` + `async/await` 从 `blogs/` 目录加载文章数据
+2. 加载过程中显示 loading 动画（使用周二学的 CSS 动画）
+3. 加载失败时显示友好的错误提示
+4. 使用 `Promise.all()` 并行加载多个资源
+
+**任务四：使用 ES6 模块化组织代码**
+
+要求：
+
+1. 将工具函数抽取到 `js/utils.js` 模块
+2. 将博客相关逻辑抽取到 `js/blog.js` 模块
+3. 在 HTML 中使用 `<script type="module">` 引入
+4. 确保模块间的依赖关系清晰
+
+##### 今日作业
+
+- 阅读 MDN ES6+ 相关文档（let/const、箭头函数、解构赋值）
+- 完成任务一：使用 ES6 语法重构现有代码
+- 完成任务二：动态渲染博客文章列表
+- 完成任务三：实现异步数据加载
+- （可选）完成任务四：ES6 模块化组织代码
+- 在浏览器控制台中练习数组高阶方法
+- 记录学习笔记，整理 ES6+ 常用语法速查表
+
+##### 学习资源汇总
+
+
+| 资源                    | 链接                                                                                                                                                                                                         |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| MDN - let             | [https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/let](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/let)                                     |
+| MDN - const           | [https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/const](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/const)                                 |
+| MDN - 箭头函数            | [https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/Arrow_functions](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/Arrow_functions)                 |
+| MDN - 解构赋值            | [https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) |
+| MDN - Promise         | [https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise)                       |
+| MDN - async/await     | [https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/async_function](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/async_function)                 |
+| MDN - Array 方法        | [https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array)                           |
+| MDN - JavaScript 模块   | [https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Modules](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Modules)                                                           |
+| ES6 入门教程（阮一峰）        | [https://es6.ruanyifeng.com/](https://es6.ruanyifeng.com/)                                                                                                                                                 |
 
 

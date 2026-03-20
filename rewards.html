@@ -199,7 +199,10 @@
 			</div>
 		</div>
 
-		<script src="scripts/main.js"></script>
-		<script src="scripts/quiz.js"></script>
+		<!-- ES6 模块化入口 -->
+		<script type="module" src="js/rewards.js"></script>
+		<!-- 降级兼容 -->
+		<script nomodule src="scripts/main.js"></script>
+		<script nomodule src="scripts/quiz.js"></script>
 	</body>
 </html>

@@ -1,7 +1,9 @@
 /**
- * 知识问答挑战 - 游戏核心逻辑
+ * 知识问答挑战 - 游戏核心逻辑模块
  * 包含：题库、关卡系统、积分系统、计时器、奖励池
  */
+
+import { showToast } from './utils.js';
 
 /* ========================================
    题库数据
@@ -427,285 +429,38 @@ const QUESTION_BANK = [
    关卡配置
    ======================================== */
 const LEVELS = [
-    {
-        id: 1,
-        name: '初出茅庐',
-        description: '基础入门题，热身一下吧！',
-        icon: 'fa-seedling',
-        color: 'mint',
-        questionCount: 5,
-        timePerQuestion: 30,
-        passScore: 3,
-        pointsPerCorrect: 10,
-        bonusPoints: 20,
-        difficulty: '简单',
-        unlockPoints: 0
-    },
-    {
-        id: 2,
-        name: '小试牛刀',
-        description: '稍有难度，考验基本功',
-        icon: 'fa-fire',
-        color: 'pink',
-        questionCount: 5,
-        timePerQuestion: 28,
-        passScore: 3,
-        pointsPerCorrect: 15,
-        bonusPoints: 30,
-        difficulty: '简单',
-        unlockPoints: 0
-    },
-    {
-        id: 3,
-        name: '渐入佳境',
-        description: '知识面开始拓展',
-        icon: 'fa-star',
-        color: 'lavender',
-        questionCount: 6,
-        timePerQuestion: 25,
-        passScore: 4,
-        pointsPerCorrect: 20,
-        bonusPoints: 40,
-        difficulty: '中等',
-        unlockPoints: 50
-    },
-    {
-        id: 4,
-        name: '技术达人',
-        description: '需要扎实的技术功底',
-        icon: 'fa-laptop-code',
-        color: 'blue',
-        questionCount: 6,
-        timePerQuestion: 25,
-        passScore: 4,
-        pointsPerCorrect: 25,
-        bonusPoints: 50,
-        difficulty: '中等',
-        unlockPoints: 120
-    },
-    {
-        id: 5,
-        name: '知识精英',
-        description: '综合能力的考验',
-        icon: 'fa-brain',
-        color: 'yellow',
-        questionCount: 7,
-        timePerQuestion: 22,
-        passScore: 5,
-        pointsPerCorrect: 30,
-        bonusPoints: 60,
-        difficulty: '中等',
-        unlockPoints: 220
-    },
-    {
-        id: 6,
-        name: '代码侠客',
-        description: '挑战你的编程极限',
-        icon: 'fa-code',
-        color: 'mint',
-        questionCount: 7,
-        timePerQuestion: 20,
-        passScore: 5,
-        pointsPerCorrect: 35,
-        bonusPoints: 70,
-        difficulty: '困难',
-        unlockPoints: 350
-    },
-    {
-        id: 7,
-        name: '架构大师',
-        description: '系统设计与架构思维',
-        icon: 'fa-project-diagram',
-        color: 'pink',
-        questionCount: 8,
-        timePerQuestion: 20,
-        passScore: 6,
-        pointsPerCorrect: 40,
-        bonusPoints: 80,
-        difficulty: '困难',
-        unlockPoints: 500
-    },
-    {
-        id: 8,
-        name: '算法高手',
-        description: '数据结构与算法的巅峰',
-        icon: 'fa-chart-line',
-        color: 'lavender',
-        questionCount: 8,
-        timePerQuestion: 18,
-        passScore: 6,
-        pointsPerCorrect: 45,
-        bonusPoints: 100,
-        difficulty: '困难',
-        unlockPoints: 700
-    },
-    {
-        id: 9,
-        name: '全栈王者',
-        description: '前后端通吃的终极挑战',
-        icon: 'fa-crown',
-        color: 'yellow',
-        questionCount: 10,
-        timePerQuestion: 15,
-        passScore: 7,
-        pointsPerCorrect: 50,
-        bonusPoints: 120,
-        difficulty: '地狱',
-        unlockPoints: 950
-    },
-    {
-        id: 10,
-        name: '传说之路',
-        description: '只有真正的大神才能通关',
-        icon: 'fa-trophy',
-        color: 'blue',
-        questionCount: 10,
-        timePerQuestion: 12,
-        passScore: 8,
-        pointsPerCorrect: 60,
-        bonusPoints: 150,
-        difficulty: '地狱',
-        unlockPoints: 1300
-    }
+    { id: 1, name: '初出茅庐', description: '基础入门题，热身一下吧！', icon: 'fa-seedling', color: 'mint', questionCount: 5, timePerQuestion: 30, passScore: 3, pointsPerCorrect: 10, bonusPoints: 20, difficulty: '简单', unlockPoints: 0 },
+    { id: 2, name: '小试牛刀', description: '稍有难度，考验基本功', icon: 'fa-fire', color: 'pink', questionCount: 5, timePerQuestion: 28, passScore: 3, pointsPerCorrect: 15, bonusPoints: 30, difficulty: '简单', unlockPoints: 0 },
+    { id: 3, name: '渐入佳境', description: '知识面开始拓展', icon: 'fa-star', color: 'lavender', questionCount: 6, timePerQuestion: 25, passScore: 4, pointsPerCorrect: 20, bonusPoints: 40, difficulty: '中等', unlockPoints: 50 },
+    { id: 4, name: '技术达人', description: '需要扎实的技术功底', icon: 'fa-laptop-code', color: 'blue', questionCount: 6, timePerQuestion: 25, passScore: 4, pointsPerCorrect: 25, bonusPoints: 50, difficulty: '中等', unlockPoints: 120 },
+    { id: 5, name: '知识精英', description: '综合能力的考验', icon: 'fa-brain', color: 'yellow', questionCount: 7, timePerQuestion: 22, passScore: 5, pointsPerCorrect: 30, bonusPoints: 60, difficulty: '中等', unlockPoints: 220 },
+    { id: 6, name: '代码侠客', description: '挑战你的编程极限', icon: 'fa-code', color: 'mint', questionCount: 7, timePerQuestion: 20, passScore: 5, pointsPerCorrect: 35, bonusPoints: 70, difficulty: '困难', unlockPoints: 350 },
+    { id: 7, name: '架构大师', description: '系统设计与架构思维', icon: 'fa-project-diagram', color: 'pink', questionCount: 8, timePerQuestion: 20, passScore: 6, pointsPerCorrect: 40, bonusPoints: 80, difficulty: '困难', unlockPoints: 500 },
+    { id: 8, name: '算法高手', description: '数据结构与算法的巅峰', icon: 'fa-chart-line', color: 'lavender', questionCount: 8, timePerQuestion: 18, passScore: 6, pointsPerCorrect: 45, bonusPoints: 100, difficulty: '困难', unlockPoints: 700 },
+    { id: 9, name: '全栈王者', description: '前后端通吃的终极挑战', icon: 'fa-crown', color: 'yellow', questionCount: 10, timePerQuestion: 15, passScore: 7, pointsPerCorrect: 50, bonusPoints: 120, difficulty: '地狱', unlockPoints: 950 },
+    { id: 10, name: '传说之路', description: '只有真正的大神才能通关', icon: 'fa-trophy', color: 'blue', questionCount: 10, timePerQuestion: 12, passScore: 8, pointsPerCorrect: 60, bonusPoints: 150, difficulty: '地狱', unlockPoints: 1300 }
 ];
 
 /* ========================================
    奖品池配置
    ======================================== */
 const REWARD_POOLS = [
-    {
-        id: 1,
-        name: '程序员贴纸套装',
-        description: '精美编程主题贴纸 10 张',
-        icon: 'fa-sticky-note',
-        color: 'pink',
-        requiredPoints: 100,
-        value: '约 10 元',
-        stock: 3
-    },
-    {
-        id: 2,
-        name: '创意书签套装',
-        description: '代码主题金属书签 3 枚',
-        icon: 'fa-bookmark',
-        color: 'mint',
-        requiredPoints: 150,
-        value: '约 15 元',
-        stock: 3
-    },
-    {
-        id: 3,
-        name: '编程鼠标垫',
-        description: '快捷键速查鼠标垫',
-        icon: 'fa-mouse-pointer',
-        color: 'lavender',
-        requiredPoints: 200,
-        value: '约 20 元',
-        stock: 3
-    },
-    {
-        id: 4,
-        name: 'GitHub 猫手办',
-        description: 'Octocat 迷你手办摆件',
-        icon: 'fa-cat',
-        color: 'blue',
-        requiredPoints: 300,
-        value: '约 30 元',
-        stock: 3
-    },
-    {
-        id: 5,
-        name: '代码主题马克杯',
-        description: 'Hello World 陶瓷杯',
-        icon: 'fa-mug-hot',
-        color: 'yellow',
-        requiredPoints: 350,
-        value: '约 35 元',
-        stock: 3
-    },
-    {
-        id: 6,
-        name: '机械键帽套装',
-        description: '彩色透光键帽 4 颗',
-        icon: 'fa-keyboard',
-        color: 'pink',
-        requiredPoints: 450,
-        value: '约 45 元',
-        stock: 3
-    },
-    {
-        id: 7,
-        name: 'Linux 企鹅公仔',
-        description: 'Tux 毛绒玩偶 15cm',
-        icon: 'fa-linux',
-        color: 'mint',
-        requiredPoints: 550,
-        value: '约 55 元',
-        stock: 3
-    },
-    {
-        id: 8,
-        name: '程序员T恤',
-        description: '趣味代码主题纯棉T恤',
-        icon: 'fa-tshirt',
-        color: 'lavender',
-        requiredPoints: 700,
-        value: '约 65 元',
-        stock: 3
-    },
-    {
-        id: 9,
-        name: '蓝牙机械键盘',
-        description: '迷你 68 键蓝牙机械键盘',
-        icon: 'fa-keyboard',
-        color: 'blue',
-        requiredPoints: 900,
-        value: '约 85 元',
-        stock: 3
-    },
-    {
-        id: 10,
-        name: '树莓派 Zero 套装',
-        description: 'Raspberry Pi Zero 2W 入门套件',
-        icon: 'fa-microchip',
-        color: 'yellow',
-        requiredPoints: 1200,
-        value: '约 100 元',
-        stock: 3
-    }
+    { id: 1, name: '程序员贴纸套装', description: '精美编程主题贴纸 10 张', icon: 'fa-sticky-note', color: 'pink', requiredPoints: 100, value: '约 10 元', stock: 3 },
+    { id: 2, name: '创意书签套装', description: '代码主题金属书签 3 枚', icon: 'fa-bookmark', color: 'mint', requiredPoints: 150, value: '约 15 元', stock: 3 },
+    { id: 3, name: '编程鼠标垫', description: '快捷键速查鼠标垫', icon: 'fa-mouse-pointer', color: 'lavender', requiredPoints: 200, value: '约 20 元', stock: 3 },
+    { id: 4, name: 'GitHub 猫手办', description: 'Octocat 迷你手办摆件', icon: 'fa-cat', color: 'blue', requiredPoints: 300, value: '约 30 元', stock: 3 },
+    { id: 5, name: '代码主题马克杯', description: 'Hello World 陶瓷杯', icon: 'fa-mug-hot', color: 'yellow', requiredPoints: 350, value: '约 35 元', stock: 3 },
+    { id: 6, name: '机械键帽套装', description: '彩色透光键帽 4 颗', icon: 'fa-keyboard', color: 'pink', requiredPoints: 450, value: '约 45 元', stock: 3 },
+    { id: 7, name: 'Linux 企鹅公仔', description: 'Tux 毛绒玩偶 15cm', icon: 'fa-linux', color: 'mint', requiredPoints: 550, value: '约 55 元', stock: 3 },
+    { id: 8, name: '程序员T恤', description: '趣味代码主题纯棉T恤', icon: 'fa-tshirt', color: 'lavender', requiredPoints: 700, value: '约 65 元', stock: 3 },
+    { id: 9, name: '蓝牙机械键盘', description: '迷你 68 键蓝牙机械键盘', icon: 'fa-keyboard', color: 'blue', requiredPoints: 900, value: '约 85 元', stock: 3 },
+    { id: 10, name: '树莓派 Zero 套装', description: 'Raspberry Pi Zero 2W 入门套件', icon: 'fa-microchip', color: 'yellow', requiredPoints: 1200, value: '约 100 元', stock: 3 }
 ];
 
 /* ========================================
    游戏状态管理
    ======================================== */
 const STORAGE_KEY = 'sunnyQuizData';
-
-const getGameData = () => {
-    try {
-        const data = localStorage.getItem(STORAGE_KEY);
-        if (data) {
-            return JSON.parse(data);
-        }
-    } catch (e) {
-        console.warn('读取游戏数据失败，将使用默认数据');
-    }
-    return {
-        totalPoints: 0,
-        winStreak: 0,
-        levelRecords: {},
-        exchangeHistory: [],
-        weekSeed: getWeekSeed(),
-        weekStock: {}
-    };
-};
-
-const saveGameData = (data) => {
-    try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    } catch (e) {
-        console.warn('保存游戏数据失败');
-    }
-};
 
 const getWeekSeed = () => {
     const now = new Date();
@@ -721,9 +476,29 @@ const getWeekRange = () => {
     monday.setDate(now.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
     const sunday = new Date(monday);
     sunday.setDate(monday.getDate() + 6);
-
     const format = (d) => `${d.getMonth() + 1}/${d.getDate()}`;
     return `${format(monday)} - ${format(sunday)}`;
+};
+
+const getGameData = () => {
+    try {
+        const data = localStorage.getItem(STORAGE_KEY);
+        if (data) return JSON.parse(data);
+    } catch (e) {
+        console.warn('读取游戏数据失败，将使用默认数据');
+    }
+    return {
+        totalPoints: 0, winStreak: 0, levelRecords: {},
+        exchangeHistory: [], weekSeed: getWeekSeed(), weekStock: {}
+    };
+};
+
+const saveGameData = (data) => {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    } catch (e) {
+        console.warn('保存游戏数据失败');
+    }
 };
 
 const checkWeekReset = (gameData) => {
@@ -738,10 +513,7 @@ const checkWeekReset = (gameData) => {
 
 const getRewardStock = (gameData, rewardId) => {
     const key = `reward_${rewardId}`;
-    if (gameData.weekStock[key] === undefined) {
-        return 3;
-    }
-    return gameData.weekStock[key];
+    return gameData.weekStock[key] === undefined ? 3 : gameData.weekStock[key];
 };
 
 /* ========================================
@@ -771,32 +543,80 @@ const selectQuestions = (count) => {
     return shuffled.slice(0, Math.min(count, shuffled.length));
 };
 
-function startLevel(levelId) {
-    const gameData = getGameData();
-    const level = LEVELS.find((l) => l.id === levelId);
-    if (!level) return;
+const startTimer = (seconds) => {
+    timeLeft = seconds;
+    const display = document.getElementById('timerDisplay');
+    if (display) display.textContent = timeLeft;
 
-    if (gameData.totalPoints < level.unlockPoints) {
-        showToast(`积分不足，需要 ${level.unlockPoints} 积分解锁此关卡`);
-        return;
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        if (display) display.textContent = Math.max(0, timeLeft);
+        if (display) {
+            if (timeLeft <= 5) {
+                display.parentElement.classList.add('timer-warning');
+            } else {
+                display.parentElement.classList.remove('timer-warning');
+            }
+        }
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            if (!isAnswered) handleAnswer(-1);
+        }
+    }, 1000);
+};
+
+const handleAnswer = (selectedIndex) => {
+    if (isAnswered) return;
+    isAnswered = true;
+    clearInterval(timerInterval);
+
+    const elapsed = (Date.now() - questionStartTime) / 1000;
+    totalTimeUsed += elapsed;
+
+    const q = currentQuestions[currentQuestionIndex];
+    const isCorrect = selectedIndex === q.answer;
+    if (isCorrect) correctCount++;
+
+    const optBtns = document.querySelectorAll('.option-btn');
+    optBtns.forEach((btn, idx) => {
+        btn.disabled = true;
+        if (idx === q.answer) {
+            btn.classList.add('correct');
+        } else if (idx === selectedIndex && !isCorrect) {
+            btn.classList.add('wrong');
+        }
+    });
+
+    const feedback = document.getElementById('answerFeedback');
+    const fIcon = document.getElementById('feedbackIcon');
+    const fText = document.getElementById('feedbackText');
+    const fExplain = document.getElementById('feedbackExplain');
+
+    if (feedback) feedback.style.display = 'block';
+
+    if (selectedIndex === -1) {
+        if (fIcon) fIcon.innerHTML = '<i class="fas fa-clock" style="color: var(--cream-yellow-dark);"></i>';
+        if (fText) { fText.textContent = '时间到！'; fText.className = 'feedback-text timeout'; }
+    } else if (isCorrect) {
+        if (fIcon) fIcon.innerHTML = '<i class="fas fa-check-circle" style="color: var(--mint-green-dark);"></i>';
+        if (fText) { fText.textContent = '回答正确！'; fText.className = 'feedback-text correct'; }
+    } else {
+        if (fIcon) fIcon.innerHTML = '<i class="fas fa-times-circle" style="color: var(--primary-pink-dark);"></i>';
+        if (fText) { fText.textContent = '回答错误'; fText.className = 'feedback-text wrong'; }
     }
 
-    currentLevel = level;
-    currentQuestions = selectQuestions(level.questionCount);
-    currentQuestionIndex = 0;
-    correctCount = 0;
-    totalTimeUsed = 0;
-    isAnswered = false;
+    if (fExplain) fExplain.textContent = q.explain;
 
-    const levelsSection = document.getElementById('levelsSection');
-    const gameSection = document.getElementById('gameSection');
-    if (levelsSection) levelsSection.style.display = 'none';
-    if (gameSection) gameSection.style.display = 'block';
+    const nextBtn = document.getElementById('btnNext');
+    if (nextBtn) {
+        nextBtn.innerHTML = currentQuestionIndex >= currentQuestions.length - 1
+            ? '查看结果 <i class="fas fa-chart-bar"></i>'
+            : '下一题 <i class="fas fa-arrow-right"></i>';
+    }
+};
 
-    showQuestion();
-}
-
-function showQuestion() {
+const showQuestion = () => {
     if (currentQuestionIndex >= currentQuestions.length) {
         showResult();
         return;
@@ -834,96 +654,9 @@ function showQuestion() {
 
     questionStartTime = Date.now();
     startTimer(currentLevel.timePerQuestion);
-}
-
-const startTimer = (seconds) => {
-    timeLeft = seconds;
-    const display = document.getElementById('timerDisplay');
-    if (display) display.textContent = timeLeft;
-
-    if (timerInterval) clearInterval(timerInterval);
-    timerInterval = setInterval(() => {
-        timeLeft--;
-        if (display) display.textContent = Math.max(0, timeLeft);
-
-        if (display) {
-            if (timeLeft <= 5) {
-                display.parentElement.classList.add('timer-warning');
-            } else {
-                display.parentElement.classList.remove('timer-warning');
-            }
-        }
-
-        if (timeLeft <= 0) {
-            clearInterval(timerInterval);
-            if (!isAnswered) {
-                handleAnswer(-1);
-            }
-        }
-    }, 1000);
 };
 
-function handleAnswer(selectedIndex) {
-    if (isAnswered) return;
-    isAnswered = true;
-
-    clearInterval(timerInterval);
-    const elapsed = (Date.now() - questionStartTime) / 1000;
-    totalTimeUsed += elapsed;
-
-    const q = currentQuestions[currentQuestionIndex];
-    const isCorrect = selectedIndex === q.answer;
-    if (isCorrect) correctCount++;
-
-    const optBtns = document.querySelectorAll('.option-btn');
-    optBtns.forEach((btn, idx) => {
-        btn.disabled = true;
-        if (idx === q.answer) {
-            btn.classList.add('correct');
-        } else if (idx === selectedIndex && !isCorrect) {
-            btn.classList.add('wrong');
-        }
-    });
-
-    const feedback = document.getElementById('answerFeedback');
-    const fIcon = document.getElementById('feedbackIcon');
-    const fText = document.getElementById('feedbackText');
-    const fExplain = document.getElementById('feedbackExplain');
-
-    if (feedback) feedback.style.display = 'block';
-
-    if (selectedIndex === -1) {
-        if (fIcon) fIcon.innerHTML = '<i class="fas fa-clock" style="color: var(--cream-yellow-dark);"></i>';
-        if (fText) fText.textContent = '时间到！';
-        if (fText) fText.className = 'feedback-text timeout';
-    } else if (isCorrect) {
-        if (fIcon) fIcon.innerHTML = '<i class="fas fa-check-circle" style="color: var(--mint-green-dark);"></i>';
-        if (fText) fText.textContent = '回答正确！';
-        if (fText) fText.className = 'feedback-text correct';
-    } else {
-        if (fIcon) fIcon.innerHTML = '<i class="fas fa-times-circle" style="color: var(--primary-pink-dark);"></i>';
-        if (fText) fText.textContent = '回答错误';
-        if (fText) fText.className = 'feedback-text wrong';
-    }
-
-    if (fExplain) fExplain.textContent = q.explain;
-
-    const nextBtn = document.getElementById('btnNext');
-    if (nextBtn) {
-        if (currentQuestionIndex >= currentQuestions.length - 1) {
-            nextBtn.innerHTML = '查看结果 <i class="fas fa-chart-bar"></i>';
-        } else {
-            nextBtn.innerHTML = '下一题 <i class="fas fa-arrow-right"></i>';
-        }
-    }
-}
-
-function nextQuestion() {
-    currentQuestionIndex++;
-    showQuestion();
-}
-
-function showResult() {
+const showResult = () => {
     clearInterval(timerInterval);
 
     const gameSection = document.getElementById('gameSection');
@@ -938,12 +671,7 @@ function showResult() {
 
     const gameData = getGameData();
     gameData.totalPoints += earnedPoints;
-
-    if (passed) {
-        gameData.winStreak = (gameData.winStreak || 0) + 1;
-    } else {
-        gameData.winStreak = 0;
-    }
+    gameData.winStreak = passed ? (gameData.winStreak || 0) + 1 : 0;
 
     const levelKey = `level_${currentLevel.id}`;
     if (!gameData.levelRecords[levelKey] || earnedPoints > gameData.levelRecords[levelKey].bestScore) {
@@ -969,12 +697,10 @@ function showResult() {
 
     if (passed) {
         if (rIcon) rIcon.innerHTML = '<i class="fas fa-trophy" style="color: var(--cream-yellow-dark);"></i>';
-        if (rTitle) rTitle.textContent = '恭喜通关！';
-        if (rTitle) rTitle.style.color = 'var(--mint-green-dark)';
+        if (rTitle) { rTitle.textContent = '恭喜通关！'; rTitle.style.color = 'var(--mint-green-dark)'; }
     } else {
         if (rIcon) rIcon.innerHTML = '<i class="fas fa-heart-broken" style="color: var(--primary-pink);"></i>';
-        if (rTitle) rTitle.textContent = '挑战失败，再接再厉！';
-        if (rTitle) rTitle.style.color = 'var(--primary-pink-dark)';
+        if (rTitle) { rTitle.textContent = '挑战失败，再接再厉！'; rTitle.style.color = 'var(--primary-pink-dark)'; }
     }
 
     if (rAccuracy) rAccuracy.textContent = `${accuracy}%`;
@@ -983,16 +709,44 @@ function showResult() {
 
     if (rDetail) {
         let detailHtml = `<p>答对 <strong>${correctCount}</strong> / ${currentQuestions.length} 题`;
-        if (passed) {
-            detailHtml += `，通关奖励 <strong>+${currentLevel.bonusPoints}</strong> 积分</p>`;
-        } else {
-            detailHtml += `，需答对 <strong>${currentLevel.passScore}</strong> 题才能通关</p>`;
-        }
+        detailHtml += passed
+            ? `，通关奖励 <strong>+${currentLevel.bonusPoints}</strong> 积分</p>`
+            : `，需答对 <strong>${currentLevel.passScore}</strong> 题才能通关</p>`;
         rDetail.innerHTML = detailHtml;
     }
-}
+};
 
-function retryLevel() {
+const startLevel = (levelId) => {
+    const gameData = getGameData();
+    const level = LEVELS.find((l) => l.id === levelId);
+    if (!level) return;
+
+    if (gameData.totalPoints < level.unlockPoints) {
+        showToast(`积分不足，需要 ${level.unlockPoints} 积分解锁此关卡`);
+        return;
+    }
+
+    currentLevel = level;
+    currentQuestions = selectQuestions(level.questionCount);
+    currentQuestionIndex = 0;
+    correctCount = 0;
+    totalTimeUsed = 0;
+    isAnswered = false;
+
+    const levelsSection = document.getElementById('levelsSection');
+    const gameSection = document.getElementById('gameSection');
+    if (levelsSection) levelsSection.style.display = 'none';
+    if (gameSection) gameSection.style.display = 'block';
+
+    showQuestion();
+};
+
+const nextQuestion = () => {
+    currentQuestionIndex++;
+    showQuestion();
+};
+
+const retryLevel = () => {
     if (!currentLevel) return;
     const resultSection = document.getElementById('resultSection');
     const gameSection = document.getElementById('gameSection');
@@ -1005,9 +759,9 @@ function retryLevel() {
     totalTimeUsed = 0;
     isAnswered = false;
     showQuestion();
-}
+};
 
-function backToLevels() {
+const backToLevels = () => {
     const gameSection = document.getElementById('gameSection');
     const resultSection = document.getElementById('resultSection');
     const levelsSection = document.getElementById('levelsSection');
@@ -1018,18 +772,28 @@ function backToLevels() {
 
     clearInterval(timerInterval);
     renderLevels();
-}
+};
 
-function quitGame() {
+const quitGame = () => {
     if (confirm('确定要退出答题吗？当前进度不会保存。')) {
         backToLevels();
     }
-}
+};
 
 /* ========================================
    UI 渲染
    ======================================== */
-function renderLevels() {
+const updatePointsDisplay = (gameData) => {
+    document.querySelectorAll('#totalPoints').forEach((el) => {
+        el.textContent = gameData.totalPoints;
+    });
+    const streakEl = document.getElementById('winStreak');
+    if (streakEl) streakEl.textContent = gameData.winStreak || 0;
+    const exchangedEl = document.getElementById('exchangedCount');
+    if (exchangedEl) exchangedEl.textContent = (gameData.exchangeHistory || []).length;
+};
+
+const renderLevels = () => {
     const grid = document.getElementById('levelsGrid');
     if (!grid) return;
 
@@ -1100,9 +864,103 @@ function renderLevels() {
 
         grid.appendChild(card);
     });
-}
+};
 
-function renderRewards() {
+const showExchangeModal = (rewardId) => {
+    const reward = REWARD_POOLS.find((r) => r.id === rewardId);
+    if (!reward) return;
+
+    const modal = document.getElementById('exchangeModal');
+    const body = document.getElementById('modalBody');
+
+    if (body) {
+        body.innerHTML =
+            `<div class="modal-reward-info">` +
+                `<div class="modal-reward-icon"><i class="fas ${reward.icon}"></i></div>` +
+                `<h4>${reward.name}</h4>` +
+                `<p>${reward.description}</p>` +
+                `<p class="modal-cost">需要 <strong>${reward.requiredPoints}</strong> 积分</p>` +
+            `</div>`;
+    }
+
+    if (modal) modal.style.display = 'flex';
+
+    const confirmBtn = document.getElementById('modalConfirm');
+    const cancelBtn = document.getElementById('modalCancel');
+    const closeBtn = document.getElementById('modalClose');
+
+    const closeModal = () => { if (modal) modal.style.display = 'none'; };
+
+    if (cancelBtn) cancelBtn.onclick = closeModal;
+    if (closeBtn) closeBtn.onclick = closeModal;
+    if (modal) modal.onclick = (e) => { if (e.target === modal) closeModal(); };
+
+    if (confirmBtn) {
+        confirmBtn.onclick = () => {
+            exchangeReward(rewardId);
+            closeModal();
+        };
+    }
+};
+
+const exchangeReward = (rewardId) => {
+    const gameData = getGameData();
+    const reward = REWARD_POOLS.find((r) => r.id === rewardId);
+    if (!reward) return;
+
+    const stock = getRewardStock(gameData, rewardId);
+    if (gameData.totalPoints < reward.requiredPoints) {
+        showToast('积分不足！');
+        return;
+    }
+    if (stock <= 0) {
+        showToast('该奖品已兑完！');
+        return;
+    }
+
+    gameData.totalPoints -= reward.requiredPoints;
+    gameData.weekStock[`reward_${rewardId}`] = stock - 1;
+
+    if (!gameData.exchangeHistory) gameData.exchangeHistory = [];
+    gameData.exchangeHistory.unshift({
+        rewardId, rewardName: reward.name, cost: reward.requiredPoints,
+        date: new Date().toLocaleDateString('zh-CN'), week: getWeekSeed()
+    });
+
+    saveGameData(gameData);
+    showToast(`兑换成功！${reward.name}`);
+    renderRewards();
+};
+
+const renderExchangeHistory = (gameData) => {
+    const list = document.getElementById('historyList');
+    const emptyEl = document.getElementById('emptyHistory');
+    if (!list) return;
+
+    const history = gameData.exchangeHistory || [];
+    if (history.length === 0) {
+        if (emptyEl) emptyEl.style.display = 'flex';
+        return;
+    }
+
+    if (emptyEl) emptyEl.style.display = 'none';
+
+    const html = history.slice(0, 20).map(({ rewardName, date, cost }) =>
+        `<div class="history-item">` +
+            `<div class="history-info">` +
+                `<span class="history-name">${rewardName}</span>` +
+                `<span class="history-date">${date}</span>` +
+            `</div>` +
+            `<span class="history-cost">-${cost} 积分</span>` +
+        `</div>`
+    ).join('');
+
+    const existingItems = list.querySelectorAll('.history-item');
+    existingItems.forEach((el) => { el.remove(); });
+    list.insertAdjacentHTML('beforeend', html);
+};
+
+const renderRewards = () => {
     const grid = document.getElementById('rewardsGrid');
     if (!grid) return;
 
@@ -1171,183 +1029,42 @@ function renderRewards() {
     });
 
     renderExchangeHistory(gameData);
-}
-
-const showExchangeModal = (rewardId) => {
-    const reward = REWARD_POOLS.find((r) => r.id === rewardId);
-    if (!reward) return;
-
-    const modal = document.getElementById('exchangeModal');
-    const body = document.getElementById('modalBody');
-
-    if (body) {
-        body.innerHTML =
-            `<div class="modal-reward-info">` +
-                `<div class="modal-reward-icon"><i class="fas ${reward.icon}"></i></div>` +
-                `<h4>${reward.name}</h4>` +
-                `<p>${reward.description}</p>` +
-                `<p class="modal-cost">需要 <strong>${reward.requiredPoints}</strong> 积分</p>` +
-            `</div>`;
-    }
-
-    if (modal) modal.style.display = 'flex';
-
-    const confirmBtn = document.getElementById('modalConfirm');
-    const cancelBtn = document.getElementById('modalCancel');
-    const closeBtn = document.getElementById('modalClose');
-
-    const closeModal = () => {
-        if (modal) modal.style.display = 'none';
-    };
-
-    if (cancelBtn) cancelBtn.onclick = closeModal;
-    if (closeBtn) closeBtn.onclick = closeModal;
-    if (modal) {
-        modal.onclick = (e) => {
-            if (e.target === modal) closeModal();
-        };
-    }
-
-    if (confirmBtn) {
-        confirmBtn.onclick = () => {
-            exchangeReward(rewardId);
-            closeModal();
-        };
-    }
-};
-
-const exchangeReward = (rewardId) => {
-    const gameData = getGameData();
-    const reward = REWARD_POOLS.find((r) => r.id === rewardId);
-    if (!reward) return;
-
-    const stock = getRewardStock(gameData, rewardId);
-    if (gameData.totalPoints < reward.requiredPoints) {
-        showToast('积分不足！');
-        return;
-    }
-    if (stock <= 0) {
-        showToast('该奖品已兑完！');
-        return;
-    }
-
-    gameData.totalPoints -= reward.requiredPoints;
-    const key = `reward_${rewardId}`;
-    gameData.weekStock[key] = stock - 1;
-
-    if (!gameData.exchangeHistory) gameData.exchangeHistory = [];
-    gameData.exchangeHistory.unshift({
-        rewardId,
-        rewardName: reward.name,
-        cost: reward.requiredPoints,
-        date: new Date().toLocaleDateString('zh-CN'),
-        week: getWeekSeed()
-    });
-
-    saveGameData(gameData);
-    showToast(`兑换成功！${reward.name}`);
-    renderRewards();
-};
-
-const renderExchangeHistory = (gameData) => {
-    const list = document.getElementById('historyList');
-    const emptyEl = document.getElementById('emptyHistory');
-    if (!list) return;
-
-    const history = gameData.exchangeHistory || [];
-    if (history.length === 0) {
-        if (emptyEl) emptyEl.style.display = 'flex';
-        return;
-    }
-
-    if (emptyEl) emptyEl.style.display = 'none';
-
-    const html = history.slice(0, 20).map(({ rewardName, date, cost }) =>
-        `<div class="history-item">` +
-            `<div class="history-info">` +
-                `<span class="history-name">${rewardName}</span>` +
-                `<span class="history-date">${date}</span>` +
-            `</div>` +
-            `<span class="history-cost">-${cost} 积分</span>` +
-        `</div>`
-    ).join('');
-
-    const existingItems = list.querySelectorAll('.history-item');
-    existingItems.forEach((el) => { el.remove(); });
-    list.insertAdjacentHTML('beforeend', html);
-};
-
-const updatePointsDisplay = (gameData) => {
-    const pointsEls = document.querySelectorAll('#totalPoints');
-    pointsEls.forEach((el) => {
-        el.textContent = gameData.totalPoints;
-    });
-
-    const streakEl = document.getElementById('winStreak');
-    if (streakEl) streakEl.textContent = gameData.winStreak || 0;
-
-    const exchangedEl = document.getElementById('exchangedCount');
-    if (exchangedEl) {
-        const count = (gameData.exchangeHistory || []).length;
-        exchangedEl.textContent = count;
-    }
 };
 
 /* ========================================
-   Toast 提示
+   导出初始化函数
    ======================================== */
-const showToast = (message) => {
-    const existing = document.querySelector('.toast-message');
-    if (existing) existing.remove();
 
-    const toast = document.createElement('div');
-    toast.className = 'toast-message';
-    toast.textContent = message;
-    document.body.appendChild(toast);
-
-    requestAnimationFrame(() => {
-        toast.classList.add('show');
-    });
-
-    setTimeout(() => {
-        toast.classList.remove('show');
-        setTimeout(() => { toast.remove(); }, 300);
-    }, 2500);
-};
-
-/* ========================================
-   页面初始化
-   ======================================== */
-document.addEventListener('DOMContentLoaded', () => {
-    if (document.getElementById('levelsGrid')) {
-        renderLevels();
-    }
-
-    if (document.getElementById('rewardsGrid')) {
-        renderRewards();
-    }
+/**
+ * 初始化答题页面
+ */
+export const initQuizPage = () => {
+    if (document.getElementById('levelsGrid')) renderLevels();
 
     const btnNext = document.getElementById('btnNext');
-    if (btnNext) {
-        btnNext.addEventListener('click', nextQuestion);
-    }
+    if (btnNext) btnNext.addEventListener('click', nextQuestion);
 
     const btnRetry = document.getElementById('btnRetry');
-    if (btnRetry) {
-        btnRetry.addEventListener('click', retryLevel);
-    }
+    if (btnRetry) btnRetry.addEventListener('click', retryLevel);
 
     const btnBackLevels = document.getElementById('btnBackLevels');
-    if (btnBackLevels) {
-        btnBackLevels.addEventListener('click', backToLevels);
-    }
+    if (btnBackLevels) btnBackLevels.addEventListener('click', backToLevels);
 
     const btnQuit = document.getElementById('btnQuit');
-    if (btnQuit) {
-        btnQuit.addEventListener('click', quitGame);
-    }
+    if (btnQuit) btnQuit.addEventListener('click', quitGame);
 
     let gameData = getGameData();
     gameData = checkWeekReset(gameData);
     updatePointsDisplay(gameData);
-});
+};
+
+/**
+ * 初始化奖励页面
+ */
+export const initRewardsPage = () => {
+    if (document.getElementById('rewardsGrid')) renderRewards();
+
+    let gameData = getGameData();
+    gameData = checkWeekReset(gameData);
+    updatePointsDisplay(gameData);
+};

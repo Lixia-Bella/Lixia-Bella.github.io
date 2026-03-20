@@ -86,61 +86,17 @@
 
 		<!-- 主要内容区域 -->
 		<main class="main-content">
-			<!-- 每日文章 -->
-			<section class="article-section">
-				<h2><i class="fas fa-newspaper"></i> 每日文章</h2>
-				<div class="article-meta">
-					<span><i class="fas fa-calendar-alt"></i> 2026-03-19</span>
-					<span><i class="fas fa-user"></i> Bella</span>
-					<span><i class="fas fa-folder"></i> 技术实践</span>
+			<!-- 博客文章列表（由 blog.js 动态渲染） -->
+			<section class="blog-list-section" id="blogListSection">
+				<div class="blog-list-header">
+					<h2><i class="fas fa-newspaper"></i> 文章列表</h2>
+					<div class="blog-list-controls">
+						<span class="blog-post-count"></span>
+						<div class="blog-sort-bar"></div>
+					</div>
 				</div>
-				<h3 class="article-title">
-					阳光小站 CSS 动画与响应式优化实战总结
-				</h3>
-				<div class="article-multicol">
-					<h3>导航栏 Hover 动画</h3>
-					<p>
-						为导航栏链接添加了基于 ::after
-						伪元素的下划线滑入动画。核心思路是将伪元素初始宽度设为
-						0、定位在链接中央，hover 时通过 width 和 left
-						的过渡实现从中间向两侧展开的效果。使用 cubic-bezier
-						缓动函数让动画更加自然流畅。
-					</p>
-					<p>
-						当前激活页面的导航链接始终显示下划线，采用奶油黄色配合发光效果，与普通
-						hover
-						的白色下划线形成视觉区分。移动端汉堡菜单展开时，通过
-						animation-delay 递增让每个菜单项从左侧依次错落滑入。
-					</p>
-					<h3>页面入场动画</h3>
-					<p>
-						定义了 slideUpFadeIn 关键帧动画，元素从下方 40px
-						处淡入到原始位置。配合 Intersection Observer
-						API，实现了滚动触发动画——只有当元素进入视口时才播放，且只播放一次。通过
-						CSS 变量控制每个元素的延迟时间，产生错落入场的视觉效果。
-					</p>
-					<h3>响应式断点优化</h3>
-					<p>
-						将所有关键标题的固定 font-size 改为 clamp() 函数，字体在
-						320px 到 1024px
-						之间平滑过渡。明确控制爱好卡片网格在不同屏幕下的列数：桌面端
-						3 列、平板 2 列、手机 1
-						列。将移动端菜单的展开方式改为基于 max-height
-						的过渡动画。
-					</p>
-					<h3>暗色模式切换</h3>
-					<p>
-						采用 data-theme 属性加 CSS
-						变量覆盖的方案，在页面加载前通过 IIFE
-						立即恢复主题偏好避免闪烁。导航栏中的切换按钮内含太阳和月亮双图标，通过旋转动画实现平滑切换。同时支持
-						prefers-color-scheme 系统偏好检测。
-					</p>
-				</div>
-				<div class="article-more">
-					<a href="blog.html?file=20260319" class="btn-read-more">
-						<i class="fas fa-book-open"></i> 阅读完整文章
-					</a>
-				</div>
+				<div class="blog-filter-bar"></div>
+				<div class="blog-post-list"></div>
 			</section>
 
 			<!-- 爱好列表 -->
@@ -245,6 +201,10 @@
 			</p>
 		</footer>
 
-		<script src="scripts/main.js"></script>
+		<!-- ES6 模块化入口（module 模式） -->
+		<script type="module" src="js/index.js"></script>
+		<!-- 降级兼容：不支持 module 的浏览器使用旧脚本 -->
+		<script nomodule src="scripts/main.js"></script>
+		<script nomodule src="scripts/blog.js"></script>
 	</body>
 </html>

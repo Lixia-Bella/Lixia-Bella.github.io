@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import Button from './components/Button';
 import Card from './components/Card';
+import Counter from './components/Counter';
 
 function App() {
   const handleButtonClick = (message) => {
@@ -47,6 +48,8 @@ function App() {
           onClick={() => handleButtonClick('警告：你点击了危险按钮！')} 
         />
       </div>
+
+      <Counter />
 
       <h2>卡片组件展示 (使用 map 循环渲染)</h2>
       <div className="card-list">

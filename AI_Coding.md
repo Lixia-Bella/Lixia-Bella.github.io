@@ -1519,3 +1519,140 @@ export default Counter;
 | React 官方文档（快速入门） | [https://zh-hans.react.dev/learn](https://zh-hans.react.dev/learn) |
 | React 官方文档（编写 UI） | [https://zh-hans.react.dev/learn/describing-the-ui](https://zh-hans.react.dev/learn/describing-the-ui) |
 | React 官方文档（添加交互） | [https://zh-hans.react.dev/learn/adding-interactivity](https://zh-hans.react.dev/learn/adding-interactivity) |
+
+#### 周五学习计划
+
+##### 学习目标
+- 深入理解 React Hooks 的核心概念。
+- 熟练掌握 `useState` 进行复杂状态管理。
+- 掌握 `useEffect` 处理副作用（如数据获取、订阅、手动修改 DOM 等）。
+- 能够结合 `localStorage` 实现数据的持久化存储。
+
+##### 学习内容与步骤
+
+###### 第一步：深入理解 useState（约 20 分钟）
+
+**核心概念：** `useState` 是最常用的 Hook，允许我们在函数组件中添加状态。除了基本类型，它也可以存储对象和数组。
+
+**代码示例：**
+```jsx
+import { useState } from 'react';
+
+function UserProfile() {
+  const [user, setUser] = useState({ name: '张三', age: 25 });
+
+  const updateAge = () => {
+    // 更新对象状态时，需要使用展开运算符保留原有属性
+    setUser({ ...user, age: user.age + 1 });
+  };
+
+  return (
+    <div>
+      <p>姓名：{user.name}</p>
+      <p>年龄：{user.age}</p>
+      <button onClick={updateAge}>增加年龄</button>
+    </div>
+  );
+}
+```
+
+###### 第二步：掌握 useEffect 处理副作用（约 30 分钟）
+
+**核心概念：** `useEffect` 用于在函数组件中执行副作用操作（例如：数据获取、设置订阅、手动更改 DOM 等）。它可以看作是 `componentDidMount`，`componentDidUpdate` 和 `componentWillUnmount` 这三个生命周期函数的组合。
+
+**语法规则：**
+```javascript
+useEffect(() => {
+  // 这里的代码会在组件渲染后执行（副作用逻辑）
+  
+  return () => {
+    // 可选的清理函数，会在组件卸载前或下一次副作用执行前运行
+  };
+}, [依赖项数组]); // 依赖项数组决定了副作用何时重新执行
+```
+
+**依赖项数组的含义：**
+- `[]` (空数组)：副作用只在组件初次渲染后执行一次（类似 `componentDidMount`）。
+- `[state1, state2]`：当 `state1` 或 `state2` 发生变化时，副作用重新执行。
+- 不传依赖项数组：每次组件重新渲染后都会执行（不推荐，容易造成死循环）。
+
+**代码示例：**
+```jsx
+import { useState, useEffect } from 'react';
+
+function Timer() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    // 开启定时器
+    const timerId = setInterval(() => {
+      setCount(c => c + 1);
+    }, 1000);
+
+    // 清理函数：组件卸载时清除定时器，防止内存泄漏
+    return () => clearInterval(timerId);
+  }, []); // 空数组表示只在挂载时执行一次
+
+  return <p>计时器：{count} 秒</p>;
+}
+```
+
+###### 第三步：结合 localStorage 实现数据持久化（约 20 分钟）
+
+**核心概念：** `localStorage` 是浏览器提供的 Web Storage API，可以将数据以键值对的形式保存在本地，页面刷新或关闭后数据不会丢失。
+
+**基本用法：**
+- 存数据：`localStorage.setItem('key', 'value')` （注意：value 必须是字符串，如果是对象需要用 `JSON.stringify` 转换）
+- 取数据：`localStorage.getItem('key')` （如果是 JSON 字符串，需要用 `JSON.parse` 转换回对象）
+- 删数据：`localStorage.removeItem('key')`
+
+###### 第四步：动手实践 - 计数器与数据持久化（约 50 分钟）
+
+结合 `useState`、`useEffect` 和 `localStorage`，完成以下实战任务。
+
+**任务一：实现一个功能完善的计数器**
+要求：
+1. 包含增加、减少、重置按钮。
+2. 增加步长设置功能（例如可以设置每次增加/减少 5）。
+
+**任务二：为计数器添加数据持久化功能**
+要求：
+1. 使用 `useEffect` 监听 `count` 的变化，当 `count` 改变时，将其保存到 `localStorage` 中。
+2. 在组件初始化时，从 `localStorage` 中读取保存的 `count` 值作为初始状态。如果 `localStorage` 中没有值，则默认初始为 0。
+
+**代码骨架提示：**
+```jsx
+import { useState, useEffect } from 'react';
+
+function PersistentCounter() {
+  // 1. 初始化状态：优先从 localStorage 读取
+  const [count, setCount] = useState(() => {
+    const savedCount = localStorage.getItem('myCount');
+    return savedCount ? parseInt(savedCount, 10) : 0;
+  });
+
+  // 2. 监听 count 变化并保存到 localStorage
+  useEffect(() => {
+    localStorage.setItem('myCount', count.toString());
+  }, [count]);
+
+  return (
+    // ... 渲染 UI
+  );
+}
+```
+
+##### 今日作业
+
+- 完成任务一：实现带步长设置的计数器。
+- 完成任务二：将计数器的值持久化到 `localStorage`，验证刷新页面后数据不丢失。
+- （可选）尝试将之前封装的 `Card` 组件的展开/收起状态也保存到 `localStorage` 中。
+- 记录学习笔记，总结 `useEffect` 依赖项数组的不同用法和注意事项。
+
+##### 学习资源汇总
+
+| 资源 | 链接 |
+| --- | --- |
+| React 官方文档 - State (useState) | [https://zh-hans.react.dev/reference/react/useState](https://zh-hans.react.dev/reference/react/useState) |
+| React 官方文档 - Effect (useEffect) | [https://zh-hans.react.dev/reference/react/useEffect](https://zh-hans.react.dev/reference/react/useEffect) |
+| MDN - Window.localStorage | [https://developer.mozilla.org/zh-CN/docs/Web/API/Window/localStorage](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/localStorage) |

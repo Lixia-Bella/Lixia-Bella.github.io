@@ -1343,3 +1343,179 @@ import { formatDate as fmtDate } from './utils.js';
 | ES6 入门教程（阮一峰）        | [https://es6.ruanyifeng.com/](https://es6.ruanyifeng.com/)                                                                                                                                                 |
 
 
+
+#### 周四学习计划
+
+##### 学习目标
+- 理解 React 的核心概念：组件化思想与 JSX 语法。
+- 掌握使用 Vite 快速搭建现代 React 项目。
+- 掌握 React 组件的两种核心数据流：Props（属性传递）和 State（内部状态）。
+- 能够独立编写基础的 React 组件（如按钮、卡片）。
+
+##### 学习内容与步骤
+
+###### 第一步：使用 Vite 搭建 React 项目（约 15 分钟）
+
+**核心概念：** 过去常用 Create React App (CRA) 搭建项目，现在前端社区推荐使用更轻量、速度更快的 Vite。
+
+**操作步骤：**
+1. 打开终端，运行以下命令创建项目：
+   ```bash
+   npm create vite@latest my-react-app -- --template react
+   ```
+2. 进入项目目录并安装依赖：
+   ```bash
+   cd my-react-app
+   npm install
+   ```
+3. 启动开发服务器：
+   ```bash
+   npm run dev
+   ```
+4. 在浏览器中打开提示的本地地址（通常是 `http://localhost:5173`），你将看到 React 的欢迎页面。
+
+**项目结构解析：**
+- `index.html`：项目入口 HTML 文件。
+- `src/main.jsx`：React 应用的入口文件，负责将根组件渲染到 DOM 中。
+- `src/App.jsx`：根组件，我们主要在这里编写代码。
+
+###### 第二步：认识 JSX 与组件（约 25 分钟）
+
+**核心概念：** 
+- **组件（Component）**：React 应用的构建块。可以将 UI 拆分成独立、可复用的部分。在现代 React 中，推荐使用函数组件。
+- **JSX**：JavaScript 的语法扩展，允许我们在 JS 中写类似 HTML 的标签。
+
+**JSX 语法规则：**
+1. 只能有一个根元素（可以使用 `<></>` Fragment 包裹）。
+2. 标签必须闭合（如 `<img />`）。
+3. 属性名使用小驼峰命名法（如 `class` 变成 `className`，`onclick` 变成 `onClick`）。
+4. 在 JSX 中插入 JS 表达式需要使用大括号 `{}`。
+
+**代码示例：**
+```jsx
+// src/components/Welcome.jsx
+function Welcome() {
+  const name = "前端开发者";
+  
+  return (
+    <div className="welcome-box">
+      <h1>你好，{name}！</h1>
+      <p>欢迎来到 React 的世界。</p>
+    </div>
+  );
+}
+
+export default Welcome;
+```
+
+###### 第三步：掌握 Props（组件传参）（约 25 分钟）
+
+**核心概念：** Props（Properties）是组件的只读属性，用于从父组件向子组件传递数据。
+
+**代码示例：**
+```jsx
+// 子组件：UserCard.jsx
+function UserCard(props) {
+  return (
+    <div className="card">
+      <img src={props.avatar} alt="头像" />
+      <h3>{props.name}</h3>
+      <p>职业：{props.role}</p>
+    </div>
+  );
+}
+
+// 也可以使用 ES6 解构赋值使代码更简洁
+function UserCard({ avatar, name, role }) {
+  // ...
+}
+
+export default UserCard;
+
+// 父组件：App.jsx
+import UserCard from './components/UserCard';
+
+function App() {
+  return (
+    <div>
+      <h2>用户列表</h2>
+      <UserCard 
+        name="张三" 
+        role="前端工程师" 
+        avatar="https://via.placeholder.com/50" 
+      />
+      <UserCard 
+        name="李四" 
+        role="UI 设计师" 
+        avatar="https://via.placeholder.com/50" 
+      />
+    </div>
+  );
+}
+```
+
+###### 第四步：掌握 State（组件状态）（约 25 分钟）
+
+**核心概念：** State 是组件内部管理的数据，当 State 发生改变时，React 会自动重新渲染该组件以更新 UI。在函数组件中，我们使用 `useState` Hook 来管理状态。
+
+**代码示例：**
+```jsx
+import { useState } from 'react';
+
+function Counter() {
+  // 声明一个叫 "count" 的 state 变量，初始值为 0
+  // setCount 是用于更新 count 的函数
+  const [count, setCount] = useState(0);
+
+  return (
+    <div className="counter">
+      <p>当前点击次数：{count}</p>
+      {/* 点击按钮时调用 setCount 更新状态 */}
+      <button onClick={() => setCount(count + 1)}>
+        点击 +1
+      </button>
+      <button onClick={() => setCount(0)}>
+        重置
+      </button>
+    </div>
+  );
+}
+
+export default Counter;
+```
+
+###### 第五步：动手实践 - 编写基础组件（约 30 分钟）
+
+结合今天所学的 Vite、JSX、Props 和 State，完成以下实战任务。
+
+**任务一：搭建项目**
+使用 Vite 创建一个新的 React 项目，清理掉默认的模板代码，准备一个干净的 `App.jsx`。
+
+**任务二：封装一个复用的 Button 组件**
+要求：
+1. 接收 `text` (按钮文字)、`type` (按钮类型，如 primary/danger)、`onClick` (点击事件) 作为 Props。
+2. 根据传入的 `type` 渲染不同的 CSS 类名，实现不同的样式。
+
+**任务三：封装一个带状态的 Card 组件**
+要求：
+1. 接收 `title` 和 `content` 作为 Props。
+2. 组件内部维护一个 `isExpanded` 状态（布尔值）。
+3. 点击卡片时，切换 `isExpanded` 的值。
+4. 当 `isExpanded` 为 true 时显示 `content`，为 false 时隐藏 `content` 或只显示摘要。
+
+##### 今日作业
+
+- 独立使用 Vite 搭建一个 React 项目并成功运行。
+- 完成任务二：封装 `Button` 组件并在 `App.jsx` 中测试不同类型的按钮。
+- 完成任务三：封装带展开/收起状态的 `Card` 组件。
+- （可选）尝试结合数组的 `map` 方法，在 `App.jsx` 中循环渲染多个 `Card` 组件。
+- 记录学习笔记，总结 Props 和 State 的区别。
+
+##### 学习资源汇总
+
+| 资源 | 链接 |
+| --- | --- |
+| Vite 官方中文文档 | [https://cn.vitejs.dev/guide/](https://cn.vitejs.dev/guide/) |
+| React 官方文档（快速入门） | [https://zh-hans.react.dev/learn](https://zh-hans.react.dev/learn) |
+| React 官方文档（编写 UI） | [https://zh-hans.react.dev/learn/describing-the-ui](https://zh-hans.react.dev/learn/describing-the-ui) |
+| React 官方文档（添加交互） | [https://zh-hans.react.dev/learn/adding-interactivity](https://zh-hans.react.dev/learn/adding-interactivity) |

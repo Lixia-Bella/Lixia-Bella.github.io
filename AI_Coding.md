@@ -1763,3 +1763,169 @@ function Detail() {
 | --- | --- |
 | React Router 6 官方文档 | [https://reactrouter.com/en/main](https://reactrouter.com/en/main) |
 | React Router 6 快速入门教程 | [https://reactrouter.com/en/main/start/tutorial](https://reactrouter.com/en/main/start/tutorial) |
+
+---
+
+#### 周日学习计划
+
+##### 学习目标
+- 综合运用第一周所学的 HTML / CSS / JavaScript / React 基础知识。
+- 能够将组件、Props、State、`useEffect`、路由和 `localStorage` 串联到一个完整小项目中。
+- 学会从“需求拆解 -> 页面规划 -> 组件拆分 -> 功能实现”的思路完成一次前端实战。
+- 形成第一周知识总结，并输出一个可演示的综合练习项目。
+
+##### 学习内容与步骤
+
+###### 第一步：回顾第一周知识地图（约 20 分钟）
+
+先对本周知识做一次整体串联，明确每个知识点在项目中的位置。
+
+| 知识点 | 本周已学内容 | 在综合实战中的作用 |
+| --- | --- | --- |
+| HTML / CSS | 页面结构、基础样式、响应式布局、过渡动画 | 搭建页面骨架与视觉效果 |
+| JavaScript ES6+ | 数组方法、解构、模块化、异步基础 | 处理数据、组织代码、渲染列表 |
+| JSX / 组件 | 组件拆分、组件复用 | 拆分页面模块，提升可维护性 |
+| Props / State | 组件传参、组件内部状态 | 完成数据传递与交互控制 |
+| `useEffect` | 副作用处理、监听状态变化 | 实现初始化读取和自动保存 |
+| React Router | 页面路由、动态参数、跳转 | 实现首页、列表页、详情页切换 |
+| `localStorage` | 数据持久化 | 保存用户操作结果，刷新后保留状态 |
+
+###### 第二步：理解综合实战需求（约 20 分钟）
+
+今天的综合实战项目建议命名为：`AI Coding 学习任务面板`。
+
+**项目目标：**
+做一个带有首页、任务列表页、任务详情页的 React 单页应用，并支持任务完成状态持久化。
+
+**核心功能：**
+
+1. 首页展示本周学习主题和项目简介。
+2. 列表页展示第一周的学习任务卡片。
+3. 点击任务卡片进入详情页，查看任务说明、建议步骤和完成状态。
+4. 支持标记任务“已完成 / 未完成”。
+5. 使用 `localStorage` 保存完成状态，刷新后数据不丢失。
+
+###### 第三步：学习如何拆解一个前端小项目（约 25 分钟）
+
+**页面规划：**
+
+| 页面 | 路径 | 作用 |
+| --- | --- | --- |
+| 首页 | `/` | 展示项目标题、本周学习概览、快速入口 |
+| 任务列表页 | `/tasks` | 展示全部学习任务卡片 |
+| 任务详情页 | `/tasks/:id` | 展示单个任务详情与完成状态 |
+| 404 页面（可选） | `*` | 兜底处理不存在的页面 |
+
+**组件拆分建议：**
+
+| 组件名 | 作用 |
+| --- | --- |
+| `Layout` | 公共布局，包含导航栏和页面容器 |
+| `TaskCard` | 展示单个任务卡片信息 |
+| `TaskStatusBadge` | 展示任务状态 |
+| `TaskFilter`（可选） | 按完成状态筛选任务 |
+
+**推荐数据结构：**
+
+```js
+const taskList = [
+  {
+    id: 1,
+    title: "React 基础组件练习",
+    summary: "完成按钮组件与卡片组件封装",
+    content: "结合 Props 和 State，封装可复用组件并完成页面展示。",
+    completed: false
+  },
+  {
+    id: 2,
+    title: "路由页面搭建",
+    summary: "实现任务列表与详情页跳转",
+    content: "使用 React Router 完成列表页与详情页的动态路由配置。",
+    completed: true
+  }
+];
+```
+
+###### 第四步：实战方案设计（约 30 分钟）
+
+**实战项目名称：** `AI Coding 学习任务面板`
+
+**实战方案：**
+
+1. 先搭建路由骨架，确保首页、列表页、详情页可以正常跳转。
+2. 再准备一份本地模拟任务数据，通过 `map` 渲染任务列表。
+3. 接着封装 `TaskCard` 组件，把任务标题、简介、状态提取成可复用 UI。
+4. 在详情页中通过 `useParams` 获取任务 ID，找到当前任务并展示详情内容。
+5. 使用 `useState` 管理任务完成状态，使用 `useEffect` 将状态同步到 `localStorage`。
+6. 最后统一优化样式和交互体验，例如卡片 hover、按钮状态、空页面提示。
+
+**推荐开发顺序：**
+
+1. 搭建项目结构与路由。
+2. 创建页面组件。
+3. 渲染任务列表。
+4. 实现详情页。
+5. 增加完成状态切换。
+6. 加入本地持久化。
+7. 完善样式与可选功能。
+
+###### 第五步：动手实践 - 完成综合项目（约 90 分钟）
+
+结合本周所学内容，完成下面的综合实战任务。
+
+##### 实战任务
+
+**任务一：搭建页面结构**
+要求：
+1. 创建 `Home`、`Tasks`、`TaskDetail` 三个页面组件。
+2. 使用 React Router 配置 `/`、`/tasks`、`/tasks/:id` 路由。
+3. 添加导航栏，支持首页和任务列表页之间切换。
+
+**任务二：渲染任务列表**
+要求：
+1. 准备一个本地任务数组，至少包含 4 条任务数据。
+2. 在 `Tasks` 页面中使用 `map` 渲染任务卡片。
+3. 每个任务卡片展示标题、摘要和当前完成状态。
+
+**任务三：实现任务详情页**
+要求：
+1. 在 `TaskDetail` 页面中通过 `useParams` 获取任务 ID。
+2. 根据 ID 找到对应任务，并展示完整内容。
+3. 提供“返回列表”按钮，支持跳回任务列表页。
+
+**任务四：实现完成状态切换**
+要求：
+1. 在列表页或详情页提供“标记完成 / 取消完成”按钮。
+2. 点击按钮后更新对应任务的完成状态。
+3. 完成状态变化后，页面显示要立即同步更新。
+
+**任务五：实现数据持久化**
+要求：
+1. 使用 `useState` 保存任务列表状态。
+2. 在初始化时优先从 `localStorage` 读取任务数据。
+3. 使用 `useEffect` 监听任务状态变化，并自动写入 `localStorage`。
+
+**任务六：（可选）增加筛选与统计功能**
+要求：
+1. 增加“全部 / 已完成 / 未完成”筛选。
+2. 在页面顶部显示任务完成统计，例如“已完成 2 / 4”。
+3. 尝试为完成状态切换增加简单动画或颜色反馈。
+
+##### 今日作业
+
+- 完成 `AI Coding 学习任务面板` 的基础版本开发。
+- 至少实现首页、任务列表页、任务详情页、完成状态持久化四项核心功能。
+- 截图或录屏记录项目效果，验证刷新页面后数据仍能保留。
+- 记录学习笔记，总结这一周中“组件化、状态管理、路由、持久化”之间的关系。
+- （可选）补充 404 页面、任务筛选功能或移动端样式优化。
+
+##### 学习资源汇总
+
+| 资源 | 链接 |
+| --- | --- |
+| React 官方文档 - 描述 UI | [https://zh-hans.react.dev/learn/describing-the-ui](https://zh-hans.react.dev/learn/describing-the-ui) |
+| React 官方文档 - 添加交互 | [https://zh-hans.react.dev/learn/adding-interactivity](https://zh-hans.react.dev/learn/adding-interactivity) |
+| React 官方文档 - 管理状态 | [https://zh-hans.react.dev/learn/managing-state](https://zh-hans.react.dev/learn/managing-state) |
+| React 官方文档 - 保持和重置状态 | [https://zh-hans.react.dev/learn/preserving-and-resetting-state](https://zh-hans.react.dev/learn/preserving-and-resetting-state) |
+| React Router 官方文档 | [https://reactrouter.com/en/main](https://reactrouter.com/en/main) |
+| MDN - Window.localStorage | [https://developer.mozilla.org/zh-CN/docs/Web/API/Window/localStorage](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/localStorage) |

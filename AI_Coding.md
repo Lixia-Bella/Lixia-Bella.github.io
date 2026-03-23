@@ -1656,3 +1656,110 @@ function PersistentCounter() {
 | React 官方文档 - State (useState) | [https://zh-hans.react.dev/reference/react/useState](https://zh-hans.react.dev/reference/react/useState) |
 | React 官方文档 - Effect (useEffect) | [https://zh-hans.react.dev/reference/react/useEffect](https://zh-hans.react.dev/reference/react/useEffect) |
 | MDN - Window.localStorage | [https://developer.mozilla.org/zh-CN/docs/Web/API/Window/localStorage](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/localStorage) |
+
+#### 周六学习计划
+
+##### 学习目标
+- 掌握 React Router 6 的核心概念和基本用法。
+- 能够配置前端路由，实现页面间的无刷新跳转。
+- 理解动态路由的概念并能够进行实际应用。
+- 掌握如何通过路由传递参数（如 URL 参数）。
+
+##### 学习内容与步骤
+
+###### 第一步：认识 React Router 6 与安装（约 20 分钟）
+
+**核心概念：** React Router 是 React 官方推荐的路由库，用于在单页应用（SPA）中实现不同视图（页面）的切换，而无需重新加载整个页面。
+
+**安装：**
+在项目根目录下运行以下命令安装 React Router 6：
+```bash
+npm install react-router-dom
+```
+
+**基础配置：** 在 `main.jsx` 中使用 `BrowserRouter` 包裹整个应用，为路由提供基础环境。
+
+###### 第二步：配置基础路由与页面跳转（约 30 分钟）
+
+**核心概念：** 使用 `Routes` 和 `Route` 组件定义路由规则，使用 `Link` 组件实现页面跳转。
+
+**代码示例：**
+```jsx
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+
+function Home() { return <h2>首页</h2>; }
+function About() { return <h2>关于我们</h2>; }
+
+function App() {
+  return (
+    <BrowserRouter>
+      <nav>
+        {/* 使用 Link 组件进行跳转，类似于 <a> 标签，但不会刷新页面 */}
+        <Link to="/">首页</Link> | <Link to="/about">关于</Link>
+      </nav>
+      
+      {/* Routes 内部定义具体的路由规则 */}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;
+```
+
+###### 第三步：掌握路由传参（动态路由）（约 20 分钟）
+
+**核心概念：** 在实际开发中，经常需要根据不同的 ID 获取不同的详情数据（如商品详情、文章详情），这就需要用到动态路由传参。
+
+**代码示例：**
+```jsx
+import { useParams } from 'react-router-dom';
+
+// 在路由配置中定义动态参数：<Route path="/detail/:id" element={<Detail />} />
+
+function Detail() {
+  // 使用 useParams 钩子获取 URL 中的动态参数 id
+  const { id } = useParams();
+  return <h2>商品详情页，当前商品 ID：{id}</h2>;
+}
+```
+
+###### 第四步：动手实践 - 搭建多页面应用（约 50 分钟）
+
+结合今天所学的 React Router 6，完成以下实战任务。
+
+**任务一：创建页面组件**
+要求：
+1. 在 `src` 目录下新建 `pages` 文件夹，用于存放页面级别的组件。
+2. 创建三个页面组件文件：`Home.jsx` (首页)、`List.jsx` (列表页)、`Detail.jsx` (详情页)。
+
+**任务二：配置全局路由**
+要求：
+1. 在 `App.jsx` 中引入并配置路由组件。
+2. 使用 `Routes` 和 `Route` 将三个页面组件与对应的 URL 路径关联起来：
+   - `/` 对应 `Home` 组件
+   - `/list` 对应 `List` 组件
+   - `/detail/:id` 对应 `Detail` 组件
+
+**任务三：实现页面间的跳转与传参**
+要求：
+1. 在 `Home` 页面添加一个全局导航栏，包含跳转到首页和列表页的链接（使用 `Link`）。
+2. 在 `List` 页面模拟渲染一个商品列表（如：商品A、商品B），点击商品时跳转到 `Detail` 页面，并在 URL 中携带对应的商品 ID（如 `/detail/1`）。
+3. 在 `Detail` 页面接收并显示传递过来的商品 ID，并提供一个“返回列表”的按钮（提示：可以使用 `useNavigate` 钩子实现编程式导航返回）。
+
+##### 今日作业
+
+- 完成任务一、二、三：成功搭建包含首页、列表页、详情页的 React 路由应用。
+- 体验单页应用（SPA）的无刷新跳转效果，观察浏览器地址栏的变化。
+- （可选）尝试配置一个“404 Not Found”页面，当用户访问不存在的路径时显示（提示：使用 `<Route path="*" element={<NotFound />} />`）。
+- 记录学习笔记，总结 `Link` 和传统 `<a>` 标签的区别。
+
+##### 学习资源汇总
+
+| 资源 | 链接 |
+| --- | --- |
+| React Router 6 官方文档 | [https://reactrouter.com/en/main](https://reactrouter.com/en/main) |
+| React Router 6 快速入门教程 | [https://reactrouter.com/en/main/start/tutorial](https://reactrouter.com/en/main/start/tutorial) |

@@ -1,121 +1,65 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import React from 'react';
+import './App.css';
+import Button from './components/Button';
+import Card from './components/Card';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const handleButtonClick = (message) => {
+    alert(message);
+  };
+
+  // 模拟的卡片数据数组
+  const cardData = [
+    {
+      id: 1,
+      title: "什么是 React State？",
+      content: "State 是组件内部管理的数据，当 State 发生改变时，React 会自动重新渲染该组件以更新 UI。在函数组件中，我们使用 useState Hook 来管理状态。掌握 State 是学习 React 的关键一步。"
+    },
+    {
+      id: 2,
+      title: "什么是 JSX？",
+      content: "JSX 是 JavaScript 的语法扩展，允许我们在 JS 中写类似 HTML 的标签。它使得编写 React 组件的 UI 结构变得更加直观和高效。在底层，JSX 会被编译成普通的 JavaScript 函数调用。"
+    },
+    {
+      id: 3,
+      title: "什么是 Props？",
+      content: "Props（Properties）是组件的只读属性，用于从父组件向子组件传递数据。它是 React 组件之间通信的主要方式。子组件不能修改接收到的 Props，只能读取它们。"
+    }
+  ];
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="app">
+      <h1>Hello React</h1>
+      
+      <div style={{ display: 'flex', gap: '10px', marginTop: '20px', marginBottom: '40px' }}>
+        <Button 
+          text="默认按钮" 
+          onClick={() => handleButtonClick('你点击了默认按钮！')} 
+        />
+        <Button 
+          text="主要按钮" 
+          type="primary" 
+          onClick={() => handleButtonClick('你点击了主要按钮！')} 
+        />
+        <Button 
+          text="危险按钮" 
+          type="danger" 
+          onClick={() => handleButtonClick('警告：你点击了危险按钮！')} 
+        />
+      </div>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      <h2>卡片组件展示 (使用 map 循环渲染)</h2>
+      <div className="card-list">
+        {cardData.map((card) => (
+          <Card 
+            key={card.id}
+            title={card.title} 
+            content={card.content}
+          />
+        ))}
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;

@@ -3,8 +3,21 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>个人介绍 - 阳光小站</title>
-		<link rel="stylesheet" href="styles/style.css" />
+		<title>阳光小站</title>
+		<!-- 尽早恢复主题，减少首屏闪烁 -->
+		<script>
+			(function () {
+				try {
+					var t = localStorage.getItem('theme');
+					if (
+						t === 'dark' ||
+						(!t && window.matchMedia('(prefers-color-scheme: dark)').matches)
+					) {
+						document.documentElement.setAttribute('data-theme', 'dark');
+					}
+				} catch (e) {}
+			})();
+		</script>
 		<link
 			href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap"
 			rel="stylesheet"
@@ -15,218 +28,7 @@
 		/>
 	</head>
 	<body>
-		<!-- 响应式导航栏 -->
-		<nav class="navbar">
-			<a
-				href="profile.html"
-				class="nav-brand-avatar"
-				title="点击查看个人详情"
-			>
-				<img
-					src="images/image1.png"
-					alt="我的头像"
-					class="nav-avatar"
-				/>
-				<div class="nav-avatar-glow"></div>
-			</a>
-			<div class="nav-brand-info">
-				<span class="nav-brand-title">阳光小站</span>
-				<span class="nav-brand-desc"
-					>用代码创造美好，用文字记录生活</span
-				>
-			</div>
-
-			<!-- 主题切换按钮 -->
-			<button
-				class="theme-toggle"
-				id="themeToggle"
-				aria-label="切换暗色模式"
-			>
-				<i class="fas fa-sun icon-sun"></i>
-				<i class="fas fa-moon icon-moon"></i>
-			</button>
-
-			<!-- 移动端汉堡菜单按钮 -->
-			<button class="nav-toggle" id="navToggle" aria-label="切换导航菜单">
-				<span class="hamburger"></span>
-			</button>
-
-			<!-- 导航链接 -->
-			<ul class="nav-menu" id="navMenu">
-				<li>
-					<a href="index.html" class="nav-link active"
-						><i class="fas fa-home"></i> 首页</a
-					>
-				</li>
-				<li>
-					<a href="quiz.html" class="nav-link"
-						><i class="fas fa-gamepad"></i> 知识问答</a
-					>
-				</li>
-				<li>
-					<a href="rewards.html" class="nav-link"
-						><i class="fas fa-gift"></i> 奖励池</a
-					>
-				</li>
-				<li>
-					<a href="profile.html" class="nav-link"
-						><i class="fas fa-user"></i> 个人简介</a
-					>
-				</li>
-				<li>
-					<a
-						href="https://Lixia-Bella.github.io/"
-						target="_blank"
-						class="nav-link"
-						><i class="fas fa-blog"></i> 我的博客</a
-					>
-				</li>
-				<li>
-					<a
-						href="http://localhost:5173/"
-						target="_blank"
-						class="nav-link"
-						><i class="fab fa-react"></i> React 应用</a
-					>
-				</li>
-			</ul>
-		</nav>
-
-		<!-- 主要内容区域 -->
-		<main class="main-content">
-			<!-- 博客文章列表（由 blog.js 动态渲染） -->
-			<section class="blog-list-section" id="blogListSection">
-				<div class="blog-list-header">
-					<h2><i class="fas fa-newspaper"></i> 文章列表</h2>
-					<div class="blog-list-controls">
-						<span class="blog-post-count"></span>
-						<div class="blog-sort-bar"></div>
-					</div>
-				</div>
-				<div class="blog-filter-bar"></div>
-				<div class="blog-post-list"></div>
-			</section>
-
-			<!-- 爱好列表 -->
-			<section class="hobbies-section">
-				<h2><i class="fas fa-star"></i> 我的爱好</h2>
-				<div class="hobbies-grid">
-					<div class="hobby-card">
-						<i class="fas fa-code"></i>
-						<h3>编程开发</h3>
-						<p>热爱编程，享受解决问题带来的成就感</p>
-					</div>
-					<div class="hobby-card">
-						<i class="fas fa-book"></i>
-						<h3>阅读学习</h3>
-						<p>喜欢阅读各类书籍，不断充实自己</p>
-					</div>
-					<div class="hobby-card">
-						<i class="fas fa-camera"></i>
-						<h3>摄影记录</h3>
-						<p>用镜头捕捉生活中的美好瞬间</p>
-					</div>
-					<div class="hobby-card">
-						<i class="fas fa-music"></i>
-						<h3>音乐欣赏</h3>
-						<p>享受音乐带来的轻松与愉悦</p>
-					</div>
-					<div class="hobby-card">
-						<i class="fas fa-hiking"></i>
-						<h3>户外运动</h3>
-						<p>喜欢户外活动，拥抱大自然</p>
-					</div>
-					<div class="hobby-card">
-						<i class="fas fa-gamepad"></i>
-						<h3>游戏娱乐</h3>
-						<p>偶尔放松一下，享受游戏乐趣</p>
-					</div>
-				</div>
-			</section>
-
-			<!-- 知识问答游戏入口 -->
-			<section class="quiz-entry-section">
-				<h2><i class="fas fa-brain"></i> 知识问答挑战</h2>
-				<div class="quiz-entry-card">
-					<div class="quiz-entry-info">
-						<div class="quiz-entry-icon">
-							<i class="fas fa-trophy"></i>
-						</div>
-						<h3>边玩边学，挑战编程知识！</h3>
-						<p>
-							涵盖 Node.js、HTML/CSS、Web
-							开发、后端服务、大模型、算法、C/C++ 等多领域知识。
-							通关赢积分，积分兑好礼！
-						</p>
-						<div class="quiz-entry-stats">
-							<div class="stat-item">
-								<i class="fas fa-layer-group"></i>
-								<span>10 大关卡</span>
-							</div>
-							<div class="stat-item">
-								<i class="fas fa-question-circle"></i>
-								<span>海量题库</span>
-							</div>
-							<div class="stat-item">
-								<i class="fas fa-gift"></i>
-								<span>丰厚奖品</span>
-							</div>
-						</div>
-					</div>
-					<div class="quiz-entry-actions">
-						<a href="quiz.html" class="btn-quiz-start">
-							<i class="fas fa-play-circle"></i> 开始挑战
-						</a>
-						<a href="rewards.html" class="btn-quiz-rewards">
-							<i class="fas fa-gift"></i> 查看奖励池
-						</a>
-					</div>
-				</div>
-			</section>
-
-			<!-- 外部链接 -->
-			<section class="links-section">
-				<h2><i class="fas fa-link"></i> 更多精彩</h2>
-				<div class="links-grid" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-					<div class="link-card">
-						<a
-							href="https://Lixia-Bella.github.io/"
-							target="_blank"
-							class="external-link"
-						>
-							<i class="fas fa-external-link-alt"></i>
-							<span>访问我的博客</span>
-							<small>Lixia-Bella.github.io</small>
-						</a>
-					</div>
-					<div class="link-card">
-						<a
-							href="http://localhost:5173/"
-							target="_blank"
-							class="external-link"
-							style="background: linear-gradient(135deg, #61dafb, #282c34);"
-						>
-							<i class="fab fa-react"></i>
-							<span>访问 React 应用</span>
-							<small>localhost:5173</small>
-						</a>
-					</div>
-				</div>
-			</section>
-		</main>
-
-		<!-- 页脚 -->
-		<footer class="footer">
-			<p>
-				&copy; 2026 阳光小站 | Made with
-				<i class="fas fa-heart" style="color: #ff6b6b"></i> by Bella
-			</p>
-		</footer>
-
-		<!-- ES6 模块化入口（module 模式） -->
-		<script type="module" src="js/index.js"></script>
-		<!-- 降级兼容：不支持 module 的浏览器使用旧脚本 -->
-		<script nomodule src="scripts/main.js"></script>
-		<script nomodule src="scripts/blog.js"></script>
+		<div id="root"></div>
+		<script type="module" src="/src/main.jsx"></script>
 	</body>
 </html>

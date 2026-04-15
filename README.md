@@ -1,100 +1,118 @@
 # 阳光小站（blogs）
 
-一个基于原生 HTML/CSS/JavaScript 的个人站点示例，包含：
+基于 **React + Vite** 的个人站点，包含：
 
-- 文章列表与文章详情页（Markdown 渲染）
-- 知识问答挑战页（积分与关卡）
-- 奖励池与个人简介页
+- 首页文章列表（标签筛选、排序、摘要加载与失败降级）
+- 文章详情页（Markdown 渲染、代码高亮）
+- 知识问答挑战（积分、关卡、本地存储）
+- 奖励池与个人简介
 - 明暗主题切换、响应式导航与页面动效
 
 ## 项目特点
 
-- **零构建工具依赖**：无需 npm、无需打包器，直接静态运行即可。
-- **模块化组织**：主逻辑在 `js/` 中，旧版兼容脚本在 `scripts/` 中。
-- **文章可扩展**：通过 `blogs/index.json` 管理文章索引，支持 `blogs/*.md` 与 `blogs/*.js` 数据加载。
-- **优雅降级**：当动态加载失败时，首页文章列表可回退到内置示例数据。
+- **Vite 开发与构建**：热更新、生产打包至 `dist/`。
+- **React Router**：单页路由，无需多份 HTML 入口。
+- **文章可扩展**：通过 `public/blogs/index.json` 管理索引；正文支持 `public/blogs/*.md` 或 `*.js`（`window.__BLOG_MD__`）。
+- **逻辑分层**：列表与摘要见 `src/lib/blogList.js`，答题核心见 `src/lib/quizCore.js`，通用 UI 行为见 `src/lib/siteUtils.js`。
+- **旧版静态站备份**：多页 HTML 与原 `js/`、`scripts/` 在 `archive/` 目录，仅供对照，不参与构建。
+
+## 环境要求
+
+- Node.js 18+（建议与当前 LTS 一致）
+- npm 10+
 
 ## 快速开始
 
-> 建议使用本地静态服务器运行，避免浏览器对 `fetch` 的 `file://` 限制。
-
-在 `blogs` 目录下执行：
+在 `blogs` 目录下：
 
 ```bash
-python3 -m http.server 8080
-或者使用 npx http-server
+npm install
+npm run dev
 ```
 
-然后访问：
+浏览器访问终端提示的地址（一般为 `http://localhost:5173/`）。
 
-- 首页：`http://localhost:8080/index.html`
-- 文章页示例：`http://localhost:8080/blog.html?file=20260319`
-- 问答页：`http://localhost:8080/quiz.html`
-- 奖励页：`http://localhost:8080/rewards.html`
-- 个人页：`http://localhost:8080/profile.html`
+常用脚本：
+
+| 命令 | 说明 |
+|------|------|
+| `npm run dev` | 启动开发服务器 |
+| `npm run build` | 生产构建，输出到 `dist/` |
+| `npm run preview` | 本地预览构建结果 |
+| `npm run lint` | ESLint 检查 |
+
+## 路由说明
+
+| 路径 | 页面 |
+|------|------|
+| `/` | 首页（文章列表、爱好、问答入口等） |
+| `/blog/:slug` | 文章详情，`slug` 与 `index.json` 中 `file` 字段一致（如 `20260319`） |
+| `/quiz` | 知识问答挑战 |
+| `/rewards` | 奖励池 |
+| `/profile` | 个人简介 |
 
 ## 目录结构
 
 ```text
 blogs/
-├── index.html              # 首页
-├── blog.html               # 文章详情页
-├── quiz.html               # 知识问答页
-├── rewards.html            # 奖励池页面
-├── profile.html            # 个人简介页
-├── styles/
-│   └── style.css           # 全站样式
-├── js/                     # ES Module 版本脚本（现代浏览器）
-│   ├── index.js
-│   ├── blog.js
-│   ├── blog-page.js
-│   ├── quiz-page.js
-│   ├── rewards.js
-│   ├── profile.js
-│   ├── quiz.js
-│   └── utils.js
-├── scripts/                # nomodule 降级脚本
-│   ├── main.js
-│   ├── blog.js
-│   └── quiz.js
-└── blogs/                  # 文章数据目录
-    ├── index.json          # 文章索引
-    ├── 20260319.md         # Markdown 原文（可选）
-    └── 20260319.js         # JS 形式文章数据（window.__BLOG_MD__）
+├── index.html                 # Vite HTML 入口（主题防闪烁内联脚本 + 外链字体/图标）
+├── vite.config.js
+├── package.json
+├── eslint.config.js
+├── public/                    # 构建时原样复制到 dist 根目录
+│   ├── blogs/                 # 文章索引与正文
+│   │   ├── index.json
+│   │   ├── *.md / *.js
+│   └── images/                # 静态图片（如 image1.png，需自行放置）
+├── src/
+│   ├── main.jsx
+│   ├── App.jsx                # 路由定义
+│   ├── components/            # Layout、Navbar 等
+│   ├── pages/                 # 各路由页面组件
+│   ├── lib/                   # blogList、quizCore、siteUtils、toast、paths 等
+│   └── styles/
+│       ├── style.css          # 全站样式
+│       └── blogArticle.css    # 文章页排版
+└── archive/                   # 历史静态多页站点备份（不参与 Vite 构建）
 ```
 
 ## 如何新增一篇文章
 
-1. 在 `blogs/index.json` 新增一条记录：
+1. 在 **`public/blogs/index.json`** 中新增一条记录：
    - `title`：文章标题
    - `date`：日期（建议 `YYYY-MM-DD`）
    - `author`：作者名
    - `tags`：标签数组
-   - `file`：文章文件名（不带后缀）
+   - `file`：文章标识（不带后缀），与路由 `/blog/:slug` 一致
    - `icon`：Font Awesome 图标类名（如 `fa-code`）
-2. 在 `blogs/blogs/` 新增文章文件，推荐两种方式：
+2. 在 **`public/blogs/`** 下放置正文，任选其一或同时存在（列表摘要以 `.md` 优先）：
    - `xxx.md`：Markdown 文件
-   - `xxx.js`：写入 `window.__BLOG_MD__ = \`...\`;`
-3. 本地启动静态服务器后，打开首页确认文章是否正常显示并可跳转详情。
+   - `xxx.js`：内容为 `window.__BLOG_MD__ = "...";`（与旧版生成方式一致）
+3. 执行 `npm run dev`，在首页确认卡片与「阅读全文」跳转 `/blog/xxx` 是否正常。
+
+## 静态资源与头像
+
+- 导航栏与简介页头像路径：`public/images/image1.png`（若缺失则图片显示为裂图，请将资源放入该目录）。
 
 ## 当前文章数据说明
 
-- `blogs/index.json` 中已有多条示例索引。
-- 当前仓库内实际可见的文章文件为 `20260319.md` 与 `20260319.js`。
-- 其余索引可按“新增文章”步骤补齐对应文件。
+- `public/blogs/index.json` 中为示例索引。
+- 仓库中若仅包含部分正文文件（例如仅有 `20260319.md` / `20260319.js`），其余条目需按上文步骤补全文件，否则详情页会加载失败。
 
 ## 技术栈
 
-- HTML5
-- CSS3（响应式布局、主题变量、动画）
-- Vanilla JavaScript（ES Modules）
-- 第三方 CDN：
-  - [Font Awesome](https://cdnjs.com/libraries/font-awesome)
-  - [marked](https://cdnjs.com/libraries/marked)
-  - [highlight.js](https://cdnjs.com/libraries/highlight.js)
+- **React 19**、**react-router-dom 7**
+- **Vite 8**
+- **marked**、**highlight.js**（npm 依赖，文章页使用）
+- **CSS3**（响应式、主题变量、动画；样式集中在 `src/styles/`）
+- 外链：**Noto Sans SC**、**Font Awesome 6**（见 `index.html`）
+
+## 部署说明
+
+执行 `npm run build` 后，将 **`dist/`** 整目录部署到任意静态资源服务器（Nginx、GitHub Pages、OSS 等）。若站点不在域名根路径，需在 `vite.config.js` 中配置 `base`（例如 `base: '/blogs/'`），并重新构建。
 
 ## 维护建议
 
-- 统一使用 UTF-8 编码保存文本文件。
-- 新增文章时，保持 `index.json` 与文章文件名一致。
-- 若后续引入构建工具，可优先保留 `js/` 目录结构，降低迁移成本。
+- 所有文本文件使用 **UTF-8** 编码。
+- 新增文章时保持 `index.json` 的 `file` 与磁盘上的 `文件名`（不含后缀）一致。
+- 大段题库与高亮库会增大主包体积；若需优化，可考虑对文章页做路由级 `import()` 按需加载（后续迭代）。

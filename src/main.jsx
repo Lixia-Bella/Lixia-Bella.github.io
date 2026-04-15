@@ -3,6 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App.jsx';
 import './styles/style.css';
 import { restoreTheme } from './lib/siteUtils.js';
+import { ThemeProvider } from './context/ThemeContext.jsx';
 
 restoreTheme();
 
@@ -11,7 +12,9 @@ const baseUrl = import.meta.env.BASE_URL;
 const routerBasename = baseUrl.length > 1 ? baseUrl.replace(/\/$/, '') : undefined;
 
 createRoot(document.getElementById('root')).render(
-    <BrowserRouter basename={routerBasename}>
-        <App />
-    </BrowserRouter>
+    <ThemeProvider>
+        <BrowserRouter basename={routerBasename}>
+            <App />
+        </BrowserRouter>
+    </ThemeProvider>
 );

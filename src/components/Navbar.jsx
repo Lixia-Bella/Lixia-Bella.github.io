@@ -1,13 +1,15 @@
 import { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { initThemeToggle, initNavigation } from '../lib/siteUtils.js';
+import { initNavigation } from '../lib/siteUtils.js';
 import { assetUrl } from '../lib/paths.js';
+import { useTheme } from '../context/ThemeContext.jsx';
 
 const navClass = ({ isActive }) => `nav-link${isActive ? ' active' : ''}`;
 
 export default function Navbar() {
+    const { theme, toggleTheme } = useTheme();
+
     useEffect(() => {
-        initThemeToggle();
         initNavigation();
     }, []);
 
@@ -22,7 +24,13 @@ export default function Navbar() {
                 <span className="nav-brand-desc">用代码创造美好，用文字记录生活</span>
             </div>
 
-            <button className="theme-toggle" id="themeToggle" type="button" aria-label="切换暗色模式">
+            <button
+                className="theme-toggle"
+                id="themeToggle"
+                type="button"
+                aria-label={theme === 'dark' ? '切换到亮色模式' : '切换到暗色模式'}
+                onClick={toggleTheme}
+            >
                 <i className="fas fa-sun icon-sun" />
                 <i className="fas fa-moon icon-moon" />
             </button>

@@ -18,7 +18,7 @@ export default function ProfilePage() {
             <section className="profile-section">
                 <div className="profile-card">
                     <div className="profile-avatar">
-                        <img src={assetUrl('images/image1.png')} alt="头像" className="avatar-large" />
+                        <img src={assetUrl('images/image1.svg')} alt="头像" className="avatar-large" />
                     </div>
                     <div className="profile-info">
                         <h2>Bella</h2>

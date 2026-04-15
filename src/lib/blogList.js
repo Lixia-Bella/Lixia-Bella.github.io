@@ -56,10 +56,12 @@ const fetchPostSummaryViaFetch = async (file) => {
 
 export const loadBlogData = async () => {
     const posts = await fetchPostIndex();
-    const summaries = await Promise.all(posts.map(({ file }) => fetchPostSummaryViaFetch(file)));
+    const summaries = await Promise.all(
+        posts.map(({ file, summary }) => (summary ? Promise.resolve(summary) : fetchPostSummaryViaFetch(file)))
+    );
     return posts.map((post, index) => ({
         ...post,
-        summary: summaries[index],
+        summary: summaries[index] || '暂无摘要',
     }));
 };
 

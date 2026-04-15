@@ -14,7 +14,7 @@ export default function Navbar() {
     return (
         <nav className="navbar">
             <NavLink to="/profile" className="nav-brand-avatar" title="点击查看个人详情">
-                <img src={assetUrl('images/image1.png')} alt="我的头像" className="nav-avatar" />
+                <img src={assetUrl('images/image1.svg')} alt="我的头像" className="nav-avatar" />
                 <div className="nav-avatar-glow" />
             </NavLink>
             <div className="nav-brand-info">

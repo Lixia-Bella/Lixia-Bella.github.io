@@ -66,7 +66,7 @@ blogs/                         # 通常即 Git 仓库根目录
 │   ├── blogs/                 # 文章索引与正文
 │   │   ├── index.json
 │   │   ├── *.md / *.js
-│   └── images/                # 静态图片（如 image1.png，需自行放置）
+│   └── images/                # 静态图片（如 image1.svg）
 ├── src/
 │   ├── main.jsx
 │   ├── App.jsx                # 路由定义
@@ -95,7 +95,7 @@ blogs/                         # 通常即 Git 仓库根目录
 
 ## 静态资源与头像
 
-- 导航栏与简介页头像路径：`public/images/image1.png`（若缺失则图片显示为裂图，请将资源放入该目录）。
+- 导航栏与简介页头像路径：`public/images/image1.svg`。
 
 ## 当前文章数据说明
 

@@ -109,7 +109,55 @@ blogs/
 
 ## 部署说明
 
-执行 `npm run build` 后，将 **`dist/`** 整目录部署到任意静态资源服务器（Nginx、GitHub Pages、OSS 等）。若站点不在域名根路径，需在 `vite.config.js` 中配置 `base`（例如 `base: '/blogs/'`），并重新构建。
+### 通用静态托管
+
+在 `blogs` 目录执行 `npm run build`，将生成的 **`dist/`** 整目录上传到 Nginx、OSS、任意静态空间即可。
+
+**若站点不在域名根路径**（例如 `https://example.com/myapp/`），构建前设置环境变量 **`VITE_BASE_PATH`**（以 `/` 开头、以 `/` 结尾），再执行构建：
+
+```bash
+VITE_BASE_PATH=/myapp/ npm run build
+```
+
+`vite.config.js` 会读取该变量作为 `base`；`src/main.jsx` 中 `BrowserRouter` 的 `basename` 与 `import.meta.env.BASE_URL` 一致，保证路由与 `fetch(assetUrl(...))` 资源路径正确。
+
+### GitHub Pages
+
+GitHub Pages 分两种常见形态，**必须先选对 `VITE_BASE_PATH`**，否则会出现白屏或资源 404。
+
+| 形态 | 访问地址示例 | 构建时 `VITE_BASE_PATH` |
+|------|----------------|-------------------------|
+| **项目站**（仓库名任意，如 `AI_Learning_2026`） | `https://<用户>.github.io/AI_Learning_2026/` | `/AI_Learning_2026/`（**须与仓库名一致**） |
+| **用户站**（仓库名必须为 `<用户>.github.io`） | `https://<用户>.github.io/` | `/` |
+
+本地开发不要设置该变量（默认 `/` 即可）。
+
+#### 方式一：GitHub Actions（推荐）
+
+本仓库已在 **仓库根目录** 提供工作流：`.github/workflows/deploy-blogs-github-pages.yml`（从子目录 `blogs/` 构建并发布）。
+
+1. 打开 GitHub 仓库 **Settings → Pages**。
+2. **Build and deployment** 里将 **Source** 选为 **GitHub Actions**（不要再用 branch 指向 `dist` 的旧方式，除非你自行维护 `gh-pages` 分支）。
+3. 确认默认分支为 `main` 或 `master`（与 workflow 里 `on.push.branches` 一致）。
+4. 将代码推送到 GitHub；若 `blogs` 有变更，会自动执行构建与部署。
+5. **项目站**：工作流里默认 `VITE_BASE_PATH: /<仓库名>/`，一般无需修改。
+6. **用户站**（`<用户>.github.io` 仓库）：请编辑该 workflow 中 Build 步骤的 `env`，改为 `VITE_BASE_PATH: /`，否则会把资源指到错误子路径。
+
+首次部署后，在 **Settings → Pages** 可看到站点 URL；构建日志在 **Actions** 标签页查看。
+
+#### 方式二：本地构建后手动上传
+
+1. 按上表设置 `VITE_BASE_PATH` 后执行 `npm run build`。
+2. 将 **`blogs/dist/`** 内全部文件上传到 Pages 所使用的分支/目录（例如 `gh-pages` 根目录，或配合你自建的静态托管）。
+
+#### 仓库根目录就是 `blogs` 时
+
+若 Git 仓库克隆下来根目录就是本站（没有外层的 `AI_Learning_2026`）：
+
+- 把 `.github/workflows/deploy-blogs-github-pages.yml` 挪到该仓库根目录的 `.github/workflows/`。
+- 删除 workflow 里的 `defaults.run.working-directory: blogs` 以及各 step 的 `working-directory: blogs`。
+- 将 `actions/setup-node` 的 `cache-dependency-path` 改为 `package-lock.json`。
+- 将 `upload-pages-artifact` 的 `path` 改为 `dist`。
 
 ## 维护建议
 

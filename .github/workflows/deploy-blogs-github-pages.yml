@@ -1,0 +1,61 @@
+# 将 blogs 子目录构建为静态站点并发布到 GitHub Pages
+# 适用：仓库根目录为 AI_Learning_2026（或任意单体），站点源码在 blogs/
+#
+# 若你的 Git 仓库根目录就是 blogs/ 文件夹，请把本文件移到仓库根目录的 .github/workflows/，
+# 并删除所有 `working-directory: blogs` 以及 `defaults.run.working-directory`。
+
+name: Deploy blogs to GitHub Pages
+
+on:
+    push:
+        branches: [main, master]
+        paths:
+            - 'blogs/**'
+            - '.github/workflows/deploy-blogs-github-pages.yml'
+    workflow_dispatch:
+
+permissions:
+    contents: read
+    pages: write
+    id-token: write
+
+concurrency:
+    group: 'pages-blogs'
+    cancel-in-progress: false
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: '20'
+                  cache: npm
+                  cache-dependency-path: blogs/package-lock.json
+
+            - name: Install dependencies
+              run: npm ci
+
+            # 项目站：https://<owner>.github.io/<repo>/ → base 为 /<repo>/
+            # 若仓库名为 <user>.github.io（用户主页，站点在域名根路径），请改为 VITE_BASE_PATH: /
+            - name: Build
+              env:
+                  VITE_BASE_PATH: /${{ github.event.repository.name }}/
+              run: npm run build
+
+            - name: Upload artifact
+              uses: actions/upload-pages-artifact@v3
+              with:
+                  path: blogs/dist
+
+    deploy:
+        needs: build
+        runs-on: ubuntu-latest
+        environment:
+            name: github-pages
+            url: ${{ steps.deploy.outputs.page_url }}
+        steps:
+            - id: deploy
+              uses: actions/deploy-pages@v4

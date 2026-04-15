@@ -54,7 +54,10 @@ npm run dev
 ## 目录结构
 
 ```text
-blogs/
+blogs/                         # 通常即 Git 仓库根目录
+├── .github/
+│   └── workflows/
+│       └── deploy-blogs-github-pages.yml  # GitHub Pages 自动部署
 ├── index.html                 # Vite HTML 入口（主题防闪烁内联脚本 + 外链字体/图标）
 ├── vite.config.js
 ├── package.json
@@ -132,32 +135,48 @@ GitHub Pages 分两种常见形态，**必须先选对 `VITE_BASE_PATH`**，否�
 
 本地开发不要设置该变量（默认 `/` 即可）。
 
+#### 用户主页仓库：`<用户名>.github.io`
+
+若你的 GitHub 仓库名**就是** `<用户名>.github.io`（例如 `lixia-bella/lixia-bella.github.io`），且**仓库根目录**就是本博客项目（与当前 `blogs` 目录结构一致），则属于上表中的 **用户站**：
+
+| 项目 | 说明 |
+|------|------|
+| 访问地址 | `https://<用户名>.github.io/`（**没有** `/<仓库名>/` 这一层路径） |
+| 构建时 `base` | 必须为 **`/`** |
+| 本仓库工作流 | **Set VITE_BASE_PATH** 一步会检测仓库名是否以 `.github.io` 结尾，自动写入 **`/`**，一般**不用改** workflow |
+| 切忌 | 不要手动设成 `/<用户名>.github.io/`——用户主页站点不在该子路径下，会导致白屏或静态资源 404 |
+
+本地或 CI 构建：`npm run build` 即可（勿设置 `VITE_BASE_PATH=/某仓库名/`）。
+
 #### 方式一：GitHub Actions（推荐）
 
-本仓库已在 **仓库根目录** 提供工作流：`.github/workflows/deploy-blogs-github-pages.yml`（从子目录 `blogs/` 构建并发布）。
+默认假设 **Git 仓库根目录就是本博客项目**（根目录有 `package.json`、`src/`、`public/`）。此时工作流路径为：
+
+**`.github/workflows/deploy-blogs-github-pages.yml`**（在本机即 `blogs/.github/workflows/` 下）。
 
 1. 打开 GitHub 仓库 **Settings → Pages**。
 2. **Build and deployment** 里将 **Source** 选为 **GitHub Actions**（不要再用 branch 指向 `dist` 的旧方式，除非你自行维护 `gh-pages` 分支）。
 3. 确认默认分支为 `main` 或 `master`（与 workflow 里 `on.push.branches` 一致）。
-4. 将代码推送到 GitHub；若 `blogs` 有变更，会自动执行构建与部署。
-5. **项目站**：工作流里默认 `VITE_BASE_PATH: /<仓库名>/`，一般无需修改。
-6. **用户站**（`<用户>.github.io` 仓库）：请编辑该 workflow 中 Build 步骤的 `env`，改为 `VITE_BASE_PATH: /`，否则会把资源指到错误子路径。
+4. **推送代码后，到「Actions」里看是否成功（俗称「跑绿」）**  
+   - **「跑绿」**：指仓库顶部 **Actions** 标签页里，对应工作流（如 `Deploy blogs to GitHub Pages`）最新一次运行左侧是 **绿色对勾**，表示构建与发布成功。  
+   - **Settings → Pages** 里通常**不会**出现进度条；那里只是配置来源。可点击页面上的 **「View workflow runs」** 跳到 Actions。  
+   - 若 **Actions 里没有任何运行记录**：请确认远端仓库**根目录**下存在 `.github/workflows/deploy-blogs-github-pages.yml`；若你只在学习仓库里改了文件、但从未把 `blogs` 当作独立仓库推送，GitHub 上就不会有该文件。
+5. **工作流已根据仓库名自动设置 `VITE_BASE_PATH`**：仓库名以 `.github.io` 结尾（用户主页）时用 `/`，否则为项目站 `/<仓库名>/`。一般无需再改 workflow。
+6. 若 **Actions 里仍没有运行记录**：请确认推送到 GitHub 的内容里，**仓库根目录**下存在 `.github/workflows/deploy-blogs-github-pages.yml`（即本项目的 `blogs` 文件夹应作为远端根，不要把 workflow 留在更外层的、未推送的目录里）。
 
-首次部署后，在 **Settings → Pages** 可看到站点 URL；构建日志在 **Actions** 标签页查看。
+首次部署成功后，在 **Settings → Pages** 可看到站点 URL；每次部署的详细日志在 **Actions** 里点开某次运行查看。
 
 #### 方式二：本地构建后手动上传
 
-1. 按上表设置 `VITE_BASE_PATH` 后执行 `npm run build`。
-2. 将 **`blogs/dist/`** 内全部文件上传到 Pages 所使用的分支/目录（例如 `gh-pages` 根目录，或配合你自建的静态托管）。
+1. 在**本目录**（仓库根）按上表设置 `VITE_BASE_PATH` 后执行 `npm run build`。
+2. 将 **`dist/`** 内全部文件上传到 Pages 所使用的分支/目录（例如 `gh-pages` 根目录）。
 
-#### 仓库根目录就是 `blogs` 时
+#### 若 Git 根目录是「学习仓库」且含 `blogs/` 子目录
 
-若 Git 仓库克隆下来根目录就是本站（没有外层的 `AI_Learning_2026`）：
+若你 push 的是整个 `AI_Learning_2026`（根目录有 `AI_Coding/`、`blogs/` 等），则 GitHub 上的**仓库根不是本博客**，当前 `blogs/.github/` **不会**被当成根目录下的 `.github`。可以任选其一：
 
-- 把 `.github/workflows/deploy-blogs-github-pages.yml` 挪到该仓库根目录的 `.github/workflows/`。
-- 删除 workflow 里的 `defaults.run.working-directory: blogs` 以及各 step 的 `working-directory: blogs`。
-- 将 `actions/setup-node` 的 `cache-dependency-path` 改为 `package-lock.json`。
-- 将 `upload-pages-artifact` 的 `path` 改为 `dist`。
+- **推荐**：单独建一个 GitHub 仓库，只把 **`blogs` 目录里的内容**作为该仓库的根目录推送（这样与本 README 默认一致）。
+- 或在**父仓库根**自建 workflow：`checkout` 后使用 `working-directory: blogs` 执行 `npm ci`、`npm run build`，`upload-pages-artifact` 的 `path` 填 **`blogs/dist`**，并自行设置 `VITE_BASE_PATH`（项目站为 `/<父仓库名>/`）。
 
 ## 维护建议
 

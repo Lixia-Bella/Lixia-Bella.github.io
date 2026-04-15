@@ -42,13 +42,13 @@ jobs:
             # 若仓库名为 <user>.github.io（用户主页，站点在域名根路径），请改为 VITE_BASE_PATH: /
             - name: Build
               env:
-                  VITE_BASE_PATH: /${{ github.event.repository.name }}/
+                  VITE_BASE_PATH: /
               run: npm run build
 
             - name: Upload artifact
               uses: actions/upload-pages-artifact@v3
               with:
-                  path: blogs/dist
+                  path: dist
 
     deploy:
         needs: build

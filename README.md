@@ -166,6 +166,17 @@ GitHub Pages 分两种常见形态，**必须先选对 `VITE_BASE_PATH`**，否�
 
 首次部署成功后，在 **Settings → Pages** 可看到站点 URL；每次部署的详细日志在 **Actions** 里点开某次运行查看。
 
+#### 常见问题：空白页，控制台报 `main.jsx` / MIME type `text/jsx`
+
+说明浏览器加载的是**仓库里的源码** `index.html`（里面有 `<script type="module" src="/src/main.jsx">`），而不是 **`npm run build` 生成的 `dist/index.html`**（应引用 `/assets/index-xxxx.js`）。GitHub Pages **不能直接托管未打包的 Vite 源码**。
+
+请按下面排查：
+
+1. **Settings → Pages → Build and deployment → Source** 必须是 **GitHub Actions**，不能仍是 **Deploy from a branch** 且指向 `main` 仓库根目录（那样会发布整份源码，就会出现本错误）。
+2. 改成 Actions 后，在 **Actions** 里再跑一次 **Deploy blogs to GitHub Pages**（或任意 push 触发），等 **deploy** 任务完成后再打开站点；必要时 **强制刷新**（Ctrl+F5 / Cmd+Shift+R）或换无痕窗口，避免缓存旧 HTML。
+3. 在浏览器里 **查看网页源代码**：若仍能看到 `main.jsx`，说明当前线上仍不是 `dist` 产物；若能看到 `/assets/index-....js` 则说明已是构建结果（此时若仍白屏，再查控制台其它报错或 `base` 路径）。
+4. 本仓库工作流在 **Build** 之后带有 **Verify dist index** 步骤：若 `dist` 异常会在 CI 里直接失败，可在该次运行的日志中查看校验输出。
+
 #### 方式二：本地构建后手动上传
 
 1. 在**本目录**（仓库根）按上表设置 `VITE_BASE_PATH` 后执行 `npm run build`。

@@ -60,6 +60,14 @@ jobs:
             - name: Build
               run: npm run build
 
+            # 确认上传的是 Vite 产物（应引用 /assets/*.js），避免误把源码 index 部署上去
+            - name: Verify dist index
+              run: |
+                  grep -q 'src="/src/main.jsx"' dist/index.html && { echo '错误：dist/index.html 仍指向源码 main.jsx，构建异常'; exit 1; } || true
+                  grep -qE 'src="[^"]*assets/index-[^"]+\.js"' dist/index.html || { echo '错误：dist/index.html 未找到打包后的 assets/*.js'; exit 1; }
+                  echo 'dist/index.html 校验通过：'
+                  grep -E '<script|link rel="stylesheet"' dist/index.html || true
+
             - name: Upload artifact
               uses: actions/upload-pages-artifact@v3
               with:

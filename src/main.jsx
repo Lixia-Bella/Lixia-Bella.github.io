@@ -12,9 +12,9 @@ const baseUrl = import.meta.env.BASE_URL;
 const routerBasename = baseUrl.length > 1 ? baseUrl.replace(/\/$/, '') : undefined;
 
 createRoot(document.getElementById('root')).render(
-	<ThemeProvider>
-		<BrowserRouter basename={routerBasename}>
-			<App />
-		</BrowserRouter>
-	</ThemeProvider>
+    <ThemeProvider>
+        <BrowserRouter basename={routerBasename}>
+            <App />
+        </BrowserRouter>
+    </ThemeProvider>
 );

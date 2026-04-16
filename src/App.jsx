@@ -7,15 +7,15 @@ import RewardsPage from '@/pages/RewardsPage.jsx';
 import ProfilePage from '@/pages/ProfilePage.jsx';
 
 export default function App() {
-	return (
-		<Routes>
-			<Route element={<Layout />}>
-				<Route path="/" element={<HomePage />} />
-				<Route path="/blog/:slug" element={<BlogArticlePage />} />
-				<Route path="/quiz" element={<QuizPage />} />
-				<Route path="/rewards" element={<RewardsPage />} />
-				<Route path="/profile" element={<ProfilePage />} />
-			</Route>
-		</Routes>
-	);
+    return (
+        <Routes>
+            <Route element={<Layout />}>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/blog/:slug" element={<BlogArticlePage />} />
+                <Route path="/quiz" element={<QuizPage />} />
+                <Route path="/rewards" element={<RewardsPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
+            </Route>
+        </Routes>
+    );
 }

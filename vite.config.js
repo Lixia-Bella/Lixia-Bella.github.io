@@ -11,20 +11,20 @@ const rootDir = fileURLToPath(new URL('.', import.meta.url));
  */
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
-	const env = loadEnv(mode, rootDir, '');
-	const raw = env.VITE_BASE_PATH?.trim();
-	const base = raw && raw !== '/' ? (raw.endsWith('/') ? raw : `${raw}/`) : '/';
+    const env = loadEnv(mode, rootDir, '');
+    const raw = env.VITE_BASE_PATH?.trim();
+    const base = raw && raw !== '/' ? (raw.endsWith('/') ? raw : `${raw}/`) : '/';
 
-	return {
-		plugins: [react()],
-		base,
-		optimizeDeps: {
-			entries: ['index.html'],
-		},
-		resolve: {
-			alias: {
-				'@': fileURLToPath(new URL('./src', import.meta.url)),
-			},
-		},
-	};
+    return {
+        plugins: [react()],
+        base,
+        optimizeDeps: {
+            entries: ['index.html'],
+        },
+        resolve: {
+            alias: {
+                '@': fileURLToPath(new URL('./src', import.meta.url)),
+            },
+        },
+    };
 });

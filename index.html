@@ -1,31 +1,31 @@
 <!doctype html>
 <html lang="zh-CN">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>阳光小站</title>
-		<!-- 尽早恢复主题，减少首屏闪烁 -->
-		<script>
-			(function () {
-				try {
-					var t = localStorage.getItem('theme');
-					if (t === 'dark') {
-						document.documentElement.setAttribute('data-theme', 'dark');
-					}
-				} catch (e) {}
-			})();
-		</script>
-		<link
-			href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap"
-			rel="stylesheet"
-		/>
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-		/>
-	</head>
-	<body>
-		<div id="root"></div>
-		<script type="module" src="/src/main.jsx"></script>
-	</body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>阳光小站</title>
+        <!-- 尽早恢复主题，减少首屏闪烁 -->
+        <script>
+            (function () {
+                try {
+                    var t = localStorage.getItem('theme');
+                    if (t === 'dark') {
+                        document.documentElement.setAttribute('data-theme', 'dark');
+                    }
+                } catch (e) {}
+            })();
+        </script>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+    </head>
+    <body>
+        <div id="root"></div>
+        <script type="module" src="/src/main.jsx"></script>
+    </body>
 </html>

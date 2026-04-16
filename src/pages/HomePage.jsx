@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import { Fragment, useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import CommonList from '@/components/CommonList.jsx';
 import {
     TAG_COLORS,
     DEFAULT_TAG_COLOR,
@@ -76,41 +77,46 @@ export default function HomePage() {
                 </div>
 
                 <div className="blog-filter-bar" style={loading ? { display: 'none' } : undefined}>
-                    {tags.map((tag) => {
-                        const isActive = tag === currentTag;
-                        if (tag === '全部') {
+                    <CommonList
+                        as={Fragment}
+                        items={tags}
+                        emptyState="暂无标签"
+                        itemKey={(tag) => tag}
+                        renderItem={(tag) => {
+                            const isActive = tag === currentTag;
+                            if (tag === '全部') {
+                                return (
+                                    <button
+                                        type="button"
+                                        className={`blog-filter-btn${isActive ? ' active' : ''}`}
+                                        onClick={() => setCurrentTag(tag)}
+                                    >
+                                        <i className="fas fa-th-list" /> 全部
+                                    </button>
+                                );
+                            }
+
+                            const st = TAG_COLORS[tag] || DEFAULT_TAG_COLOR;
                             return (
                                 <button
-                                    key={tag}
                                     type="button"
                                     className={`blog-filter-btn${isActive ? ' active' : ''}`}
+                                    style={
+                                        isActive
+                                            ? {
+                                                  background: st.bg,
+                                                  color: st.color,
+                                                  borderColor: st.border,
+                                              }
+                                            : undefined
+                                    }
                                     onClick={() => setCurrentTag(tag)}
                                 >
-                                    <i className="fas fa-th-list" /> 全部
+                                    {tag}
                                 </button>
                             );
-                        }
-                        const st = TAG_COLORS[tag] || DEFAULT_TAG_COLOR;
-                        return (
-                            <button
-                                key={tag}
-                                type="button"
-                                className={`blog-filter-btn${isActive ? ' active' : ''}`}
-                                style={
-                                    isActive
-                                        ? {
-                                              background: st.bg,
-                                              color: st.color,
-                                              borderColor: st.border,
-                                          }
-                                        : undefined
-                                }
-                                onClick={() => setCurrentTag(tag)}
-                            >
-                                {tag}
-                            </button>
-                        );
-                    })}
+                        }}
+                    />
                 </div>
 
                 <div className="blog-post-list">
@@ -139,51 +145,56 @@ export default function HomePage() {
                         </p>
                     )}
 
-                    {!loading && posts.length === 0 && (
-                        <div className="blog-empty">
-                            <i className="fas fa-search" />
-                            <p>暂无「{currentTag}」相关文章</p>
-                        </div>
-                    )}
-
-                    {!loading &&
-                        posts.map(({ title, date, author, summary, tags, file, icon }) => (
-                            <article key={file} className="blog-post-card">
-                                <div className="blog-post-icon">
-                                    <i className={`fas ${icon}`} />
+                    {!loading && (
+                        <CommonList
+                            as={Fragment}
+                            items={posts}
+                            itemKey="file"
+                            emptyState={
+                                <div className="blog-empty">
+                                    <i className="fas fa-search" />
+                                    <p>暂无「{currentTag}」相关文章</p>
                                 </div>
-                                <div className="blog-post-body">
-                                    <div className="blog-post-meta">
-                                        <span>
-                                            <i className="fas fa-calendar-alt" /> {date}
-                                        </span>
-                                        <span>
-                                            <i className="fas fa-user" /> {author}
-                                        </span>
+                            }
+                            renderItem={({ title, date, author, summary, tags, file, icon }) => (
+                                <article className="blog-post-card">
+                                    <div className="blog-post-icon">
+                                        <i className={`fas ${icon}`} />
                                     </div>
-                                    <h3 className="blog-post-title">
-                                        <Link to={`/blog/${file}`}>{title}</Link>
-                                    </h3>
-                                    <p className="blog-post-summary">{summary}</p>
-                                    <div className="blog-post-footer">
-                                        <div className="blog-post-tags">
-                                            {tags.map((tag) => (
-                                                <span
-                                                    key={tag}
-                                                    className="blog-tag"
-                                                    style={renderTagStyle(tag)}
-                                                >
-                                                    {tag}
-                                                </span>
-                                            ))}
+                                    <div className="blog-post-body">
+                                        <div className="blog-post-meta">
+                                            <span>
+                                                <i className="fas fa-calendar-alt" /> {date}
+                                            </span>
+                                            <span>
+                                                <i className="fas fa-user" /> {author}
+                                            </span>
                                         </div>
-                                        <Link to={`/blog/${file}`} className="blog-post-read">
-                                            阅读全文 <i className="fas fa-arrow-right" />
-                                        </Link>
+                                        <h3 className="blog-post-title">
+                                            <Link to={`/blog/${file}`}>{title}</Link>
+                                        </h3>
+                                        <p className="blog-post-summary">{summary}</p>
+                                        <div className="blog-post-footer">
+                                            <div className="blog-post-tags">
+                                                {tags.map((tag) => (
+                                                    <span
+                                                        key={tag}
+                                                        className="blog-tag"
+                                                        style={renderTagStyle(tag)}
+                                                    >
+                                                        {tag}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                            <Link to={`/blog/${file}`} className="blog-post-read">
+                                                阅读全文 <i className="fas fa-arrow-right" />
+                                            </Link>
+                                        </div>
                                     </div>
-                                </div>
-                            </article>
-                        ))}
+                                </article>
+                            )}
+                        />
+                    )}
                 </div>
             </section>
 

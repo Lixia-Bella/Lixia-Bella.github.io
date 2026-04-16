@@ -34,22 +34,22 @@ npm run dev
 
 常用脚本：
 
-| 命令 | 说明 |
-|------|------|
-| `npm run dev` | 启动开发服务器 |
-| `npm run build` | 生产构建，输出到 `dist/` |
-| `npm run preview` | 本地预览构建结果 |
-| `npm run lint` | ESLint 检查 |
+| 命令              | 说明                     |
+| ----------------- | ------------------------ |
+| `npm run dev`     | 启动开发服务器           |
+| `npm run build`   | 生产构建，输出到 `dist/` |
+| `npm run preview` | 本地预览构建结果         |
+| `npm run lint`    | ESLint 检查              |
 
 ## 路由说明
 
-| 路径 | 页面 |
-|------|------|
-| `/` | 首页（文章列表、爱好、问答入口等） |
+| 路径          | 页面                                                                 |
+| ------------- | -------------------------------------------------------------------- |
+| `/`           | 首页（文章列表、爱好、问答入口等）                                   |
 | `/blog/:slug` | 文章详情，`slug` 与 `index.json` 中 `file` 字段一致（如 `20260319`） |
-| `/quiz` | 知识问答挑战 |
-| `/rewards` | 奖励池 |
-| `/profile` | 个人简介 |
+| `/quiz`       | 知识问答挑战                                                         |
+| `/rewards`    | 奖励池                                                               |
+| `/profile`    | 个人简介                                                             |
 
 ## 目录结构
 
@@ -82,15 +82,15 @@ blogs/                         # 通常即 Git 仓库根目录
 ## 如何新增一篇文章
 
 1. 在 **`public/blogs/index.json`** 中新增一条记录：
-   - `title`：文章标题
-   - `date`：日期（建议 `YYYY-MM-DD`）
-   - `author`：作者名
-   - `tags`：标签数组
-   - `file`：文章标识（不带后缀），与路由 `/blog/:slug` 一致
-   - `icon`：Font Awesome 图标类名（如 `fa-code`）
+    - `title`：文章标题
+    - `date`：日期（建议 `YYYY-MM-DD`）
+    - `author`：作者名
+    - `tags`：标签数组
+    - `file`：文章标识（不带后缀），与路由 `/blog/:slug` 一致
+    - `icon`：Font Awesome 图标类名（如 `fa-code`）
 2. 在 **`public/blogs/`** 下放置正文，任选其一或同时存在（列表摘要以 `.md` 优先）：
-   - `xxx.md`：Markdown 文件
-   - `xxx.js`：内容为 `window.__BLOG_MD__ = "...";`（与旧版生成方式一致）
+    - `xxx.md`：Markdown 文件
+    - `xxx.js`：内容为 `window.__BLOG_MD__ = "...";`（与旧版生成方式一致）
 3. 执行 `npm run dev`，在首页确认卡片与「阅读全文」跳转 `/blog/xxx` 是否正常。
 
 ## 静态资源与头像
@@ -128,10 +128,10 @@ VITE_BASE_PATH=/myapp/ npm run build
 
 GitHub Pages 分两种常见形态，**必须先选对 `VITE_BASE_PATH`**，否则会出现白屏或资源 404。
 
-| 形态 | 访问地址示例 | 构建时 `VITE_BASE_PATH` |
-|------|----------------|-------------------------|
+| 形态                                            | 访问地址示例                                 | 构建时 `VITE_BASE_PATH`                    |
+| ----------------------------------------------- | -------------------------------------------- | ------------------------------------------ |
 | **项目站**（仓库名任意，如 `AI_Learning_2026`） | `https://<用户>.github.io/AI_Learning_2026/` | `/AI_Learning_2026/`（**须与仓库名一致**） |
-| **用户站**（仓库名必须为 `<用户>.github.io`） | `https://<用户>.github.io/` | `/` |
+| **用户站**（仓库名必须为 `<用户>.github.io`）   | `https://<用户>.github.io/`                  | `/`                                        |
 
 本地开发不要设置该变量（默认 `/` 即可）。
 
@@ -139,12 +139,12 @@ GitHub Pages 分两种常见形态，**必须先选对 `VITE_BASE_PATH`**，否�
 
 若你的 GitHub 仓库名**就是** `<用户名>.github.io`（例如 `lixia-bella/lixia-bella.github.io`），且**仓库根目录**就是本博客项目（与当前 `blogs` 目录结构一致），则属于上表中的 **用户站**：
 
-| 项目 | 说明 |
-|------|------|
-| 访问地址 | `https://<用户名>.github.io/`（**没有** `/<仓库名>/` 这一层路径） |
-| 构建时 `base` | 必须为 **`/`** |
-| 本仓库工作流 | **Set VITE_BASE_PATH** 一步会检测仓库名是否以 `.github.io` 结尾，自动写入 **`/`**，一般**不用改** workflow |
-| 切忌 | 不要手动设成 `/<用户名>.github.io/`——用户主页站点不在该子路径下，会导致白屏或静态资源 404 |
+| 项目          | 说明                                                                                                       |
+| ------------- | ---------------------------------------------------------------------------------------------------------- |
+| 访问地址      | `https://<用户名>.github.io/`（**没有** `/<仓库名>/` 这一层路径）                                          |
+| 构建时 `base` | 必须为 **`/`**                                                                                             |
+| 本仓库工作流  | **Set VITE_BASE_PATH** 一步会检测仓库名是否以 `.github.io` 结尾，自动写入 **`/`**，一般**不用改** workflow |
+| 切忌          | 不要手动设成 `/<用户名>.github.io/`——用户主页站点不在该子路径下，会导致白屏或静态资源 404                  |
 
 本地或 CI 构建：`npm run build` 即可（勿设置 `VITE_BASE_PATH=/某仓库名/`）。
 
@@ -157,10 +157,10 @@ GitHub Pages 分两种常见形态，**必须先选对 `VITE_BASE_PATH`**，否�
 1. 打开 GitHub 仓库 **Settings → Pages**。
 2. **Build and deployment** 里将 **Source** 选为 **GitHub Actions**（不要再用 branch 指向 `dist` 的旧方式，除非你自行维护 `gh-pages` 分支）。
 3. 确认默认分支为 `main` 或 `master`（与 workflow 里 `on.push.branches` 一致）。
-4. **推送代码后，到「Actions」里看是否成功（俗称「跑绿」）**  
-   - **「跑绿」**：指仓库顶部 **Actions** 标签页里，对应工作流（如 `Deploy blogs to GitHub Pages`）最新一次运行左侧是 **绿色对勾**，表示构建与发布成功。  
-   - **Settings → Pages** 里通常**不会**出现进度条；那里只是配置来源。可点击页面上的 **「View workflow runs」** 跳到 Actions。  
-   - 若 **Actions 里没有任何运行记录**：请确认远端仓库**根目录**下存在 `.github/workflows/deploy-blogs-github-pages.yml`；若你只在学习仓库里改了文件、但从未把 `blogs` 当作独立仓库推送，GitHub 上就不会有该文件。
+4. **推送代码后，到「Actions」里看是否成功（俗称「跑绿」）**
+    - **「跑绿」**：指仓库顶部 **Actions** 标签页里，对应工作流（如 `Deploy blogs to GitHub Pages`）最新一次运行左侧是 **绿色对勾**，表示构建与发布成功。
+    - **Settings → Pages** 里通常**不会**出现进度条；那里只是配置来源。可点击页面上的 **「View workflow runs」** 跳到 Actions。
+    - 若 **Actions 里没有任何运行记录**：请确认远端仓库**根目录**下存在 `.github/workflows/deploy-blogs-github-pages.yml`；若你只在学习仓库里改了文件、但从未把 `blogs` 当作独立仓库推送，GitHub 上就不会有该文件。
 5. **工作流已根据仓库名自动设置 `VITE_BASE_PATH`**：仓库名以 `.github.io` 结尾（用户主页）时用 `/`，否则为项目站 `/<仓库名>/`。一般无需再改 workflow。
 6. 若 **Actions 里仍没有运行记录**：请确认推送到 GitHub 的内容里，**仓库根目录**下存在 `.github/workflows/deploy-blogs-github-pages.yml`（即本项目的 `blogs` 文件夹应作为远端根，不要把 workflow 留在更外层的、未推送的目录里）。
 
